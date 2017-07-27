@@ -1,0 +1,250 @@
+%%This is a very basic article template.
+%%There is just one section and two subsections.
+\documentclass[bibliography=totoc]{tubsreprt}
+
+\usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}
+%\usepackage{lmodern}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+
+%\usepackage{natbib} 
+
+\usepackage{hyperref}
+\usepackage{cleveref}
+
+\usepackage{xcolor}
+\hypersetup{
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={orange!75!black},
+    urlcolor={blue!80!black}
+}
+
+\bibliographystyle{apalike}
+
+\title{Assessing Performance Evolution Of Configurable Software Systems}
+\author{Stefan Mühlbauer}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\setcounter{page}{1}
+\chapter{Introduction}
+Modern software systems usually ship with a variety of options to select from to tailor them to customer’s needs.
+Configuring of a software system is twofold as it can either be accommodated at compile-time or load-time. For
+compile-time variability, only program functionality that is actually required is included in the configured
+software variant, whereas for load-time variability, a software system variant may contain more functionality
+than actually required. For the latter case, required functionality is enabled at run-time, i.e., configuration
+options directly affect the execution path.
+
+Configurable or variant-rich systems are also known under the term software product lines (SPLs), which
+describes the principle of effectively and efficiently exploiting variants commonalities by developing a family
+of software systems rather than single variants separately. While not every configurable software system is
+necessarily planned to be a product line, the questions and problems that arise from managing and implementing
+variability apply to most contexts.
+
+Although a system’s configuration is primarily chosen to meet functional or non-functional requirements, the
+selection of features, of course, can have unexpected negative side effects as well. Non-functional properties
+of a software system or variant (e.g., performance or memory utilization) depend on the functionality offered,
+the respective implementation, program load and the resulting execution; that is, the choice of features also
+indirectly shapes non-functional properties. While some effects on non-functional properties only occur if a
+single feature selected, effects can also depend on a combination of multiple features (feature interaction),
+which can make development and maintenance of a configurable system an error prone task.
+Configuration options for software systems are usually constrained (e.g., are mutually exclusive, imply or depend
+on other features) to a certain extent, yet, in the worst case, where all options can be selected independently, the
+number of configuration options grows exponentially with any feature added. Hence, even for a small number
+of features, any naive approach to assessing software quality for each possible variant is in general conceived
+infeasible. Though, sophisticated approaches to program analysis in the presence of variability have emerged,
+including variability-aware approaches \cite{thum_classification_2014} and
+symbolic execution with value summaries \cite{sen_multise:_2015}.
+
+A different, yet related facet of a configurable software systems is the assessment of non-functional properties,
+such as system performance. In particular, in the presence of variability different approaches have been ap-
+plied to systems to search for configurations with favorable or at least acceptable performance results. Genetic
+algorithms \cite{guo_genetic_2011,sayyad_scalable_2013} have shown reasonable
+results, yet are not able to handle constraints like mutual exclusion.
+In 2012 Siegmund et al. proposed a method to predict performance for arbitrary variants following an ap-
+proach for automated detection of feature interaction
+\cite{siegmund_predicting_2012}. Following their approach, in 2015 they proposed performance-influence models as a means to
+analyze and predict performance for configurable software sys- tems
+\cite{siegmund_performance-influence_2015}. A performance-influence model attempts to approximate the influence of single features as well as interacting features on performance. In
+brief, their approach utilizes machine learning (forward and backward feature selection) to detect features most influencing performance and, hence, reducing the prediction error
+rate. The linear performance model is learned incrementally, whereby sampling heuristics for both binary and
+numeric options are employed to reduce the number of performance measurements required per iteration. The
+approach has shown a reasonably low error rate for several real-world applications and allows prediction of
+system performance for arbitrary configuration variants.
+
+Going a step further, actively maintained configurable software systems evolve and have to adapt to changes
+in the requirements they are meant to meet. Whilst there exists work on understanding the evolution of
+configurable systems, e.g., documenting common symptoms of software erosion
+\cite{passos_feature_2015,zhang_variability_2013} or attempting to classify
+evolution types \cite{peng_analyzing_2011,seidl_co-evolution_2012}, there is
+little we know about the co-evolution of variability and non-functional properties, including performance.
+
+The motivation for this thesis is to study the influence of variability-related changes in configurable software
+systems on their performance behavior. Variability-related changes comprise both changes in the problem space,
+i.e., feature model, as well as modifications in a feature’s implementation, yet affecting the influence of feature
+interactions. We aim to answer the following research questions.
+
+\chapter{Preliminary Work}
+\section{Background} \label{sec:background}
+\subsection{Software and Variability Evolution}
+\paragraph*{Software Evolution}
+The first notion of a software systems' development process is usually
+developer-centered and merely focuses on software being designed, implemented,
+tested and eventually being released and deployed. Maintainability is a
+generally recognized software quality property to look after, and maintenance
+is, of course, essential to every successful software system. Nonetheless, less
+attention is given to the ability to adapt a software system to changing
+requirements (evolvability) rather than maintaining it to keep functionality
+working. Software evolution and evolvability, like software itself are
+manifold. Software evolves in many ways ranging from maintenance (refactoring,
+bug-fixes and patches) to adapting to changed requirements (adding, removing,
+reorganizing functionality and variability).
+Modern software systems not only often ship with a variety of configuration
+options to select, they also employ routines to be build and sometimes even
+make use of or are part of platforms, such as apps or plugins. That is,
+software evolution affects all aforementioned aspects and maintainability as
+well as evolvability can degrade as software evolves.
+
+\paragraph*{Software Erosion}
+The negative symptoms of software evolution (referred to as software erosion or
+software aging) have been addressed by many researchers. Most of existing
+research so far though focuses on evolution regarding software architecture
+\cite{breivold_systematic_2012}. The main driving factors leading to symptoms of decay
+identified by Perry and Wolf are architectural erosion and architectural drift
+\cite{perry_software_1991}. While architectural drift subsumes developers’ insensitivity when not following
+a systems architecture or respective guidelines while making changes,
+architectural erosion subsumes ignoring and violating the existing software
+architecture. Parnas argues that as software evolves, software is maintained
+and evolved by developers who are not necessarily familiar with the initial
+architectural design and, therefore, knowledge about the architecture becomes
+unavailable \cite{parnas_software_1994}. Although the unfavorable effects of software evolution do not necessary break a
+system necessarily and imminently, the software becomes ``brittle'' \cite{perry_software_1991}
+as maintainability as well as evolvability degrade. Concrete  symptoms of software
+erosion on the implementation level have been documented. 
+
+Zhang et al. have studied erosion symptoms for a large-scale industrial SPL
+with compile-time variability using preprocessor directives \cite{zhang_variability_2013}. They
+identify variability-related directives and clusters of those to tend to become more
+complex as the software evolves. The negative effects, or symptoms of software
+erosion are described as, but not limited to \emph{code replication} or
+interdependencies between code elements, such as \emph{scattering} and
+\emph{tangling}. Code scattering describes the phenomenon of code belonging to
+a certain feature being scattered across multiple units of implementation,
+e.g., modules, whereas code tangling means that code from different and
+potentially unrelated features in entangled within a single module.
+
+Passos et al. have studied the extent of usage of scattering for device-drivers
+in the Linux kernel \cite{passos_feature_2015}. Despite scattering being quite prevalent, their
+findings suggest that the kernel architecture is robust enough to have evolved
+successfully. Nonetheless, platform drivers in the Linux kernel seem more
+likely to be scattered than non-platform driver. They conclude that this is a
+trade-off between maintainability and performance: a more generalized and
+abstract implementation for platform-drivers in this case could possibly avoid
+scattering, yet refactorings in this manner did not seem to be necessary or
+worth the effort yet.
+
+\paragraph*{Variability Evolution}
+Apart from architecture evolution, the variability offered by software systems
+evolves as well. For configurable software systems (or software product lines
+(SPLs); these terms are not equivalent, but every SPL is a configurable
+software system) evolution steps will not only affect artifacts in the solution
+space, yet also be visible in changes in the respective variability models.
+Although the variability aspect of software evolution has not been drawn as
+much attention to as has been on architecture in the past, more and more
+research has emerged recently to address and understand variability evolution.
+
+Peng et al. proposed a classification of variability evolution patterns that
+conceives evolution as adaption to changing (non-)functional requirements as
+well as changing contexts \cite{peng_analyzing_2011}. For a context in that sense, two
+categories exist.
+A driving context determines, whether a variability model and respective variants
+can meet functional requirements in the first place. A supporting context by
+definition determines how non-functional properties are strengthened or
+weakened. Any changed requirement is likely to change the contexts for a
+software systems variability model and, therefore, will make adaptations of the
+variability model necessary. Within their classification method Peng et al.
+identify  major causes for variability evolution, comprising a) new driving
+contexts emerging, b) weakened supporting contexts (for instance, due to new
+non-functional requirements), and c) unfavorable trade-offs for non-functional
+properties \cite{peng_analyzing_2011}. 
+
+To understand single evolutionary steps, several catalogs of variability
+evolution patterns have been proposed. Peng et al. present three patterns,
+where either a new feature is added, a mandatory feature becomes optional, or a
+mandatory/optional feature is split into alternative features
+\cite{peng_analyzing_2011}. Seidl et al. suggest a catalog of patterns for
+co-evolution of variability models and feature mappings that additionally introduces code clones, splitting a feature
+into more fine-grained sub-features and feature removal as evolution patterns
+\cite{seidl_co-evolution_2012}.
+In addition, Passos et al. have studied variability evolution in the Linux
+kernel and present a catalog of patterns where features are removed from the
+variability model, but remain a part of the implementation \cite{passos_towards_2012}. Their
+catalog, among others, includes feature merges, either implicit (optional feature merged
+with its parent) or explicit.
+
+The classification proposed by Peng et al. is a general and formalized approach
+that, as well as Seidl et al. and Passos et al., describes elementary evolution
+patterns which can be composed to more complex patterns. Nonetheless, no
+comprehensive catalog of variability evolution so far has been proposed as all
+mentioned work above focuses on those patterns that appeared to be relevant for
+the respective case study.
+
+
+\subsection{Performance Regression and Testing}
+\begin{itemize}
+  \item What is performance? \cite{molyneaux_art_2014}
+  \item Ideas, concepts and strategies
+  \cite{molyneaux_art_2014,fleming_how_1986,woodside_future_2007}
+  \item Performance regression testing
+  \cite{nguyen_industrial_2014,foo_mining_2010} and root cause detection
+  \cite{heger_automated_2013}
+\end{itemize}
+%\section{State of The Art} \label{sec:stateoftheart}
+%\subsection{Performance Testing}
+\subsection{Feature Model Synthesis}
+\subsection{Performance Modeling}
+
+\section{Motivation}
+
+\chapter{Towards Performance History Models}
+
+\section{Performance Measurement Infrastructure}
+
+\subsection{Repository Retrieval}
+\subsection{Configuration Generation}
+\cite{batory_feature_2005}
+
+\subsection{Sampling strategies}
+\subsection{Benchmarks}
+\subsection{Measurements with \texttt{GNU time}}
+\subsection{Measurement Aggregation}
+
+
+
+\section{Experiment Tweaks}
+
+\section{Preprocessing Strategies}
+\subsection{Variabilty Model Extraction}
+\subsection{Build Mechnism Extraction}
+\subsection{Release Commit Extraction}
+
+\section{Performance History}
+
+\section{Experiment Corpus}
+
+\chapter{Evaluation}
+
+\chapter{Discussion}
+
+\chapter{Conclusion}
+
+\bibliography{library}
+
+\end{document}
