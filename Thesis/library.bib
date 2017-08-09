@@ -222,19 +222,6 @@ tems with significantly less effort than conventional techniques.},
 	file = {2012-Predicting_Performance_via_Automated_Feature-_Interaction_Detection.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/FQZ7EMMT/2012-Predicting_Performance_via_Automated_Feature-_Interaction_Detection.pdf:application/pdf}
 }
 
-@inproceedings{guo_variability-aware_2013,
-	title = {Variability-aware performance prediction: {A} statistical learning approach},
-	shorttitle = {Variability-aware performance prediction},
-	url = {http://dl.acm.org/citation.cfm?id=3107695},
-	urldate = {2017-07-19},
-	booktitle = {Proceedings of the 28th {IEEE}/{ACM} {International} {Conference} on {Automated} {Software} {Engineering}},
-	publisher = {IEEE Press},
-	author = {Guo, Jianmei and Czarnecki, Krzysztof and Apely, Sven and Siegmundy, Norbert and Wasowski, Andrzej},
-	year = {2013},
-	pages = {301--311},
-	file = {2012-Variability-Aware_Performance_Modeling__A_Statistical_Learning_Approach.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/JD7VH4IC/2012-Variability-Aware_Performance_Modeling__A_Statistical_Learning_Approach.pdf:application/pdf;geo.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/8V58MSXT/geo.pdf:application/pdf}
-}
-
 @inproceedings{heger_automated_2013,
 	title = {Automated root cause isolation of performance regressions during software development},
 	url = {http://dl.acm.org/citation.cfm?id=2479879},
@@ -463,18 +450,6 @@ trade-off in creating architectures as for Linux kernel device drivers.},
 	file = {2013-tse-berger-variability-models.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/VDNUCDVW/2013-tse-berger-variability-models.pdf:application/pdf}
 }
 
-@inproceedings{davril_feature_2013,
-	title = {Feature model extraction from large collections of informal product descriptions},
-	url = {http://dl.acm.org/citation.cfm?id=2491455},
-	urldate = {2017-07-19},
-	booktitle = {Proceedings of the 2013 9th {Joint} {Meeting} on {Foundations} of {Software} {Engineering}},
-	publisher = {ACM},
-	author = {Davril, Jean-Marc and Delfosse, Edouard and Hariri, Negar and Acher, Mathieu and Cleland-Huang, Jane and Heymans, Patrick},
-	year = {2013},
-	pages = {290--300},
-	file = {fse13main-id221-p-18686-final.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/X4SVCJZC/fse13main-id221-p-18686-final.pdf:application/pdf}
-}
-
 @inproceedings{nadi_mining_2014,
 	title = {Mining configuration constraints: {Static} analyses and empirical results},
 	shorttitle = {Mining configuration constraints},
@@ -496,7 +471,10 @@ trade-off in creating architectures as for Linux kernel device drivers.},
 	publisher = {ACM},
 	author = {Rabkin, Ariel and Katz, Randy},
 	year = {2011},
+	keywords = {configuration options, extraction, static analysis},
 	pages = {131--140},
+	annote = {Rabkin and Katz extract configuration options by statically analyzing software systems. They exploit configuration APIs to detect configuration options and possibly respective domains as well.
+In detail, first, they explore code sections where options are read, and, second, they detect possible option names at these code sections.Their approach eases configuration debugging as well as documentation},
 	file = {p131-rabkin.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/VGFDSW4W/p131-rabkin.pdf:application/pdf}
 }
 
@@ -508,7 +486,10 @@ trade-off in creating architectures as for Linux kernel device drivers.},
 	publisher = {IEEE Press},
 	author = {Zhou, Shurui and Al-Kofahi, Jafar and Nguyen, Tien N. and Kästner, Christian and Nadi, Sarah},
 	year = {2015},
+	keywords = {build, configuration, extraction, presence conditions, static analysis, symbolic evaluation},
 	pages = {20--23},
+	annote = {Zhou et al. perform symbolic evaluation on (turing-complete) Makefiles to extract a conditional build script (similar to preprocessor directives) and therefore make build-time variability easier accessible.
+ },
 	file = {Releng2015.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/QPFEUDX3/Releng2015.pdf:application/pdf}
 }
 
@@ -522,7 +503,10 @@ trade-off in creating architectures as for Linux kernel device drivers.},
 	journal = {IEEE Transactions on Software Engineering},
 	author = {Nadi, Sarah and Berger, Thorsten and Kästner, Christian and Czarnecki, Krzysztof},
 	year = {2015},
+	keywords = {conditional compilation, configuration constraints, configuration options, extraction, qualitative analysis, static analysis},
 	pages = {820--841},
+	annote = {Nadi et al. propose a static analysis approach for extracting configuration constraints from software systems employing conditional compilation. Their approach is based on Typechef and aims to infer constraints for two rules, of which the first one is a) that all valid configuration should build correctly, and the second states that b) all valid configurations must yield lexically different programs. Constraints inferred according to these rules show high accuracy (93 and 77\%), yet only 27\% of all existing model constraints could be recovered in their four systems case study. Constraints are originated in the problem space as well as in the solution space.
+They state that in principle the majority of constraint may be extractable from code, yet non-code knowlodge is still necessary.},
 	file = {Where do Configuration Constraints Stem From- An Extraction Appro.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/4UX5BV96/Where do Configuration Constraints Stem From- An Extraction Appro.pdf:application/pdf}
 }
 
@@ -554,6 +538,7 @@ address this and other variability management challenges.},
 	journal = {Search Based Software Engineering},
 	author = {Lopez-Herrejon, Roberto and Galindo, José and Benavides, David and Segura, Sergio and Egyed, Alexander},
 	year = {2012},
+	keywords = {evolutionary algorithms, feature model synthesis, genetic algorithms, hierarchy},
 	pages = {168--182},
 	file = {ssbse2012.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/RESCT7CM/ssbse2012.pdf:application/pdf}
 }
@@ -693,6 +678,7 @@ As changes are made by several developers and not necessarily people in charge o
 	publisher = {IEEE},
 	author = {Alves, Vander and Schwanninger, Christa and Barbosa, Luciano and Rashid, Awais and Sawyer, Peter and Rayson, Paul and Pohl, Christoph and Rummler, Andreas},
 	year = {2008},
+	keywords = {domain analysis, exploratory study, information retrieval, survey},
 	pages = {67--76},
 	file = {An_Exploratory_Study_of_Information_Retrieval_Tech.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/HMV7KCEI/An_Exploratory_Study_of_Information_Retrieval_Tech.pdf:application/pdf}
 }
@@ -711,7 +697,7 @@ As changes are made by several developers and not necessarily people in charge o
 	file = {ESE-KSynthesis.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/G72TG6I3/ESE-KSynthesis.pdf:application/pdf}
 }
 
-@inproceedings{davril_feature_2013-1,
+@inproceedings{davril_feature_2013,
 	title = {Feature model extraction from large collections of informal product descriptions},
 	url = {http://dl.acm.org/citation.cfm?id=2491455},
 	urldate = {2017-07-30},
@@ -731,7 +717,9 @@ As changes are made by several developers and not necessarily people in charge o
 	publisher = {IEEE},
 	author = {She, Steven and Lotufo, Rafael and Berger, Thorsten and Wasowski, Andrzej and Czarnecki, Krzysztof},
 	year = {2011},
+	keywords = {feature hierarchy, feature model synthesis, heuristic, information retrieval, reverse engineering},
 	pages = {461--470},
+	annote = {She and others propose a semi-automated approach to reverse engineer variability models from existing resources. Their method is based on a known set of feature names, a list of feature dependencies (to other features) and plain text feature descriptions.Their approach basically aims to build a meaningful hierarchy of features along with feature groups and cross-tree constraints. For hierarchy detection, information retrieval techniques are employed as well as user decisions.},
 	file = {icse2011.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/56M8R54H/icse2011.pdf:application/pdf}
 }
 
@@ -743,6 +731,7 @@ As changes are made by several developers and not necessarily people in charge o
 	publisher = {Carnegie Mellon University},
 	author = {Weston, Nathan and Chitchyan, Ruzanna and Rashid, Awais},
 	year = {2009},
+	keywords = {domain analysis, requirements engineering},
 	pages = {211--220},
 	file = {p211-weston.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/2XU252PU/p211-weston.pdf:application/pdf}
 }
@@ -755,6 +744,7 @@ As changes are made by several developers and not necessarily people in charge o
 	journal = {Journal of Systems and Software},
 	author = {Nasr, Sana Ben and Bécan, Guillaume and Acher, Mathieu and Ferreira Filho, João Bosco and Sannier, Nicolas and Baudry, Benoit and Davril, Jean-Marc},
 	year = {2017},
+	keywords = {domain analysis},
 	pages = {82--103},
 	file = {spedoc.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/9FC72SHV/spedoc.pdf:application/pdf}
 }
@@ -782,6 +772,327 @@ As changes are made by several developers and not necessarily people in charge o
 	publisher = {Springer},
 	author = {Linsbauer, Lukas and Lopez-Herrejon, Roberto Erick and Egyed, Alexander},
 	year = {2014},
+	keywords = {feature model synthesis, genetic algorithms, hierarchy},
 	pages = {153--167},
+	annote = {Linsbauer et al. use genetic algorithm to approximate a feature model for given sets of valid configurations.},
 	file = {10.1007%2F978-3-319-09940-8_11.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/7PBHS5QN/10.1007%2F978-3-319-09940-8_11.pdf:application/pdf}
+}
+
+@inproceedings{dietrich_robust_2012,
+	title = {A robust approach for variability extraction from the {Linux} build system},
+	url = {http://dl.acm.org/citation.cfm?id=2362544},
+	urldate = {2017-08-02},
+	booktitle = {Proceedings of the 16th {International} {Software} {Product} {Line} {Conference}-{Volume} 1},
+	publisher = {ACM},
+	author = {Dietrich, Christian and Tartler, Reinhard and Schröder-Preikschat, Wolfgang and Lohmann, Daniel},
+	year = {2012},
+	pages = {21--30},
+	file = {402ddbfe2aecd366d7322b81f142fe25e7ec.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/I6W7JIGS/402ddbfe2aecd366d7322b81f142fe25e7ec.pdf:application/pdf}
+}
+
+@inproceedings{haslinger_extracting_2013,
+	title = {On {Extracting} {Feature} {Models} from {Sets} of {Valid} {Feature} {Combinations}.},
+	volume = {13},
+	url = {http://link.springer.com/content/pdf/10.1007/978-3-642-37057-1.pdf#page=70},
+	urldate = {2017-08-02},
+	booktitle = {{FASE}},
+	publisher = {Springer},
+	author = {Haslinger, Evelyn Nicole and Lopez-Herrejon, Roberto Erick and Egyed, Alexander},
+	year = {2013},
+	pages = {53--67},
+	file = {978-3-642-37057-1_5.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/7E2UHZQX/978-3-642-37057-1_5.pdf:application/pdf}
+}
+
+@inproceedings{chen_approach_2005,
+	title = {An approach to constructing feature models based on requirements clustering},
+	url = {http://ieeexplore.ieee.org/abstract/document/1531025/},
+	urldate = {2017-08-02},
+	booktitle = {Requirements {Engineering}, 2005. {Proceedings}. 13th {IEEE} {International} {Conference} on},
+	publisher = {IEEE},
+	author = {Chen, Kun and Zhang, Wei and Zhao, Haiyan and Mei, Hong},
+	year = {2005},
+	pages = {31--40},
+	file = {01531025.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/V8RRP3J8/01531025.pdf:application/pdf}
+}
+
+@inproceedings{haslinger_reverse_2011,
+	title = {Reverse {Engineering} {Feature} {Models} from {Programs}' {Feature} {Sets}},
+	isbn = {978-1-4577-1948-6},
+	url = {http://ieeexplore.ieee.org/document/6079856/},
+	doi = {10.1109/WCRE.2011.45},
+	urldate = {2017-08-02},
+	publisher = {IEEE},
+	author = {Haslinger, Evelyn Nicole and Lopez-Herrejon, Roberto E. and Egyed, Alexander},
+	month = oct,
+	year = {2011},
+	pages = {308--312},
+	file = {06079856.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/C7BQBMDI/06079856.pdf:application/pdf}
+}
+
+@inproceedings{yi_mining_2012,
+	title = {Mining binary constraints in the construction of feature models},
+	url = {http://ieeexplore.ieee.org/abstract/document/6345798/},
+	urldate = {2017-08-02},
+	booktitle = {Requirements {Engineering} {Conference} ({RE}), 2012 20th {IEEE} {International}},
+	publisher = {IEEE},
+	author = {Yi, Li and Zhang, Wei and Zhao, Haiyan and Jin, Zhi and Mei, Hong},
+	year = {2012},
+	pages = {141--150},
+	file = {06345798.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/F62MRTCU/06345798.pdf:application/pdf}
+}
+
+@article{hariri_supporting_2013,
+	title = {Supporting {Domain} {Analysis} through {Mining} and {Recommending} {Features} from {Online} {Product} {Listings}},
+	volume = {39},
+	issn = {0098-5589, 1939-3520},
+	url = {http://ieeexplore.ieee.org/document/6582404/},
+	doi = {10.1109/TSE.2013.39},
+	number = {12},
+	urldate = {2017-08-02},
+	journal = {IEEE Transactions on Software Engineering},
+	author = {Hariri, Negar and Castro-Herrera, Carlos and Mirakhorli, Mehdi and Cleland-Huang, Jane and Mobasher, Bamshad},
+	month = dec,
+	year = {2013},
+	pages = {1736--1752},
+	file = {06582404.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/7UHMSRE3/06582404.pdf:application/pdf}
+}
+
+@inproceedings{czarnecki_sample_2008,
+	title = {Sample spaces and feature models: {There} and back again},
+	shorttitle = {Sample spaces and feature models},
+	url = {http://ieeexplore.ieee.org/abstract/document/4626837/},
+	urldate = {2017-08-02},
+	booktitle = {Software {Product} {Line} {Conference}, 2008. {SPLC}'08. 12th {International}},
+	publisher = {IEEE},
+	author = {Czarnecki, Krzysztof and She, Steven and Wasowski, Andrzej},
+	year = {2008},
+	pages = {22--31},
+	file = {517619597bd77063ff024cf066818613b5df.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/TGXTASAN/517619597bd77063ff024cf066818613b5df.pdf:application/pdf}
+}
+
+@article{lopez-herrejon_assessment_2015,
+	title = {An assessment of search-based techniques for reverse engineering feature models},
+	volume = {103},
+	url = {http://www.sciencedirect.com/science/article/pii/S0164121214002349},
+	urldate = {2017-08-02},
+	journal = {Journal of Systems and Software},
+	author = {Lopez-Herrejon, Roberto E. and Linsbauer, Lukas and Galindo, José A. and Parejo, José A. and Benavides, David and Segura, Sergio and Egyed, Alexander},
+	year = {2015},
+	pages = {353--369},
+	file = {An assessment of search-based.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/BWFRMKA7/An assessment of search-based.pdf:application/pdf}
+}
+
+@inproceedings{czarnecki_feature_2007,
+	title = {Feature diagrams and logics: {There} and back again},
+	shorttitle = {Feature diagrams and logics},
+	url = {http://ieeexplore.ieee.org/abstract/document/4339252/},
+	urldate = {2017-08-02},
+	booktitle = {Software {Product} {Line} {Conference}, 2007. {SPLC} 2007. 11th {International}},
+	publisher = {IEEE},
+	author = {Czarnecki, Krzysztof and Wasowski, Andrzej},
+	year = {2007},
+	pages = {23--34},
+	file = {download.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/3UH7BRG6/download.pdf:application/pdf}
+}
+
+@article{bakar_feature_2015,
+	title = {Feature extraction approaches from natural language requirements for reuse in software product lines: {A} systematic literature review},
+	volume = {106},
+	issn = {01641212},
+	shorttitle = {Feature extraction approaches from natural language requirements for reuse in software product lines},
+	url = {http://linkinghub.elsevier.com/retrieve/pii/S0164121215001004},
+	doi = {10.1016/j.jss.2015.05.006},
+	language = {en},
+	urldate = {2017-08-02},
+	journal = {Journal of Systems and Software},
+	author = {Bakar, Noor Hasrina and Kasirun, Zarinah M. and Salleh, Norsaremah},
+	month = aug,
+	year = {2015},
+	pages = {132--149},
+	file = {Feature_Extraction_Approaches_from_Natur.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/ABSTQ4AH/Feature_Extraction_Approaches_from_Natur.pdf:application/pdf}
+}
+
+@article{acher_extraction_2014,
+	title = {Extraction and evolution of architectural variability models in plugin-based systems},
+	volume = {13},
+	url = {http://link.springer.com/article/10.1007/s10270-013-0364-2},
+	number = {4},
+	urldate = {2017-08-02},
+	journal = {Software \& Systems Modeling},
+	author = {Acher, Mathieu and Cleve, Anthony and Collet, Philippe and Merle, Philippe and Duchien, Laurence and Lahire, Philippe},
+	year = {2014},
+	pages = {1367--1394},
+	file = {FraSCAtiSoSyM12.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/SVU7JIRG/FraSCAtiSoSyM12.pdf:application/pdf}
+}
+
+@inproceedings{acher_support_2013,
+	title = {Support for reverse engineering and maintaining feature models},
+	url = {http://dl.acm.org/citation.cfm?id=2430530},
+	urldate = {2017-08-02},
+	booktitle = {Proceedings of the {Seventh} {International} {Workshop} on {Variability} {Modelling} of {Software}-intensive {Systems}},
+	publisher = {ACM},
+	author = {Acher, Mathieu and Baudry, Benoit and Heymans, Patrick and Cleve, Anthony and Hainaut, Jean-Luc},
+	year = {2013},
+	keywords = {feature model synthesis, hierarchy, reverse engineering},
+	pages = {20},
+	file = {KSynthesis-VaMoS2013-CR.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/SNENWDWB/KSynthesis-VaMoS2013-CR.pdf:application/pdf}
+}
+
+@inproceedings{acher_extracting_2012,
+	title = {On extracting feature models from product descriptions},
+	url = {http://dl.acm.org/citation.cfm?id=2110153},
+	urldate = {2017-08-02},
+	booktitle = {Proceedings of the {Sixth} {International} {Workshop} on {Variability} {Modeling} of {Software}-{Intensive} {Systems}},
+	publisher = {ACM},
+	author = {Acher, Mathieu and Cleve, Anthony and Perrouin, Gilles and Heymans, Patrick and Vanbeneden, Charles and Collet, Philippe and Lahire, Philippe},
+	year = {2012},
+	pages = {45--54},
+	file = {On_extracting_feature_models_from_produc.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/K4ETC42V/On_extracting_feature_models_from_produc.pdf:application/pdf}
+}
+
+@inproceedings{niu_extracting_2008,
+	title = {Extracting and modeling product line functional requirements},
+	url = {http://ieeexplore.ieee.org/abstract/document/4685664/},
+	urldate = {2017-08-02},
+	booktitle = {International {Requirements} {Engineering}, 2008. {RE}'08. 16th {IEEE}},
+	publisher = {IEEE},
+	author = {Niu, Nan and Easterbrook, Steve},
+	year = {2008},
+	pages = {155--164},
+	file = {RE08.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/Q3VNV7DC/RE08.pdf:application/pdf}
+}
+
+@inproceedings{niu_-demand_2008,
+	title = {On-demand cluster analysis for product line functional requirements},
+	url = {http://ieeexplore.ieee.org/abstract/document/4626843/},
+	urldate = {2017-08-02},
+	booktitle = {Software {Product} {Line} {Conference}, 2008. {SPLC}'08. 12th {International}},
+	publisher = {IEEE},
+	author = {Niu, Nan and Easterbrook, Steve},
+	year = {2008},
+	pages = {87--96},
+	file = {SPLC08.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/2RXXMDHZ/SPLC08.pdf:application/pdf}
+}
+
+@inproceedings{andersen_efficient_2012,
+	title = {Efficient synthesis of feature models},
+	url = {http://dl.acm.org/citation.cfm?id=2362553},
+	urldate = {2017-08-02},
+	booktitle = {Proceedings of the 16th {International} {Software} {Product} {Line} {Conference}-{Volume} 1},
+	publisher = {ACM},
+	author = {Andersen, Nele and Czarnecki, Krzysztof and She, Steven and Wąsowski, Andrzej},
+	year = {2012},
+	pages = {106--115},
+	file = {splc12.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/CMTVWGR2/splc12.pdf:application/pdf}
+}
+
+@inproceedings{ferrari_mining_2013,
+	title = {Mining commonalities and variabilities from natural language documents},
+	isbn = {978-1-4503-1968-3},
+	url = {http://dl.acm.org/citation.cfm?doid=2491627.2491634},
+	doi = {10.1145/2491627.2491634},
+	language = {en},
+	urldate = {2017-08-02},
+	publisher = {ACM Press},
+	author = {Ferrari, Alessio and Spagnolo, Giorgio O. and Dell'Orletta, Felice},
+	year = {2013},
+	pages = {116},
+	file = {SPLC2013.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/N4A9BDHA/SPLC2013.pdf:application/pdf}
+}
+
+@inproceedings{guo_variability-aware_2013,
+	title = {Variability-aware performance prediction: {A} statistical learning approach},
+	shorttitle = {Variability-aware performance prediction},
+	url = {http://dl.acm.org/citation.cfm?id=3107695},
+	urldate = {2017-08-03},
+	booktitle = {Proceedings of the 28th {IEEE}/{ACM} {International} {Conference} on {Automated} {Software} {Engineering}},
+	publisher = {IEEE Press},
+	author = {Guo, Jianmei and Czarnecki, Krzysztof and Apely, Sven and Siegmundy, Norbert and Wasowski, Andrzej},
+	year = {2013},
+	pages = {301--311},
+	file = {0123ab7ced1a81f4b65b5474fea0020dab5a.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/95KED8FU/0123ab7ced1a81f4b65b5474fea0020dab5a.pdf:application/pdf}
+}
+
+@article{heidelberger_computer_1984,
+	title = {Computer performance evaluation methodology},
+	url = {http://ieeexplore.ieee.org/abstract/document/1676394/},
+	number = {12},
+	urldate = {2017-08-03},
+	journal = {IEEE Transactions on Computers},
+	author = {Heidelberger, Philip and Lavenberg, Stephen S.},
+	year = {1984},
+	pages = {1195--1220},
+	file = {01676394.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/63TQ23RU/01676394.pdf:application/pdf}
+}
+
+@inproceedings{siegmund_predicting_2012-1,
+	title = {Predicting performance via automated feature-interaction detection},
+	url = {http://ieeexplore.ieee.org/abstract/document/6227196/},
+	urldate = {2017-08-03},
+	booktitle = {Software {Engineering} ({ICSE}), 2012 34th {International} {Conference} on},
+	publisher = {IEEE},
+	author = {Siegmund, Norbert and Kolesnikov, Sergiy S. and Kästner, Christian and Apel, Sven and Batory, Don and Rosenmüller, Marko and Saake, Gunter},
+	year = {2012},
+	pages = {167--177},
+	file = {icse12.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/Q6IUFGAN/icse12.pdf:application/pdf}
+}
+
+@inproceedings{sarkar_cost-efficient_2015,
+	title = {Cost-efficient sampling for performance prediction of configurable systems (t)},
+	url = {http://ieeexplore.ieee.org/abstract/document/7372023/},
+	urldate = {2017-08-03},
+	booktitle = {Automated {Software} {Engineering} ({ASE}), 2015 30th {IEEE}/{ACM} {International} {Conference} on},
+	publisher = {IEEE},
+	author = {Sarkar, Atri and Guo, Jianmei and Siegmund, Norbert and Apel, Sven and Czarnecki, Krzysztof},
+	year = {2015},
+	pages = {342--352},
+	file = {PID3840471.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/BGFUSH6P/PID3840471.pdf:application/pdf}
+}
+
+@book{czarnecki_generative_2000,
+	title = {Generative {Programming}: {Methods}, {Tools}, and {Applications}},
+	isbn = {0-201-30977-7},
+	publisher = {ACM Press/Addison-Wesley Publishing Co.},
+	author = {Czarnecki, Krzysztof and Eisenecker, Ulrich W.},
+	year = {2000}
+}
+
+@book{apel_feature-oriented_2013,
+	address = {Berlin, Heidelberg},
+	title = {Feature-{Oriented} {Software} {Product} {Lines}},
+	isbn = {978-3-642-37520-0 978-3-642-37521-7},
+	url = {http://link.springer.com/10.1007/978-3-642-37521-7},
+	language = {en},
+	urldate = {2017-08-03},
+	publisher = {Springer Berlin Heidelberg},
+	author = {Apel, Sven and Batory, Don and Kästner, Christian and Saake, Gunter},
+	year = {2013},
+	note = {DOI: 10.1007/978-3-642-37521-7},
+	file = {ApelBatoryKaestnerSaake - Feature Oriented SPL.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/3NUUSWTW/ApelBatoryKaestnerSaake - Feature Oriented SPL.pdf:application/pdf}
+}
+
+@article{heidelberger_computer_1984-1,
+	title = {Computer performance evaluation methodology},
+	url = {http://ieeexplore.ieee.org/abstract/document/1676394/},
+	number = {12},
+	urldate = {2017-08-03},
+	journal = {IEEE Transactions on Computers},
+	author = {Heidelberger, Philip and Lavenberg, Stephen S.},
+	year = {1984},
+	pages = {1195--1220},
+	file = {01676394.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/KHURPBKR/01676394.pdf:application/pdf}
+}
+
+@article{calder_feature_2003,
+	title = {Feature interaction: a critical review and considered forecast},
+	volume = {41},
+	shorttitle = {Feature interaction},
+	url = {http://www.sciencedirect.com/science/article/pii/S1389128602003523},
+	number = {1},
+	urldate = {2017-08-09},
+	journal = {Computer Networks},
+	author = {Calder, Muffy and Kolberg, Mario and Magill, Evan H. and Reiff-Marganiec, Stephan},
+	year = {2003},
+	pages = {115--141},
+	file = {feature1calder.pdf:/home/stefan/.zotero/zotero/ery54x3f.default/zotero/storage/CU2BSBZN/feature1calder.pdf:application/pdf}
 }
