@@ -17,8 +17,8 @@ generally recognized software quality property to look after, and maintenance
 is, of course, essential to every successful software system. Nonetheless, less
 attention is given to the ability to adapt a software system to changing
 requirements (evolvability) rather than maintaining it to keep functionality
-working. Software evolution and evolvability, like software itself are
-manifold. Software evolves in many ways ranging from maintenance (refactoring,
+working \citep{parnas_software_1994}. Software evolution and evolvability, like
+software itself are manifold. Software evolves in many ways ranging from maintenance (refactoring,
 bug-fixes and patches) to adapting to changed requirements (adding, removing,
 reorganizing functionality and variability).
 
@@ -148,7 +148,52 @@ constraints from source code as well as the organization of constraints into
 feature hierarchy and groups. The further assessment of configurable systems
 requires a well-defined and sound variability model.
 
-\paragraph*{Feature Extraction} \cite{rabkin_static_2011,nadi_where_2015,zhou_extracting_2015}
+\paragraph*{Feature and Constraint Extraction} 
+The first objective in recovering a variability model from a configurable
+system is to determine the set of available configuration options to select. In
+addition, for further configuration the type of each configuration option
+(e.g., boolean, numeric or string) and the respective domain of valid values
+needs to be specified.
+
+\cite{rabkin_static_2011} proposed a static, yet heuristic approach to extract
+configuration options along with respective types and domains. They exploit the
+usage of configuration APIs. Their approach works
+in two stages and commences with extracting all code sections where
+configuration options are parsed. Subsequently, configuration names can be
+recovered as they are either already specified at compile-time or can be
+reconstructed using string analysis yielding respective regular expressions.
+Moreover, they employ a number of heuristics to infer the type of parsed
+configurations as well as respective domains. First, the return type of the
+parsing method is likely to indicate the type of the configuration option read.
+Second, if a string is read initially, the library method it is passed to can
+reveal information about the actual type. For instance, a method
+\emph{parseInteger} is likely to parse an integer value. Third, whenever a
+parsed configuration option is compared against a constant, expression or value of an enum class,
+these might indicate valid values or at least corner cases of the configuration
+options' domain. The extraction method by \cite{rabkin_static_2011} renders to be precise, but is
+limited, for instance, when an option leaves the scope of the source code.
+Nonetheless, for the systems they evaluated they recovered configuration
+options that were not documented, only used for debugging or even not used at
+all.
+
+\paragraph*{Constraint Extraction}
+The second, or an additional step in recovering a variability model is the
+extraction of configuration constraints. An approach proposed by \cite{zhou_extracting_2015}
+focuses on the extraction of file presence conditions from build files using symbolic execution. A more comprehensive investigation of configuration
+constraints and their origin is provided by \cite{nadi_mining_2014,nadi_where_2015}. They
+propose an approach based on variability-aware parsing and infer constraints by
+evaluating make files and  analyzing preprocessor directives. Inferred
+constraints result from violations of two assumed rules, where a) every valid
+configuration must not contain build-time errors and b) every valid
+configuration should result in a lexically different program, thus. While the
+first rule aims at inferring constraints that prevent build-time errors, the
+second one is intended to detect features without any effect, at least as part
+of some configurations. Their analysis one the one hand emerged to be accurate
+in recovering constraints with 93~\% for constraints inferred by the first rule
+and 77~\% for second one respectively. On the other hand, their approach was
+only to recover 28~\% of all constraints present in the software system.
+Further qualitative investigation, including developer interviews, lead to
+the conclusion that most of existing constraints stem from domain knowledge.
 
 \paragraph*{Feature Model Organization} \cite{she_reverse_2011,andersen_efficient_2012}
 
