@@ -148,7 +148,7 @@ constraints from source code as well as the organization of constraints into
 feature hierarchy and groups. The further assessment of configurable systems
 requires a well-defined and sound variability model.
 
-\paragraph*{Feature and Constraint Extraction} 
+\subsection{Feature Extraction} 
 The first objective in recovering a variability model from a configurable
 system is to determine the set of available configuration options to select. In
 addition, for further configuration the type of each configuration option
@@ -176,7 +176,7 @@ Nonetheless, for the systems they evaluated they recovered configuration
 options that were not documented, only used for debugging or even not used at
 all.
 
-\paragraph*{Constraint Extraction}
+\subsection{Constraint Extraction}
 The second, or an additional step in recovering a variability model is the
 extraction of configuration constraints. An approach proposed by \cite{zhou_extracting_2015}
 focuses on the extraction of file presence conditions from build files using symbolic execution. A more comprehensive investigation of configuration
@@ -195,7 +195,87 @@ only to recover 28~\% of all constraints present in the software system.
 Further qualitative investigation, including developer interviews, lead to
 the conclusion that most of existing constraints stem from domain knowledge.
 
-\paragraph*{Feature Model Organization} \cite{she_reverse_2011,andersen_efficient_2012}
+\subsection{Reverse Engineering of Feature Hierarchy} 
+Besides recovering configuration options and respective constraints, to reverse
+engineer a feature model, one further step is required. The recovered knowledge
+needs a tree-like hierarchy, detection of feature groups and cross-tree
+constraints to be an acceptable feature diagram
+\citep{kang_feature-oriented_1990}. While several approaches to the recover feature model hierarchy have been proposed,
+we are primarily interested in finding a hierarchy for knowledge obtained from
+source code. Other scenarios, as already stated in the opener of this section,
+are based on product descriptions or sets of valid configurations. The remainder of
+this subsection we will focus on organizing features and constraints extracted
+from source code. For further reading \cite{andersen_efficient_2012} present algorithms
+for structuring feature diagrams for three different scenarios including the
+ones previously mentioned.
+
+Given an extracted set of features along with corresponding descriptions and
+recovered constraints among the features, \cite{she_reverse_2011} propose an
+semi-automated and interactive approach to synthesize a feature hierarchy.
+Their approach comprises three steps: 1) Specifying a feature hierarchy, 2)
+detecting and selecting feature groups, and 3) adding a cross-tree constraint
+formula to the feature  model.
+
+\begin{enumerate}
+  \item Their approach commences with finding a single parent for each
+  feature and, thus, specifying a tree-like feature hierarchy. Based on the
+  given constraints a directed acyclic graph (DAG) representing implication
+  relationships among features, a so-called implication graph, is constructed:
+  Every vertex depicts a feature and edges are inserted for each pair of
+  features $(u, v)$, where  $u \implies v$ holds with respect to the given
+  constraints.
+   
+  In addition to the implication graph, the algorithm for each feature computes
+  two rankings of features that are likely to be the respective parent feature.
+  The two rankings both employ the feature descriptions. Feature descriptions
+  are compared for similarity using a similarity metric. For two features $p$
+  and $s$ the similarity is defined as the weighted sum of the inverse document
+  frequencies $idf(w)$ for the words that the descriptions of features $u$ and
+  $v$ share.
+  The idf-ranking for a word $w$ is the logarithm of the number of features
+  divided by the number of features whose description contains $w$. Each $idf$
+  value is weighted by with by the frequency of $w$ in the description of
+  feature $p$.
+  
+  The first ranking, called Ranked-Implied-Features (RIF), for each feature $f$
+  ranks features by their similarity to $f$ in an descending order, but
+  prioritizes those features that are implied according to the previously
+  computed implication graph. The second ranking, called Ranked-All-Features
+  (RAF) is similar to RIF, yet less strict since implied features are not
+  prioritized. Given these ranking, a user selects for each feature a suitable
+  parent feature from the RIF or RAF ranking. The idea behind providing two
+  separate rankings, according to \cite{she_reverse_2011} is that the given
+  extracted constraints can be incomplete and, thus, not all relevant implications are
+  contained.
+
+  \item After the feature hierarchy is specified, another auxiliary graph, a
+  mutex graph, similar to the implication graph, is constructed. The mutex
+  graph is an undirected graph with features as vertices and edges between two
+  features $u$ and $v$, if $u \implies \neg{v}$ and $v \implies \neg{u}$ hold
+  with respect to the given constraints. That is, all incident adjacent are mutually exclusive. Based on
+  this mutex graph all maximal cliques (subsets of vertices that all are
+  connected with each other) among the vertices with the same parent are
+  computed. Those cliques are mutually exclusive and share the same parent and
+  represent mutex- or alternative-groups. \cite{she_reverse_2011} introduce an
+  additional constraint to extract xor-groups that require one of the groups’
+  features to be selected if the parent is selected. This distinction is in
+  line with the initial description of feature diagrams by \cite{kang_feature-oriented_1990},
+  but not all descriptions follow this distinction between mutex- and
+  xor-groups and just use the term alternative-group mentioned in Sec. 1.
+  
+  \item The cross-tree constraints for the feature diagram are extracted from
+  the given configuration constraints. Since CTCs are constraints that could
+  not be represented by the feature hierarchy (implication) or
+  alternative-groups (exclusion) the derivation of CTCs follows this idea. The
+  set of cross-tree implications is derived by removing all edges that are part
+  of the feature hierarchy from the initially constructed implication graph.
+  The set of cross-tree exclusions is derived in the same manner from the mutex
+  graph by removing all edges among vertices of all mutex-groups. To make the
+  feature model sound, the given configuration constraints, reduced to those
+  clauses that are not already entailed by the diagram, can be added as an
+  additional CTC formula to the feature diagram.
+\end{enumerate}
+
 
 \section{Performance Modeling} \label{sec:2.4}
 \begin{itemize}
