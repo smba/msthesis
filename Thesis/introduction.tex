@@ -1,144 +1,110 @@
-\paragraph*{Configurable Systems} Modern software systems often need to be
-customized to specific customer needs. Customizable software, for instance, enable greater
-flexibility in supporting variable hardware platforms or tweaking system
-performance. To make software systems configurable and customizable they ship
-with a variety of \emph{configuration options}, also called \emph{features}, to
-select from \citep{apel_feature-oriented_2013}.
+\section{Context}
+\subsection{Configurable Software}
+Modern software systems often need to
+be customized to satisfy user requirements. Customizable software, for instance,
+enable greater flexibility in supporting varying hardware platforms or tweaking
+system performance. To make software systems configurable and customizable, they
+exhibit a variety of \emph{configuration options}, also called
+\emph{features} \citep{apel_feature-oriented_2013}.
 Configuration options range from fine-grained options that tune small
 functional- and non-functional properties to those that enable or disable entire
-parts of the software. Configuration can be accommodated at different
-stages of the software life-cycle, either at \emph{compile-} or \emph{build-time}
-when the software is build or at \emph{load-time} before the software is actually used.
-The main difference between applying configuration at either stage besides how
-variability is implemented is the effect on the software system. At
-compile-time parts of the code are explicitly in- and excluded from the
-variant derived from the configuration, whereas at customization at load-time
-usually just en- or disables functionality for one run while all
-functionality is available. Examples for configurable software systems range
-from small open-source command-line tools to mature ecosystems like Eclipse or
-even operating systems like the Linux kernel with more than $11.000$
-options \citep{dietrich_robust_2012}.
+parts of the software. The selection of configuration options can be
+accommodated at different stages: \emph{compile-} or \emph{build-time} when the
+software is built or at \emph{load-time} before the software is actually used.
+Compile-time variability usually governs what code sections get
+compiled in the program. For instance, compile-time variability can be
+realized by excluding code sections from compilation using preprocessor
+annotations \citep{hunsen_preprocessor-based_2016} or by assembling the code
+sections to compile incrementally from delta modules
+\citep{schaefer_delta-oriented_2010}. In contrast to that, load-time variability
+controls which code sections can be visited during execution. Configurations for
+load-time variability can be specified using configuration files, environment
+variables or command-line arguments. Examples for configurable software systems
+range from small open-source command-line tools to mature ecosystems including
+Eclipse or even operating systems such as the Linux kernel with more than
+$11,000$ options \citep{dietrich_robust_2012}.
 
-The design and development of configurable software systems is conceptually
-divided into \emph{problem space} and \emph{solution space} \citep{czarnecki_generative_2000}. The problem space
-comprises the abstract design of features that are contained in the software system as well as
-constraints among features, such as dependencies or mutual-exclusion. The
-solution space describes the technical realization of features and the
-functionality described by and associated with features, e.g., implementation
-and build mechanisms. That is, features cross both spaces since they are mapped
-to corresponding code artifacts.
+Configuration options for
+software systems are usually constrained (e.g., are mutually exclusive, imply
+or depend on other features) to a certain extent. In the worst case though,
+where all options can be selected independently, the number of valid
+configurations grows exponentially with every feature added and likely exceeds
+the number of atoms in the entire universe once we count $265$ independent
+features. Hence, even for a small number of features, any naive approach for
+assessing emergent properties of configurable software systems exhaustively for
+each valid configuration is in general conceived infeasible. Despite this
+mathematical limitation, many feasible approaches to static analysis for highly
+configurable systems emerged. Those variability-aware approaches enable, for
+instance, type checking in the presence of variability by exploiting
+commonalities among different variants \citep{thum_classification_2014}.
 
-A common way to express features and constraints in the problem space is to
-define a \emph{variability model}, or \emph{feature model}, which subsumes all
-valid configurations
-\citep{kang_feature-oriented_1990,apel_feature-oriented_2013}. There are different and equivalent syntactical approaches to define feature models, for instance, a propositional formula $F$ over the set of
-features of the configurable software systems \citep{batory_feature_2005}. In
-this case a configuration is valid with respect to the feature model if and only if $F$ holds for all
-selected features being true and all unselected features being false respectively. 
-However, a more practical and more commonly used way to express feature models
-are graphical tree-like \emph{feature diagrams}
-\citep{apel_feature-oriented_2013}. In a feature diagram, features are ordered
-hierarchically, starting with a root feature and subsequent child features. By
-definition, the selection of a child feature requires the parent feature to be
-selected as well. Child features can either be labeled as \emph{optional}
-features  or \emph{mandatory} features; the latter ones need to be selected in
-every valid configuration.
-Moreover, feature diagrams
-provide a syntax for two different types of feature groups, \emph{or-groups} or
-\emph{alternative-groups}. For an or-group at least one of the group's features
-needs to be selected for a valid configuration, whereas for an alternative group
-exactly one out of the group's mutually exclusive features must be selected. In
-addition to the feature hierarchy, constraints, which cannot be expressed by
-the tree-like structure, are referred to as \emph{cross-tree constraints}.
-Cross-tree constraints, depending on the notation, are depicted by arrows
-between two features or simply added to the feature diagram as a propositional
-formula. For such two features $f_1$ and $f_2$, a cross-tree constraint means
-that for feature $f_1$ to be selected, either the selection of $f_2$ is
-required/implied or excluded.
-
-An introductory example for the syntax and semantics of feature diagrams is
-provided in Fig.~\ref{fig:introduction_fm}. In this example an imaginary
-vehicle propulsion can be configured with eight valid configurations. The vehicle requires an engine,
-thus, feature \textsf{Engine} is mandatory. At least one out of the three
-features \textsf{Hybrid}, \textsf{Piston} and \textsf{Electric} needs to be
-selected. For a piston engine, we can select either the feature \textsf{Diesel}
-or \textsf{Petrol}. A petrol engine requires additional ignition sparks in
-contrast to a Diesel engine. For an electric engine we require a
-battery, hence, the feature \textsf{Battery} is mandatory.
-In addition, the feature model specifies two cross-tree constraints: First, the
-feature \textsf{Tank} is optional, yet once a piston engine is selected, we
-require  a tank. Second, if we want to use the \textsf{Hybrid} functionality
-(e.g., use both electric and piston engine simultaneously), we require to have both a piston
-and an electric engine.
-
-\begin{figure}[htbp]
-  \centering
-  
-  	\includegraphics[width=0.85\textwidth]{images/introduction_fm.eps}
-  \caption{Feature diagram for a feature model with eight valid configurations;
-  two cross-tree constraints are specified as propositional formulas over
-  features}
-  \label{fig:introduction_fm}
-\end{figure}
-
-For a configurable system configurations are primarily chosen to meet
-functional and non-functional requirements. Nonetheless, the selection of
-certain combinations of multiple features, of course, can happen to cause
-unexpected and undesired side effects as well. This so-called \emph{feature
+To meet functional and non-functional requirements, users aim at finding the
+optimal configuration of a configurable software system. However, this task is
+non-trivial and has shown to be NP-hard \citep{white_selecting_2009}. The main
+driver for the complexity are feature interactions. A \emph{feature
 interaction} is an ``emergent behavior that cannot be easily deduced from the
 behaviors associated with the individual features involved''
-\citep{apel_feature-oriented_2013} and can make development and
-maintenance of a configurable system an error prone task. 
-A commonly referred to example of a feature interaction, as drafted by
-\cite{calder_feature_2003}, describes interactions in telecommunication networks. Given two
-independent features \textsf{CallForwarding} and \textsf{CallWaiting}, where \textsf{CallForwarding} forwards a call from a busy line to a line that is
-available, and where \textsf{CallWaiting} notifies a busy line when a call is on
-hold. In isolation their behavior is well-defined, but if both features are selected their oppositional
-behavior becomes problematic. If no precedence of one feature has been
-specified, the network might end up in race conditions or other unexpected
-behavior. That is, to avoid this feature interaction, for instance, precedence
-constraints must be implemented or the selection of both features must be
-mutually exclusive.
+\citep{apel_feature-oriented_2013} and can make development and maintenance of
+a configurable system an error-prone task.
 
+{\color{red}
+A commonly referred example of a feature interaction, as drafted by
+\cite{calder_feature_2003}, describes interactions in telecommunication networks. 
+Given two independent features \textsf{CallForwarding} and
+\textsf{CallWaiting}, where \textsf{CallForwarding} forwards a call from a busy
+line to a line that is available, and where \textsf{CallWaiting} notifies a
+busy line when a call is on hold. In isolation their behavior is well-defined,
+but if both features are selected, their oppositional behavior becomes
+problematic. If no precedence of one feature has been specified, the network
+might end up in race conditions or other unexpected behavior. That is, to avoid
+this feature interaction, for instance, precedence constraints must be
+implemented or the selection of both features must be mutually exclusive.}
 
-\paragraph*{Thesis Statement and Scope}
-A software system’s performance depends on the functionality offered, the
-respective implementation, program load and the resulting execution. While
-feature interactions not necessarily cause the software system to break
-severely in all cases, its overall performance can degrade for corner cases or
-specific configurations as the feature selection influences the execution
-\citep{foo_mining_2010,heger_automated_2013,nguyen_industrial_2014}.
+\subsection{Performance Behavior}
+The term \emph{performance} with respect to software and software systems is not
+precisely defined and differs from a user's and a developer’s perspective.
+According to \cite{molyneaux_art_2014}, from a user’s perspective ``a well-performing
+application is one that lets the end user carry out a given task without any
+undue perceived delay or irritation''. However, to accurately assess
+performance, from a practitioner’s perspective, performance is outlined by
+measurements called \emph{key performance indicators} (KPIs) relating to
+non-functional requirements \citep{molyneaux_art_2014}. KPIs in general include
+availability of a software system, its response time, throughput, and resource
+utilization. Availability comprises the amount of time an application is
+available to the user. Response time describes the amount of time it takes to
+process a task. Throughput describes the program load or number of items passed
+to a process. Resource utilization describes the used quota of resources used
+for processing a task.
+
+Performance of a software system depends on the functionality offered, the
+respective implementation, program load, the underlying hardware system,
+environment variables, and the resulting execution. Since configuration options
+control what and how functionality is executed, we concentrate here on those
+source of performance. While feature interactions not necessarily cause the
+software system to break severely in all cases, its overall performance can
+become unfavorable for corner cases or specific configurations as the feature
+selection influences the execution \citep{foo_mining_2010,heger_automated_2013,nguyen_industrial_2014}. 
 That is, the choice of features as well shapes the performance of a software system.
 
-Configuration options for software systems are usually constrained (e.g., are
-mutually exclusive, imply or depend on other features) to a certain extent. In
-the worst case though, where all options can be selected independently, the
-number of valid configurations grows exponentially with every feature added and
-likely exceeds the number of atoms in the entire universe once we count $265$
-independent features. Hence, even for a small number of features, any naive
-approach to assessing properties of configurable software systems exhaustively
-for each valid configuration is in general conceived infeasible. Despite this
-mathematical limitation many feasible approaches to static analysis for highly
-configurable systems emerged. Those variability-aware approaches enable, for
-instance, type checking in the presence of variability by
-exploiting commonalities among different variants \citep{thum_classification_2014}.
+\subsection{Modeling Performance Behavior}
 
 The aspect of performance of configurable software systems has gained more
 attention recently, even though from a practitioners view, according to
-\cite{molyneaux_art_2014}, for the most part performance testing is still not
+\cite{molyneaux_art_2014}, for the most part, performance testing is still not
 accommodated to an acceptable degree in the development process.
 Assessing performance for configurable systems incorporates obtaining knowledge about the performance of
 every valid configuration. 
 
-In the recent past a variety of approaches to
-model, learn and predict performance behavior of configurable software system
+In the recent years, a variety of approaches to
+model, learn, and predict performance behavior of configurable software system
 have emerged. The scheme behind these approaches is the conception of
 performance modeling as an optimization problem, i.e., to recover and
 approximate performance behavior as a function of the selection of
 configuration options.
-Genetic algorithms \citep{guo_genetic_2011,sayyad_scalable_2013}  have shown reasonable results, yet are not able to handle constraints like mutual
-exclusion. \cite{siegmund_predicting_2012} proposed a
-method to predict performance for arbitrary variants following an approach for
+Genetic algorithms \citep{guo_genetic_2011,sayyad_scalable_2013}  have shown
+reasonable results, yet are not able to handle constraints such as mutual
+exclusion.
+\cite{siegmund_predicting_2012} proposed a method to predict performance for arbitrary variants following an approach for
 automated detection of feature interaction \citep{siegmund_predicting_2012}.
 Following their approach, in 2015 they proposed performance-influence models as a means
 to analyze and predict performance for configurable software systems
@@ -149,28 +115,75 @@ The approach has shown a reasonably low error rate for several real-world
 applications and allows prediction of system performance for arbitrary
 configuration variants.
 
-Going a step further, actively maintained configurable software systems evolve:
-Variability models may change as software has to adapt to changes in the
-functional requirements it is meant to meet. Patching and upgrading a software
-system affects the architecture or implementation that is likely to become
-inconsistent and degrade over time. While there exists substantial work on
-understanding the evolution of configurable systems, e.g., documenting common
-symptoms of architectural decay
-\citep{passos_feature_2015,zhang_variability_2013} or attempting to classify
-patterns for variability evolution \citep{seidl_co-evolution_2012,peng_analyzing_2011,passos_towards_2012}, there is little we know so far about the evolution of performance or non-functional properties in configurable systems.
+\subsection{Performance of Evolving Software}
 
-To get a better understanding software evolution and to address
-performance regression problems it is inevitable to continue studying the
-performance and performance evolution of configurable systems. In practice, all
+Going a step further, actively maintained software systems evolve and so
+configurable systems. As software evolves by adapting to changed
+contexts and requirements \citep{peng_analyzing_2011}, changes usually
+introduce new functionality to the system. Moreover, functionality might be
+divided into smaller modules to enable provide more fine-grained configuration
+options. Finally, features might be removed from the software system. The
+corresponding functionality might remain in the code base or options are merged
+\citep{apel_feature-oriented_2013}.  While there
+exists substantial work on understanding the evolution of configurable systems,
+for example, documenting common symptoms of architectural decay
+like code scattering and tangling \citep{passos_feature_2015,zhang_variability_2013} or attempting to
+classify patterns for variability evolution
+\citep{seidl_co-evolution_2012,peng_analyzing_2011,passos_towards_2012}, there
+is little reseach addressing the evolution of performance or non-functional
+properties in configurable systems. The evolution of software may affect the
+overall quality of a software system and this, in turn, might affect the
+performance behavior of its variants. The phenomenon of degrading performance
+behavior is commonly referred to as \emph{performance regression}.
+
+To get a better understanding about software evolution and to address
+performance regression problems, it is inevitable to continue
+studying the performance and performance evolution of configurable systems. In practice, all
 aforementioned approaches to model and predict performance behavior for a
 configurable software system require exhaustive records of performance
 measurements to learn from. Even though valid configurations can be sampled to
 some extent \citep{apel_feature-oriented_2013,siegmund_performance-influence_2015}, assessing a single version
 of a configurable software system still demands a large number of valid configurations to be measured. In
-addition, to study the performance evolution of configurable software systems a
-history or series of performance models is required. That is, assessing
+addition, to study the performance evolution of configurable software systems,
+a history or series of performance models is required. That is, assessing
 performance evolution of configurable systems is infeasible without
 automated tool support.
+
+\section{Problem Statement}
+The assessment of performance evolution requires a series of performance models
+describing performance behavior for a series of versions of a configurable
+systems. Assessing the performance behavior for a single version of a
+configurable software system entails a number of necessary and preliminary
+tasks. These tasks can even become more complicated once a instead of a single
+version a series of versions is assessed.
+
+\emph{First}, not all configurable systems do explicitly exhibit a variability
+model what is required to derive all valid variants. While substantial work exists on
+reverse engineering variability models from source code or non-code artifacts,
+most techniques still involve manual decisions and domain knowledge. Moreover,
+variability models evolve as part of the software,  may vary from version to
+version and, thus, require multiple reverse engineering steps.
+\emph{Second}, the translation from a valid configuration to a configuration
+artifact such as a configuration file or a list of command-line arguments may differ
+from system to system. This step may be automated, but one still needs to
+detect how configurations are read by the software system one wants to study.
+\emph{Third}, same goes for the infrastructure to compile or build a software
+system since there exist multiple build tools such as makefiles or sbt. Again, the
+build process can be automated, but one needs to detect the build mechanism
+used.
+\emph{Fouth}, to study performance evolution one needs to specify which
+snapshots or versions of a software system one wants to study. While detecting
+releases and release candidates should be straightforward, one might, for
+instance, be interested in the performance evolution including snapshots
+between two releases. As not all snapshots though are likely to compile,
+classifying defect snapshots can still be tedious work.
+\emph{Finally}, the accurate assessment of performance evolution requires an
+appropriate testing setup. The methodology required for assessing performance
+among others requires the selection of suitable performance indicators and
+corresponding benchmarks, means to record measurements and repeat experiments
+easily, and proper ways to interpret and compare results.
+
+\section{Goals and Thesis Structure}
 
 The goal of this thesis is to provide a theoretical and practical foundation for
 exhaustive performance measurements of configurable software systems and series
@@ -180,18 +193,20 @@ objectives and desired outcomes are
 
 \begin{itemize}
 \item a literature overview and discussion regarding software evolution and
-performance testing, especially with respect to the presence of variability and 
+performance testing, especially with respect to the presence of variability,
+\item a methodology to assess performance evolution with respect to the
+aforementioned challenges, and
 \item a practical tool for performance measurement for multiple revisions of
 configurable software systems.
 \end{itemize}
 
-\paragraph*{Thesis Outline}
-The Thesis is organized as follows. Chapter \ref{chapter:2} recalls the background
-topics of the thesis theme, including software evolution, the foundations and statistical
-aspects of performance testing, variability model synthesis, and recent
-approaches to performance modeling. In Chapter \ref{chapter:3} we present the
-overall measurement process and discuss the methods used for our performance
-measurement tool as well as its limitations. In Chapter \ref{chapter:4} we evaluate practical
-aspects of our tool with respect to practicality and discuss the results
-thereof. Finally, Chapter \ref{chapter:5} concludes the thesis and gives an
-outlook on possible future work.
+The Thesis is organized as follows. Chapter \ref{chapter:2} provides the
+background to the relevant topics discussed in this thesis, including software
+evolution, the foundations and statistical aspects of performance testing,
+variability model synthesis, and recent approaches to performance modeling. In
+Chapter \ref{chapter:3}, we propose our measurement methodology and discuss
+the methods used for our performance measurement tool as well as its
+limitations. In Chapter \ref{chapter:4}, we evaluate several aspects of our
+tool with respect to practicality and discuss the results thereof. Finally,
+Chapter \ref{chapter:5} concludes the thesis and gives an outlook on possible
+future work.

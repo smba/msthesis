@@ -8,6 +8,9 @@ feature model extraction from existing software systems and code artifacts. Fina
 Sec.~\ref{sec:2.4} we recall and compare in detail different approaches to model
 and predict performance behavior for configurable software systems.
 
+
+
+
 \section{Evolving Software} \label{sec:2.1}
 \paragraph{Software Evolution}
 The first notion of a software systems' development process is usually
@@ -109,16 +112,69 @@ comprehensive catalog of variability evolution so far has been proposed as all
 mentioned work above focuses on those patterns that appeared to be relevant for
 the respective case study.
 
+\section{Variability Modeling}
+{\color{violet}
+The design and development of configurable software systems is conceptually
+divided into \emph{problem space} and \emph{solution space} \citep{czarnecki_generative_2000}. The problem space
+comprises the abstract design of features that are contained in the software system as well as
+constraints among features, such as dependencies or mutual-exclusion. The
+solution space describes the technical realization of features and the
+functionality described by and associated with features, e.g., implementation
+and build mechanisms. That is, features cross both spaces since they are mapped
+to corresponding code artifacts.
 
-\section{Performance Regression and Testing} \label{sec:2.2}
-\begin{itemize}
-  \item What is ``performance''? \citep{molyneaux_art_2014} 
-  \item Ideas, concepts and strategies
-  \citep{molyneaux_art_2014,fleming_how_1986,woodside_future_2007}
-  \item Performance regression testing
-  \citep{nguyen_industrial_2014,foo_mining_2010} and root cause detection
-  \citep{heger_automated_2013}
-\end{itemize}
+A common way to express features and constraints in the problem space is to
+define a \emph{variability model}, or \emph{feature model}, which subsumes all
+valid configurations
+\citep{kang_feature-oriented_1990,apel_feature-oriented_2013}. There are different and equivalent syntactical approaches to define feature models, for instance, a propositional formula $F$ over the set of
+features of the configurable software systems \citep{batory_feature_2005}. In
+this case a configuration is valid with respect to the feature model if and only if $F$ holds for all
+selected features being true and all unselected features being false respectively. 
+However, a more practical and more commonly used way to express feature models
+are graphical tree-like \emph{feature diagrams}
+\citep{apel_feature-oriented_2013}. In a feature diagram, features are ordered
+hierarchically, starting with a root feature and subsequent child features. By
+definition, the selection of a child feature requires the parent feature to be
+selected as well. Child features can either be labeled as \emph{optional}
+features  or \emph{mandatory} features; the latter ones need to be selected in
+every valid configuration.
+Moreover, feature diagrams
+provide a syntax for two different types of feature groups, \emph{or-groups} or
+\emph{alternative-groups}. For an or-group at least one of the group's features
+needs to be selected for a valid configuration, whereas for an alternative group
+exactly one out of the group's mutually exclusive features must be selected. In
+addition to the feature hierarchy, constraints, which cannot be expressed by
+the tree-like structure, are referred to as \emph{cross-tree constraints}.
+Cross-tree constraints, depending on the notation, are depicted by arrows
+between two features or simply added to the feature diagram as a propositional
+formula. For such two features $f_1$ and $f_2$, a cross-tree constraint means
+that for feature $f_1$ to be selected, either the selection of $f_2$ is
+required/implied or excluded.
+
+An introductory example for the syntax and semantics of feature diagrams is
+provided in Fig.~\ref{fig:introduction_fm}. In this example an imaginary
+vehicle propulsion can be configured with eight valid configurations. The vehicle requires an engine,
+thus, feature \textsf{Engine} is mandatory. At least one out of the three
+features \textsf{Hybrid}, \textsf{Piston} and \textsf{Electric} needs to be
+selected. For a piston engine, we can select either the feature \textsf{Diesel}
+or \textsf{Petrol}. A petrol engine requires additional ignition sparks in
+contrast to a Diesel engine. For an electric engine we require a
+battery, hence, the feature \textsf{Battery} is mandatory.
+In addition, the feature model specifies two cross-tree constraints: First, the
+feature \textsf{Tank} is optional, yet once a piston engine is selected, we
+require  a tank. Second, if we want to use the \textsf{Hybrid} functionality
+(e.g., use both electric and piston engine simultaneously), we require to have both a piston
+and an electric engine.
+
+\begin{figure}[htbp]
+  \centering
+  
+  	\includegraphics[width=0.85\textwidth]{images/introduction_fm.eps}
+  \caption{Feature diagram for a feature model with eight valid configurations;
+  two cross-tree constraints are specified as propositional formulas over
+  features}
+  \label{fig:introduction_fm}
+\end{figure}}
 
 \section{Feature Model Synthesis}  \label{sec:2.3}
 A variability model as an abstraction of functionality of a software system is
@@ -276,6 +332,26 @@ formula to the feature  model.
   additional CTC formula to the feature diagram.
 \end{enumerate}
 
+The approach by \cite{she_reverse_2011} provides a practical algorithm to synthesize a
+feature diagram, yet has some aspects we might need to consider. First, the
+approach is not able to detect or-groups as defined in Sec. 1. Second, the
+approach does introduce a root feature. Finally, the approach does not
+distinguish between mandatory and optional features. Implicitly, all features
+that do not have a parent feature are optional and all features that have a
+parent feature are by default mandatory. \cite{she_reverse_2011} evaluated the
+algorithm with both complete and incomplete variability knowledge (feature
+names, descriptions and constraints). While the algorithm emerged to be
+practical, detecting features whose parent was the root-feature was difficult.
+
+\section{Performance Regression and Testing} \label{sec:2.2}
+\begin{itemize}
+  \item What is ``performance''? \citep{molyneaux_art_2014} 
+  \item Ideas, concepts and strategies
+  \citep{molyneaux_art_2014,fleming_how_1986,woodside_future_2007}
+  \item Performance regression testing
+  \citep{nguyen_industrial_2014,foo_mining_2010} and root cause detection
+  \citep{heger_automated_2013}
+\end{itemize}
 
 \section{Performance Modeling} \label{sec:2.4}
 \begin{itemize}
