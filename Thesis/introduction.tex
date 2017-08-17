@@ -2,7 +2,7 @@
 \subsection{Configurable Software}
 Modern software systems often need to
 be customized to satisfy user requirements. Customizable software, for instance,
-enable greater flexibility in supporting varying hardware platforms or tweaking
+enables greater flexibility in supporting varying hardware platforms or tweaking
 system performance. To make software systems configurable and customizable, they
 exhibit a variety of \emph{configuration options}, also called
 \emph{features} \citep{apel_feature-oriented_2013}.
@@ -33,7 +33,7 @@ the number of atoms in the entire universe once we count $265$ independent
 features. Hence, even for a small number of features, any naive approach for
 assessing emergent properties of configurable software systems exhaustively for
 each valid configuration is in general conceived infeasible. Despite this
-mathematical limitation, many feasible approaches to static analysis for highly
+mathematical limitation, many feasible approaches to static analysis for
 configurable systems emerged. Those variability-aware approaches enable, for
 instance, type checking in the presence of variability by exploiting
 commonalities among different variants \citep{thum_classification_2014}.
@@ -61,14 +61,14 @@ this feature interaction, for instance, precedence constraints must be
 implemented or the selection of both features must be mutually exclusive.}
 
 \subsection{Performance Behavior}
-The term \emph{performance} with respect to software and software systems is not
-precisely defined and differs from a user's and a developer’s perspective.
+Performane with respect to software and software systems is not
+precisely defined and differs from an end user's and a developer’s perspective.
 According to \cite{molyneaux_art_2014}, from a user’s perspective ``a well-performing
 application is one that lets the end user carry out a given task without any
 undue perceived delay or irritation''. However, to accurately assess
 performance, from a practitioner’s perspective, performance is outlined by
-measurements called \emph{key performance indicators} (KPIs) relating to
-non-functional requirements \citep{molyneaux_art_2014}. KPIs in general include
+measurements called \emph{key performance indicators} (KPIs) which relate to
+non-functional requirements \citep{molyneaux_art_2014}. The set of KPIs include
 availability of a software system, its response time, throughput, and resource
 utilization. Availability comprises the amount of time an application is
 available to the user. Response time describes the amount of time it takes to
@@ -76,8 +76,8 @@ process a task. Throughput describes the program load or number of items passed
 to a process. Resource utilization describes the used quota of resources used
 for processing a task.
 
-Performance of a software system depends on the functionality offered, the
-respective implementation, program load, the underlying hardware system,
+The performance behavior of a software system depends on the functionality
+offered, the respective implementation, program load, the underlying hardware system,
 environment variables, and the resulting execution. Since configuration options
 control what and how functionality is executed, we concentrate here on those
 source of performance. While feature interactions not necessarily cause the
@@ -92,21 +92,23 @@ The aspect of performance of configurable software systems has gained more
 attention recently, even though from a practitioners view, according to
 \cite{molyneaux_art_2014}, for the most part, performance testing is still not
 accommodated to an acceptable degree in the development process.
-Assessing performance for configurable systems incorporates obtaining knowledge about the performance of
-every valid configuration. 
 
-In the recent years, a variety of approaches to
-model, learn, and predict performance behavior of configurable software system
-have emerged. The scheme behind these approaches is the conception of
-performance modeling as an optimization problem, i.e., to recover and
-approximate performance behavior as a function of the selection of
-configuration options.
+Even though, from a practicioners' perspective, performance testing is still not
+accommodated to an acceptable degree in the development process, the assessment
+of performance of configurable software systems has gained more attention
+recently. As assessing performance for configurable systems incorporates
+obtaining knowledge about the performance of every valid configuration, in the
+recent years, a variety of approaches to model and predict performance
+behavior of configurable software system have emerged. The scheme behind these
+approaches is the conception of performance modeling as an optimization
+problem, i.e., to recover and approximate performance behavior as a function of
+the selection of configuration options.
 Genetic algorithms \citep{guo_genetic_2011,sayyad_scalable_2013}  have shown
 reasonable results, yet are not able to handle constraints such as mutual
 exclusion.
-\cite{siegmund_predicting_2012} proposed a method to predict performance for arbitrary variants following an approach for
-automated detection of feature interaction \citep{siegmund_predicting_2012}.
-Following their approach, in 2015 they proposed performance-influence models as a means
+\cite{siegmund_predicting_2012} proposed a method to predict performance for
+arbitrary variants, following an approach for automated detection of feature interactions \citep{siegmund_predicting_2012}.
+Moreover, in 2015 they proposed performance-influence models as a means
 to analyze and predict performance for configurable software systems
 \citep{siegmund_performance-influence_2015}. A performance-influence model
 attempts to approximate the influence of both single features and interacting
@@ -117,12 +119,11 @@ configuration variants.
 
 \subsection{Performance of Evolving Software}
 
-Going a step further, actively maintained software systems evolve and so
-configurable systems. As software evolves by adapting to changed
-contexts and requirements \citep{peng_analyzing_2011}, changes usually
-introduce new functionality to the system. Moreover, functionality might be
+Actively maintained (configurable )software systems evolve by adapting to changed
+contexts and requirements \citep{peng_analyzing_2011}. Changes usually
+introduce new functionality to the system, but functionality might as well be
 divided into smaller modules to enable provide more fine-grained configuration
-options. Finally, features might be removed from the software system. The
+options. When features are removed from the software system, the
 corresponding functionality might remain in the code base or options are merged
 \citep{apel_feature-oriented_2013}.  While there
 exists substantial work on understanding the evolution of configurable systems,
@@ -131,10 +132,10 @@ like code scattering and tangling \citep{passos_feature_2015,zhang_variability_2
 classify patterns for variability evolution
 \citep{seidl_co-evolution_2012,peng_analyzing_2011,passos_towards_2012}, there
 is little reseach addressing the evolution of performance or non-functional
-properties in configurable systems. The evolution of software may affect the
-overall quality of a software system and this, in turn, might affect the
+properties in configurable systems. {\color{red}The evolution of software may
+affect the overall quality of a software system and this, in turn, might affect the
 performance behavior of its variants. The phenomenon of degrading performance
-behavior is commonly referred to as \emph{performance regression}.
+behavior is commonly referred to as \emph{performance regression}.}
 
 To get a better understanding about software evolution and to address
 performance regression problems, it is inevitable to continue
@@ -152,34 +153,41 @@ automated tool support.
 \section{Problem Statement}
 The assessment of performance evolution requires a series of performance models
 describing performance behavior for a series of versions of a configurable
-systems. Assessing the performance behavior for a single version of a
+system. Assessing the performance behavior for a single version of a
 configurable software system entails a number of necessary and preliminary
-tasks. These tasks can even become more complicated once a instead of a single
+tasks. These tasks can even become more complicated once instead of a single
 version a series of versions is assessed.
 
 \emph{First}, not all configurable systems do explicitly exhibit a variability
-model what is required to derive all valid variants. While substantial work exists on
-reverse engineering variability models from source code or non-code artifacts,
-most techniques still involve manual decisions and domain knowledge. Moreover,
-variability models evolve as part of the software,  may vary from version to
-version and, thus, require multiple reverse engineering steps.
-\emph{Second}, the translation from a valid configuration to a configuration
+model what is required to derive all valid variants
+\citep{rabkin_static_2011,nadi_where_2015}.
+While substantial work exists on reverse engineering variability models from
+source
+\citep{rabkin_static_2011,she_reverse_2011,zhou_extracting_2015,nadi_where_2015}
+code or non-code artifacts
+\citep{alves_exploratory_2008,andersen_efficient_2012,bakar_feature_2015}, many
+techniques still involve manual decisions \citep{she_reverse_2011} and domain
+knowledge \citep{nadi_where_2015}.
+Moreover, variability models evolve as part of the software
+\citep{peng_analyzing_2011}, vary from version to version, and, therefore,
+require repeated reverse engineering steps.
+\emph{Second}, the translation of a valid configuration to a configuration
 artifact such as a configuration file or a list of command-line arguments may differ
 from system to system. This step may be automated, but one still needs to
 detect how configurations are read by the software system one wants to study.
 \emph{Third}, same goes for the infrastructure to compile or build a software
-system since there exist multiple build tools such as makefiles or sbt. Again, the
-build process can be automated, but one needs to detect the build mechanism
-used.
-\emph{Fouth}, to study performance evolution one needs to specify which
+system since there exist may possible build tools such as makefiles or sbt.
+Again, the build process can be automated, but one needs to detect and
+specify the build mechanism used.
+\emph{Fourth}, to study performance evolution one needs to specify which
 snapshots or versions of a software system one wants to study. While detecting
 releases and release candidates should be straightforward, one might, for
 instance, be interested in the performance evolution including snapshots
 between two releases. As not all snapshots though are likely to compile,
 classifying defect snapshots can still be tedious work.
-\emph{Finally}, the accurate assessment of performance evolution requires an
-appropriate testing setup. The methodology required for assessing performance
-among others requires the selection of suitable performance indicators and
+\emph{Finally}, the accurate assessment of performance evolution requires a
+suitable testing setup. The methodology required for assessing performance
+among others requires the selection of suitable performance metrics and
 corresponding benchmarks, means to record measurements and repeat experiments
 easily, and proper ways to interpret and compare results.
 
@@ -192,8 +200,8 @@ measurements for configurable and evolving software systems. Our research
 objectives and desired outcomes are
 
 \begin{itemize}
-\item a literature overview and discussion regarding software evolution and
-performance testing, especially with respect to the presence of variability,
+\item a literature overview regarding software evolution, feature model
+synthesis and performance assessment,
 \item a methodology to assess performance evolution with respect to the
 aforementioned challenges, and
 \item a practical tool for performance measurement for multiple revisions of
@@ -201,9 +209,9 @@ configurable software systems.
 \end{itemize}
 
 The Thesis is organized as follows. Chapter \ref{chapter:2} provides the
-background to the relevant topics discussed in this thesis, including software
-evolution, the foundations and statistical aspects of performance testing,
-variability model synthesis, and recent approaches to performance modeling. In
+background to the relevant topics discussed in this thesis, including
+variability modeling, software evolution, the foundations and statistical
+aspects of performance testing, and recent approaches to performance modeling. In
 Chapter \ref{chapter:3}, we propose our measurement methodology and discuss
 the methods used for our performance measurement tool as well as its
 limitations. In Chapter \ref{chapter:4}, we evaluate several aspects of our

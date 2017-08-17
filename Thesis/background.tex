@@ -8,110 +8,6 @@ feature model extraction from existing software systems and code artifacts. Fina
 Sec.~\ref{sec:2.4} we recall and compare in detail different approaches to model
 and predict performance behavior for configurable software systems.
 
-
-
-
-\section{Evolving Software} \label{sec:2.1}
-\paragraph{Software Evolution}
-The first notion of a software systems' development process is usually
-developer-centered and merely focuses on software being designed, implemented,
-tested and eventually being released and deployed. Maintainability is a
-generally recognized software quality property to look after, and maintenance
-is, of course, essential to every successful software system. Nonetheless, less
-attention is given to the ability to adapt a software system to changing
-requirements (evolvability) rather than maintaining it to keep functionality
-working \citep{parnas_software_1994}. Software evolution and evolvability, like
-software itself are manifold. Software evolves in many ways ranging from maintenance (refactoring,
-bug-fixes and patches) to adapting to changed requirements (adding, removing,
-reorganizing functionality and variability).
-
-Modern software systems not only often ship with a variety of configuration
-options to select, they also employ routines to be build and sometimes even
-make use of or are part of platforms, such as apps or plugins. That is,
-software evolution affects all aforementioned aspects and maintainability as
-well as evolvability can degrade as software evolves.
-
-\paragraph*{Software Erosion}
-The negative symptoms of software evolution, which are referred to as
-``architectural erosion'' \citep{breivold_systematic_2012}, have
-been addressed by many researchers.
-Most of existing research so far though focuses on evolution regarding software architecture
-\citep{breivold_systematic_2012}. The main driving factors leading to symptoms of decay
-identified by \cite{perry_software_1991} are architectural erosion and
-architectural drift. While architectural drift subsumes developers'
-insensitivity when not following a systems architecture or respective guidelines while making changes, architectural erosion subsumes ignoring and violating the existing software
-architecture. \cite{parnas_software_1994} argues that as software evolves, software is maintained
-and evolved by developers who are not necessarily familiar with the initial
-architectural design and, therefore, knowledge about the architecture becomes
-unavailable. Although the unfavorable effects of software evolution do not necessary break a
-system necessarily and imminently, the software becomes ``brittle'' \citep{perry_software_1991}
-as maintainability as well as evolvability degrade. Concrete  symptoms of software
-erosion on the implementation level have been documented. 
-
-\cite{zhang_variability_2013} have studied erosion symptoms for a large-scale
-industrial software product line with compile-time variability using
-preprocessor directives.
-They identify variability-related directives and clusters of those to tend to become more
-complex as the software evolves. The negative effects, or symptoms of software
-erosion are described as, but not limited to \emph{code replication} or
-interdependencies between code elements, such as \emph{scattering} and
-\emph{tangling}. Code scattering describes the phenomenon of code belonging to
-a certain feature being scattered across multiple units of implementation,
-e.g., modules, whereas code tangling means that code from different and
-potentially unrelated features in entangled within a single module.
-
-\cite{passos_feature_2015} have studied the extent of usage of scattering for device-drivers
-in the Linux kernel. Despite scattering being quite prevalent, their
-findings suggest that the kernel architecture is robust enough to have evolved
-successfully. Nonetheless, platform drivers in the Linux kernel seem more
-likely to be scattered than non-platform driver. They conclude that this is a
-trade-off between maintainability and performance: a more generalized and
-abstract implementation for platform-drivers in this case could possibly avoid
-scattering, yet refactorings in this manner did not seem to be necessary or
-worth the effort yet.
-
-\paragraph*{Variability Evolution}
-Apart from architecture evolution, the variability offered by software systems
-evolves as well. For configurable software systems (or software product lines; 
-these terms are not equivalent, but every SPL is a configurable software system)
-evolution steps will not only affect artifacts in the solution space, yet also be visible in changes in the respective variability models.
-Although the variability aspect of software evolution has not been drawn as
-much attention to as has been on architecture in the past, more and more
-research has emerged recently to address and understand variability evolution.
-
-\cite{peng_analyzing_2011} proposed a classification of variability evolution patterns that
-conceives evolution as adaption to changing (non-)functional requirements as
-well as changing contexts. For a context in that sense, two
-categories exist. A driving context determines, whether a variability model and respective variants
-can meet functional requirements in the first place. A supporting context by
-definition determines how non-functional properties are strengthened or
-weakened. Any changed requirement is likely to change the contexts for a
-software systems variability model and, therefore, will make adaptations of the
-variability model necessary. Within their classification method Peng et al.
-identify  major causes for variability evolution, comprising a) new driving
-contexts emerging, b) weakened supporting contexts (for instance, due to new
-non-functional requirements), and c) unfavorable trade-offs for non-functional
-properties. 
-
-To understand single evolutionary steps, several catalogs of variability
-evolution patterns have been proposed. \cite{peng_analyzing_2011} present three patterns,
-where either a new feature is added, a mandatory feature becomes optional, or a
-mandatory/optional feature is split into alternative features. \cite{seidl_co-evolution_2012} suggest a catalog of
-patterns for co-evolution of variability models and feature mappings that additionally introduces code clones, splitting a feature
-into more fine-grained sub-features and feature removal as evolution patterns.
-In addition, \cite{passos_towards_2012} have studied variability evolution in
-the Linux kernel and present a catalog of patterns where features are removed from the
-variability model, but remain a part of the implementation. Their
-catalog, among others, includes feature merges, either implicit (optional feature merged
-with its parent) or explicit.
-
-The classification proposed by \cite{peng_analyzing_2011} is a general and formalized approach
-that, as well as \cite{seidl_co-evolution_2012} and \cite{passos_towards_2012}, describes
-elementary evolution patterns which can be composed to more complex patterns. Nonetheless, no
-comprehensive catalog of variability evolution so far has been proposed as all
-mentioned work above focuses on those patterns that appeared to be relevant for
-the respective case study.
-
 \section{Variability Modeling}
 {\color{violet}
 The design and development of configurable software systems is conceptually
@@ -121,7 +17,7 @@ constraints among features, such as dependencies or mutual-exclusion. The
 solution space describes the technical realization of features and the
 functionality described by and associated with features, e.g., implementation
 and build mechanisms. That is, features cross both spaces since they are mapped
-to corresponding code artifacts.
+to corresponding code artifacts.}
 
 A common way to express features and constraints in the problem space is to
 define a \emph{variability model}, or \emph{feature model}, which subsumes all
@@ -174,7 +70,108 @@ and an electric engine.
   two cross-tree constraints are specified as propositional formulas over
   features}
   \label{fig:introduction_fm}
-\end{figure}}
+\end{figure}
+
+\section{Evolving Software} \label{sec:2.1}
+\subsection{Software Evolution}
+The first notion of a software systems' development process is usually
+developer-centered and merely focuses on software being designed, implemented,
+tested and eventually being released and deployed. Maintainability is a
+generally recognized software quality property to look after, and maintenance
+is, of course, essential to every successful software system. Nonetheless, less
+attention is given to the ability to adapt a software system to changing
+requirements (evolvability) rather than maintaining it to keep functionality
+working \citep{parnas_software_1994}. Software evolution and evolvability, like
+software itself are manifold. Software evolves in many ways ranging from maintenance (refactoring,
+bug-fixes and patches) to adapting to changed requirements (adding, removing,
+reorganizing functionality and variability).
+
+Modern software systems not only often ship with a variety of configuration
+options to select, they also employ routines to be build and sometimes even
+make use of or are part of platforms, such as apps or plugins. That is,
+software evolution affects all aforementioned aspects and maintainability as
+well as evolvability can degrade as software evolves.
+
+\subsection{Software Erosion}
+The negative symptoms of software evolution, which are referred to as
+``architectural erosion'' \citep{breivold_systematic_2012}, have
+been addressed by many researchers.
+Most of existing research so far though focuses on evolution regarding software architecture
+\citep{breivold_systematic_2012}. The main driving factors leading to symptoms of decay
+identified by \cite{perry_software_1991} are architectural erosion and
+architectural drift. While architectural drift subsumes developers'
+insensitivity when not following a systems architecture or respective guidelines while making changes, architectural erosion subsumes ignoring and violating the existing software
+architecture. \cite{parnas_software_1994} argues that as software evolves, software is maintained
+and evolved by developers who are not necessarily familiar with the initial
+architectural design and, therefore, knowledge about the architecture becomes
+unavailable. Although the unfavorable effects of software evolution do not necessary break a
+system necessarily and imminently, the software becomes ``brittle'' \citep{perry_software_1991}
+as maintainability as well as evolvability degrade. Concrete  symptoms of software
+erosion on the implementation level have been documented. 
+
+\cite{zhang_variability_2013} have studied erosion symptoms for a large-scale
+industrial software product line with compile-time variability using
+preprocessor directives.
+They identify variability-related directives and clusters of those to tend to become more
+complex as the software evolves. The negative effects, or symptoms of software
+erosion are described as, but not limited to \emph{code replication} or
+interdependencies between code elements, such as \emph{scattering} and
+\emph{tangling}. Code scattering describes the phenomenon of code belonging to
+a certain feature being scattered across multiple units of implementation,
+e.g., modules, whereas code tangling means that code from different and
+potentially unrelated features in entangled within a single module.
+
+\cite{passos_feature_2015} have studied the extent of usage of scattering for device-drivers
+in the Linux kernel. Despite scattering being quite prevalent, their
+findings suggest that the kernel architecture is robust enough to have evolved
+successfully. Nonetheless, platform drivers in the Linux kernel seem more
+likely to be scattered than non-platform driver. They conclude that this is a
+trade-off between maintainability and performance: a more generalized and
+abstract implementation for platform-drivers in this case could possibly avoid
+scattering, yet refactorings in this manner did not seem to be necessary or
+worth the effort yet.
+
+\subsection{Variability Evolution}
+Apart from architecture evolution, the variability offered by software systems
+evolves as well. For configurable software systems (or software product lines; 
+these terms are not equivalent, but every SPL is a configurable software system)
+evolution steps will not only affect artifacts in the solution space, yet also be visible in changes in the respective variability models.
+Although the variability aspect of software evolution has not been drawn as
+much attention to as has been on architecture in the past, more and more
+research has emerged recently to address and understand variability evolution.
+
+\cite{peng_analyzing_2011} proposed a classification of variability evolution patterns that
+conceives evolution as adaption to changing (non-)functional requirements as
+well as changing contexts. For a context in that sense, two
+categories exist. A driving context determines, whether a variability model and respective variants
+can meet functional requirements in the first place. A supporting context by
+definition determines how non-functional properties are strengthened or
+weakened. Any changed requirement is likely to change the contexts for a
+software systems variability model and, therefore, will make adaptations of the
+variability model necessary. Within their classification method Peng et al.
+identify  major causes for variability evolution, comprising a) new driving
+contexts emerging, b) weakened supporting contexts (for instance, due to new
+non-functional requirements), and c) unfavorable trade-offs for non-functional
+properties. 
+
+To understand single evolutionary steps, several catalogs of variability
+evolution patterns have been proposed. \cite{peng_analyzing_2011} present three patterns,
+where either a new feature is added, a mandatory feature becomes optional, or a
+mandatory/optional feature is split into alternative features. \cite{seidl_co-evolution_2012} suggest a catalog of
+patterns for co-evolution of variability models and feature mappings that additionally introduces code clones, splitting a feature
+into more fine-grained sub-features and feature removal as evolution patterns.
+In addition, \cite{passos_towards_2012} have studied variability evolution in
+the Linux kernel and present a catalog of patterns where features are removed from the
+variability model, but remain a part of the implementation. Their
+catalog, among others, includes feature merges, either implicit (optional feature merged
+with its parent) or explicit.
+
+The classification proposed by \cite{peng_analyzing_2011} is a general and formalized approach
+that, as well as \cite{seidl_co-evolution_2012} and \cite{passos_towards_2012}, describes
+elementary evolution patterns which can be composed to more complex patterns. Nonetheless, no
+comprehensive catalog of variability evolution so far has been proposed as all
+mentioned work above focuses on those patterns that appeared to be relevant for
+the respective case study.
 
 \section{Feature Model Synthesis}  \label{sec:2.3}
 A variability model as an abstraction of functionality of a software system is
@@ -251,7 +248,7 @@ only to recover 28~\% of all constraints present in the software system.
 Further qualitative investigation, including developer interviews, lead to
 the conclusion that most of existing constraints stem from domain knowledge.
 
-\subsection{Reverse Engineering of Feature Hierarchy} 
+\subsection{Feature Hierarchy Recovery} 
 Besides recovering configuration options and respective constraints, to reverse
 engineer a feature model, one further step is required. The recovered knowledge
 needs a tree-like hierarchy, detection of feature groups and cross-tree
@@ -343,14 +340,133 @@ algorithm with both complete and incomplete variability knowledge (feature
 names, descriptions and constraints). While the algorithm emerged to be
 practical, detecting features whose parent was the root-feature was difficult.
 
-\section{Performance Regression and Testing} \label{sec:2.2}
+\section{Assessing Performance} \label{sec:2.2}
+While the last three sections covered software evolution and variability
+modeling, we know step forward to the topic of software performance. This
+section will the outline performance with respect to software systems as well
+as to possible measurements. We provide a brief look at the general performance
+testing setup and the required prerequisites, including suitable benchmarks.
+Finally, we provide the statistical background to summarize, interpret and
+compare performance measurements accurately.
+
+\subsection{What is Performance?}
+The performance of software systems is, like software quality, primarily a
+matter of perspective. While an end user might consider practical aspects to be
+more important, from a developer’s perspective, performance relates to and is
+best described by non-functional properties \citep{molyneaux_art_2014}. While
+functional properties subsume what exactly a software system does, non-functional
+properties describe how (good or bad) a software system is at providing the
+functionality offered. The notion of good and bad in this sense corresponds to
+non-functional requirements (NFR), that is, software with good performance
+behavior satisfies NFRs. The categories of NFRs what shape performance behavior
+are manifold. According to \cite{molyneaux_art_2014}, \emph{key performance
+indicators} (KPIs) include 
+
 \begin{itemize}
-  \item What is ``performance''? \citep{molyneaux_art_2014} 
-  \item Ideas, concepts and strategies
-  \citep{molyneaux_art_2014,fleming_how_1986,woodside_future_2007}
-  \item Performance regression testing
-  \citep{nguyen_industrial_2014,foo_mining_2010} and root cause detection
-  \citep{heger_automated_2013}
+  \item availability
+  \item response time,
+  \item resource utilization, and in a broader scope also 
+  \item capacity.
+\end{itemize}
+
+Time-related KPIs are availability and response time, whereby
+availability describes the time or time ratio that the software is available to
+the end user and response time subsumes the time it takes to finish a request
+or operation. Throughput as a category subsumes the program behavior with
+respect to program load, such as hits per second for a web application or
+amount of data processed per second. Resource utilization describes the extent
+to which a software system uses the physical resources (CPU time, memory, and
+disk or cache space) of the host machine. Finally, from a web-centered
+perspective, capacity describes measurements with respect to servers and
+networks, such as network utilization  (traffic, transmission rate) and server
+utilization, such as resource limitations per application on a host server.
+
+Consequently, the assessment of performance requires a context or testing
+target that corresponds to the assesses system under test (SUT). For instance,
+for a simple command-line compression tool, suitable KPIs are response time and
+throughput, whereas performance for an online shop web application is better
+outlined by availability and capacity.
+
+\subsection{Performance and Software Engineering}
+In the last section we referred to performance, or in detail, the KPIs, as
+possible testing targets we validate against non-functional requirements.
+However, in a broader sense software performance has become a facet of software
+engineering and a lot of effort has been spent to study, describe, and improve
+performance. Performance assessment in a software engineering context,
+according to \cite{molyneaux_art_2014}, comprises a number of activities that
+are related to or part of software development: Besides the analysis of concerns or
+requirements with respect to performance, software performance engineering
+entails performance testing and prediction and can contribute to maintenance
+and evolution aspects \citep{woodside_future_2007}. While performance testing,
+like other testing targets, is intended to validate requirements, prediction aims to
+approximate performance behavior measures for different scenarios or
+configurations. Moreover, performance behavior predictions can help anticipate
+the impact of various changes \citep{woodside_future_2007}.
+The authors, moreover, present the two approaches in assessing software
+performance. So-called model-based approaches aim to describe performance
+behavior by modeling functionality, for instance, modeling scenarios in UML,
+using performance estimations early in the development process. In contrast to
+that, accommodated later in the development process, measurement-based
+approaches aim to model performance behavior based on measurements of existing
+prototypes. The latter class of performance assessment includes classical
+performance (regression) testing. The authors, moreover, outline the
+anticipated future of both approaches and advocate the combination or
+convergence of both approaches in the future. Since then, especially more
+measurement-based performance prediction approaches have emerged. More on this
+in the next section, the remainder of this subsection will outline the general
+performance testing setup.
+
+\subsection{Performance Testing}
+The first step in performance testing, prior to defining relevant KPIs and
+metrics, is to specify a system operation or use case \citep{woodside_future_2007} to
+validate. A typical use case includes a well defined task or workload to
+process, expected behavior or and outcome or state, and performance
+requirements as previously discussed. For the SUT, however, we require a
+version that does compile or, in case it is interpreted, is syntactically
+correct \citep{molyneaux_art_2014}. With regard to performance assessments as part of
+the development process, a code freeze should be obtained since measurement
+results are likely to become meaningless for later versions. In addition to
+that,  the machine or setup used for performance measurement should ideally be
+as close to the production environment as possible, but at least be documented
+to compare different runs.
+
+Finally, one or more benchmarks need to be selected to simulate  the program
+load for the respective use case. A benchmark, all in all, needs to be
+representative, i.e., should relate to the the use case or requirement one
+ wants to validate. While benchmarks for file compression usually include
+multiple different types of media data (text, sound, pictures) like the
+Canterbury corpus, web applications can be exposed to dealing with a number of
+simulated users at the same time \citep{molyneaux_art_2014}. Benchmarks have often been
+standardized within research and engineering to provide comparable performance
+measurements. A popular examples is the Software Performance Evaluation
+Corporation (SPEC), a consortium providing a variety of benchmarks like the
+CPU2000 processor benchmark consisting of both floating point and integer
+operations. Nonetheless, benchmarks in a sense of repeatable program load can
+be obtained from load generation software like ApacheBench for the Apache web
+server or simply by measuring performance for test cases.
+
+Performance testing heavily relies on tool support, especially for repeating
+test cases, recording measurements, and dynamic program analysis. While the
+tool solutions for performance testing vary from domain, scale and purpose, we
+will only outline the general tool architecture. \cite{molyneaux_art_2014} describes
+four primary components: a scripting module, a test management module, a load
+injector, and an analysis module. A scripting module handles the generation or
+repetition of use cases which, for instance, can be recorded prior to the test
+for web applications. A test management module creates and executes a test
+session, whose program load is generated by one or more load injectors. A load
+injector can provide a benchmark or generate items to process or can simulate a
+number of clients for a server-side application. An analysis module, finally,
+collects and summarizes data related to the performance testing target. More on
+summarizing and comparing recorded results in the next section.
+
+\subsection{Statistical Considerations}
+
+\begin{itemize}
+  \item Arithmetic mean: $$\text{a-mean} = \frac{1}{n}\sum_{i=1}^{n} X_i$$
+  \item Geometric mean: $$\text{g-mean} = \bigg(\prod_{i=1}^{n}
+  X_i\bigg)^\frac{1}{n} = \sqrt[\leftroot{-2}\uproot{2}n]{X_1 X_2 \ldots X_n}$$
+  \item Harmonic mean: $$\text{h-mean} = n \cdot \bigg(\sum_{i=1}^{n}
+  \frac{1}{X_i}\bigg)^{-1}$$
 \end{itemize}
 
 \section{Performance Modeling} \label{sec:2.4}
