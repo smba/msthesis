@@ -460,14 +460,191 @@ collects and summarizes data related to the performance testing target. More on
 summarizing and comparing recorded results in the next section.
 
 \subsection{Statistical Considerations}
+In this section we now discuss the appropriate statistical means to summarize,
+compare and interpret measurement results. For the remainder of this section we
+will refer to the following two use cases. First, to obtain robust results, the
+assessment of  a single variant needs to be repeated multiple times.
+Consequently, to report a single result per metric, the measurements for a
+single variant need to be summarized. Second, the assessment of performance may
+comprise several use cases or system operations, for instance file compression
+and decompression for a compression software. Therefore, performance measures
+aggregated from different benchmarks need to be summarized accurately. Third, 
+since measurements may be conducted using different machines, we require
+accurate means to compare  measurements independently from any host machine.
 
-\begin{itemize}
-  \item Arithmetic mean: $$\text{a-mean} = \frac{1}{n}\sum_{i=1}^{n} X_i$$
-  \item Geometric mean: $$\text{g-mean} = \bigg(\prod_{i=1}^{n}
-  X_i\bigg)^\frac{1}{n} = \sqrt[\leftroot{-2}\uproot{2}n]{X_1 X_2 \ldots X_n}$$
-  \item Harmonic mean: $$\text{h-mean} = n \cdot \bigg(\sum_{i=1}^{n}
-  \frac{1}{X_i}\bigg)^{-1}$$
-\end{itemize}
+\subsubsection{Summarizing Values}
+For each test run of a software system or variant, we obtain a single-valued
+measurement per performance metric. Since we repeat each test run $n$ times
+per variant, we obtain a data record $X$ with $n$ measurements $X = X_1, X_2,
+\ldots, X_{n-1}, X_n$. While the arithmetic mean is commonly considered the
+right means to summarize data records and report a representative average
+value, we need to be more cautious with how to summarize data records
+\citep{fleming_how_1986,smith_characterizing_1988}. From a statistical
+perspective, the intention of summarizing a data record is to find a measure of
+central tendency what is representative for the data record.
+While the arithmetic mean is an appropriate method for many cases, there exist
+other means to summarize data records. Moreover, there exist a number of
+criteria for when to use which means to summarize a data record. 
+
+\paragraph{What is to summarize?} The first question when summarizing a data
+record is to ask what the data actually describe and what we to express with our
+summary. For a data record $X = X_1, X_2, \ldots, X_{n-1}, X_n$, we can define a
+relationship we would like to keep while replacing each single $X_i$ with an
+average value $\bar{x}$. Based on this relationship, we can derive the
+appropriate method to summarize our record. For instance, our data record $X$
+describes the time elapsed for a test case and we want the keep the following
+relation, saying that the sum of all measurements $\sum_{i = 1}^{n}$ is defines
+the total time elapsed $T$ as
+
+$$
+T = \sum_{i = 1}^{n} X_i = \sum_{i = 1}^{n} \bar{x}.
+$$
+
+Based on the term above, we can derive the definition of the method
+appropriate to summarize our data record with respect to the conserved relation
+what is the \emph{arithmetic mean}
+
+\begin{equation} \label{eq1}
+\begin{split}
+\bar{x} = \frac{1}{n} \sum_{i = 1}^{n} X_i.
+\end{split}
+\end{equation}
+
+Consider another example similar to the one above, where the test
+case is a load test with a predecfined number of users and the measurements $X = X_1, X_2,
+\ldots, X_{n-1}, X_n$ are
+of the form of hits per second. Again, we have different measurements we want to
+summarize with respect to a relation to conserve. Each user drops the same
+number of requests $T$, whereby the hit rate $X_i$ and the respective elapsed
+time $t_i = \frac{T}{X_i }$ vary. We now conserve the relationship that the
+total number of requests for the data record is the sum of all hit rates $X_i$
+times the time elapsed $t_i$. Therefore, we want to substitute each hit rate
+$X_i$ with an average value $\hat{x}$ so that the aforementioned rule holds
+
+$$
+n\cdot T - \sum_{n}^{i=1} X_it_i = 0 \Leftrightarrow n\cdot T - \hat{v}
+\sum_{n}^{i=1} t_i = 0 \Leftrightarrow n = \hat{x} \sum_{n}^{i=1} \frac{1}{X_i}
+$$
+
+Similar to Eq. X we can derive the definition for the summarization method to
+use from the equation above what is the \emph{harmonic mean}, defined as
+
+\begin{equation} \label{eq1}
+\begin{split}
+\hat{x} = n \cdot \bigg(\sum_{i=1}^{n} \frac{1}{X_i}\bigg)^{-1} =
+\frac{n}{\frac{1}{X_1} + \frac{1}{X_2} + \ldots +
+\frac{1}{X_{n-1}} + \frac{1}{X_n}}.
+\end{split}
+\end{equation}
+
+We see that the summarization methods presented in Eq. 1 and 2 are useful for
+different types of data records and they should be used accordingly. The
+arithmetic mean is suitable for records, where the total sum of single
+measurements has a meaning, whereas the harmonic mean is suitable for measured
+rates or frequencies \citep{fleming_how_1986,smith_characterizing_1988}.
+
+\paragraph{What is our data shaped like?}
+While the aforementioned measures of central tendency should be appropriate for
+most cases, they are not always the best choice though. First, the arithmetic
+and harmonic mean are heavily influenced by extreme observations. For instance,
+for the data record $X = 1, 2, 3, 30$ three of four values are smaller than the
+arithmetic mean $\bar{x} = 9$. One option is to explicitly exclude outliers
+values from the data record. The so-called \emph{trimmed mean} is
+obtained by truncating the upper and/or lower percentage t of the data record
+and, consequently, computing the (arithmetic or harmonic) mean for the remaining
+data record. 
+
+While this method is suitable to omit the effects of outliers, one still needs to specify
+which upper and/or lower percentage t needs to be truncated. Moreover, the use
+a (trimmed) mean requires the data record to be symmetric, i.e., the
+probability distribution not to be skewed. A probability distribution is skewed
+(and therefore asymmetric) if, graphically speaking, its histogram is not
+symmetric around its measure of central tendency. A simple method to measure the
+skewness of a probability distribution is \emph{Bowley's measure}
+\cite[p.~94]{shanmugam_statistics_2015}, defined as
+
+\begin{equation} \label{eq1}
+\begin{split}
+B_S = \frac{(Q_3 - M) - (M - Q_1)}{Q_3 - Q_1} = \frac{(Q_3 + Q_1 - 2M)}{Q_3
+- Q_1},
+\end{split}
+\end{equation}
+
+where $Q_1$ and $Q_3$ denote the first and third quartile, and $M$ denotes the
+median of the probability distribution. The quartiles $Q_i$ with $i \in \left\{
+1,2,3 \right\}$ are defined as the values of a data record $X$, so that
+$\frac{i}{4}$ of the values of $X$ are smaller than $Q_i$. The \emph{median} is
+defined as $Q_2$, i.e., a value $M \in X$ so that half of the values in $X$ are smaller than $M$.
+
+The median itself is a more robust measure of central tendency than the
+aforementioned ones since it is less influenced by outliers and can be used for
+both skewed and symmetric data records \citep{shanmugam_statistics_2015}. For a
+given ascendingly ordered data record $X = X_1, X_2, \ldots, X_{n-1}, X_n$, we
+can compute the median as follows:
+
+\begin{equation} \label{eq1}
+\mathrm{Median}(X) = \begin{cases}
+     X_{\frac{n+1}{2}} & \text{if $n$ is odd} \\
+     \frac{1}{2}\big(X_{\frac{n}{2}} + X_{\frac{n}{2}+1}\big) & \text{if $n$ is
+     even}
+   \end{cases}~\text{with $X_i \leq X_j$ and $i < j \leq n$ }
+\end{equation}
+
+Last, we take a look at different measures of spread or dispersion. Most
+commonly used are the \emph{variance} $\sigma^2$ and the \emph{standard
+deviation} $\sigma = \sqrt{\sigma^2}$ defined along the mean $\mu$ of a
+probability distribution as
+
+\begin{equation} \label{eq1}
+\begin{split}
+\sigma^2 = \frac{\sum_{i=1}^{n}(X_i - \mu)^2}{n}
+\end{split}
+\end{equation}
+
+Similar to the mean, the variance and the standard deviation are heavily
+influenced by extreme observations \citep{shanmugam_statistics_2015} might not
+be the best choice in all cases (especially those, where the (arithmetic or harmonic) mean itself might not be
+suitable). Instead, two more robust measures are the \emph{median absolute
+deviation} (MAD) and the \emph{inter-quartile range} (IQR). The MAD is defined
+as the median of the absolute deviations from the probability distributions'
+median \citep{molyneaux_art_2014}, or, defined as follows:
+
+\begin{equation} \label{eq:mad}
+\begin{split}
+\mathrm{MAD}(X) = \mathrm{Median}\big(|X - \mathrm{Median}(X)|\big)
+\end{split}
+\end{equation}
+ 
+The IQR, however, defines the range between the first and the third quartile
+$Q_1$ and $Q_3$. This range is larger for a widespread data record and smaller
+for a data range with a narrow spread, but is not influenced by extreme
+observations as those below $Q_1$ and above $Q_3$. The IQR is defined as follows
+
+\begin{equation} \label{eq:mad}
+\begin{split}
+\mathrm{IQR}(X) = Q_3 - Q_1.
+\end{split}
+\end{equation}
+
+\paragraph{When to use which measure?}
+In this subsection we discussed the arithmetic and harmonic mean as well as the
+median as a measure of central tendency, the symmetric property that is
+required to use the arithmetic or harmonic mean, and different measures of
+spread for a given data record. At the beginning we asked for means to
+summarize data records a) for an experiment repeated multiple times, and b)
+obtained from different benchmarks. While for case b) the answer is to use the
+arithmetic or harmonic mean (depending on the quality of the measurements), for
+a) the answer is a little more elaborate.
+
+The arithmetic (or harmonic) mean can be used whenever the quality of the
+measurement is appropriate and the data record is symmetric. According to
+\cite{shanmugam_statistics_2015}, the arithmetic mean is preferable ``when the numbers combine
+additively to produce a resultant value'', such as time periods or memory sizes, whereas
+the harmonic mean is preferable ``when reciprocals of several nonzero numbers
+combine additively to produce a resultant value'', such as rates or frequencies.
+The median is a less precise estimator than the both means, yet more robust
+with regard to extreme observations. In addition, the MAD or IQR provide a more
+robust means of spread than the standard deviation.
 
 \section{Performance Modeling} \label{sec:2.4}
 \begin{itemize}

@@ -7,6 +7,13 @@
 	openright
 ]{book}
 
+\usepackage{amsthm}
+
+\usepackage{pgfplots}
+\usepackage{wrapfig}
+\usepackage{nicefrac}
+\usepackage{subfig} 
+\usepackage[]{algorithm2e}
 
 \usepackage{mathptmx}
 
@@ -81,6 +88,8 @@
 
 \begin{document}
 
+\newtheorem{definition}{Def.~}[section]
+
 %\maketitle
 \begin{titlepage}
     \centering
@@ -150,12 +159,58 @@ by another person except where due reference is made in the text.
 
 \chapter{Performance Measurement Setup}\label{chapter:3}
 
+
 \section{Performance Measurement Infrastructure}
 
 \subsection{Repository Retrieval}
 \subsection{Configuration Generation}
-\citep{batory_feature_2005}
+Prior to any test session, we require a set of valid configurations for the
+configurable software system to benchmark. The configuraion semantics is
+commonly expressed in feature diagrams (cf. Sect. 2), but can be translated to
+and from propositional formulas or context-free grammars (CFGs) (although with
+additional CTCs) as well \citep{batory_feature_2005}. The next section presents
+a methodology to translate a given feature diagram to an equivalent CFG, derive
+valid words from the CFG, and subsequently transform derived words to
+configuration artifacts.
 
+\begin{definition}[Context-free grammar]
+A context-free grammar is a tuple $G = (N, T, S, P)$ with a set of non-terminal
+symbols $N$, terminal symbols $T$, a start word $S \in (N \cup T)^*$, and set of
+productions $P \subseteq N \times (N \cup T)^*$. 
+\end{definition}
+
+\begin{definition}[Configuration grammar]
+A configuration grammar (CG) is a CFG, whereby all
+features represent a non-terminal symbols. For each binary feature $b \in N$, we
+introduce two terminal symbols $(b, 0)$ and $(b, 1)$. For each numeric feature
+$n \in N$, we introduce as many terminal symbols of the form $(n, v)$ as
+there are valid numeric values for $n$, where, $v \in dom(n)$. Based on the
+feature hierarchy represented by the underlying feature diagram, we introduce a
+production in the following manner. The set of productions is 
+
+$$P_{CG} = \left\{ (p, \lbrace c \rbrace)~|~ p, c \in N \wedge p \implies  c
+\right\} $$
+
+\end{definition}
+
+\begin{algorithm}[H]
+ \KwData{this text}
+ \KwResult{how to write algorithm with \LaTeX2e }
+ initialization\;
+ \While{not at end of this document}{
+  read current\;
+  \eIf{understand}{
+   go to next section\;
+   current section becomes this one\;
+   }{
+   go back to the beginning of current section\;
+  }
+ }
+ \caption{How to write algorithms}
+\end{algorithm}
+
+
+ff\cite{shanmugam_statistics_2015}
 
 \subsection{Sampling strategies}
 \subsection{Benchmarks}
