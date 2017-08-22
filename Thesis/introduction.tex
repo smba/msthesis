@@ -47,21 +47,21 @@ behaviors associated with the individual features involved''
 \citep{apel_feature-oriented_2013} and can make development and maintenance of
 a configurable system an error-prone task.
 
-{\color{red}
-A commonly referred example of a feature interaction, as drafted by
-\cite{calder_feature_2003}, describes interactions in telecommunication networks. 
-Given two independent features \textsf{CallForwarding} and
-\textsf{CallWaiting}, where \textsf{CallForwarding} forwards a call from a busy
-line to a line that is available, and where \textsf{CallWaiting} notifies a
-busy line when a call is on hold. In isolation their behavior is well-defined,
-but if both features are selected, their oppositional behavior becomes
-problematic. If no precedence of one feature has been specified, the network
-might end up in race conditions or other unexpected behavior. That is, to avoid
-this feature interaction, for instance, precedence constraints must be
-implemented or the selection of both features must be mutually exclusive.}
+To illustrate feature interactions, consider the following example
+\citep{siegmund_performance-influence_2015}. A software system, say a file
+server, is used to store in a data base and provide access upon request. The
+system provides functionality for both encryption and compression. In
+isolation, both file en- or decryption and file (de-)compression demand an
+expectable fraction of memory and processor time. The performance behavior for
+the software system though may vary if both features are selected. For
+instance, if a file is encrypted and compressed (or vice versa), we can expect
+the operation to demand less resources since an encrypted file is likely to be
+of smaller size than the decrypted original.
+This is a positive example for a feature interaction, where the performance
+behavior although being beneficial is unexpected.
 
 \subsection{Performance Behavior}
-Performane with respect to software and software systems is not
+Performance with respect to software and software systems is not
 precisely defined and differs from an end user's and a developer’s perspective.
 According to \cite{molyneaux_art_2014}, from a user’s perspective ``a well-performing
 application is one that lets the end user carry out a given task without any
@@ -87,7 +87,7 @@ selection influences the execution \citep{foo_mining_2010,heger_automated_2013,n
 That is, the choice of features as well shapes the performance of a software system.
 
 \subsection{Modeling Performance Behavior}
-
+{\color{orange}
 The aspect of performance of configurable software systems has gained more
 attention recently, even though from a practitioners view, according to
 \cite{molyneaux_art_2014}, for the most part, performance testing is still not
@@ -115,7 +115,7 @@ attempts to approximate the influence of both single features and interacting
 features on the software systems' performance.
 The approach has shown a reasonably low error rate for several real-world
 applications and allows prediction of system performance for arbitrary
-configuration variants.
+configuration variants.}
 
 \subsection{Performance of Evolving Software}
 
@@ -156,40 +156,49 @@ describing performance behavior for a series of versions of a configurable
 system. Assessing the performance behavior for a single version of a
 configurable software system entails a number of necessary and preliminary
 tasks. These tasks can even become more complicated once instead of a single
-version a series of versions is assessed.
-
-\emph{First}, not all configurable systems do explicitly exhibit a variability
-model what is required to derive all valid variants
-\citep{rabkin_static_2011,nadi_where_2015}.
-While substantial work exists on reverse engineering variability models from
-source
-\citep{rabkin_static_2011,she_reverse_2011,zhou_extracting_2015,nadi_where_2015}
-code or non-code artifacts
-\citep{alves_exploratory_2008,andersen_efficient_2012,bakar_feature_2015}, many
-techniques still involve manual decisions \citep{she_reverse_2011} and domain
-knowledge \citep{nadi_where_2015}.
-Moreover, variability models evolve as part of the software
-\citep{peng_analyzing_2011}, vary from version to version, and, therefore,
-require repeated reverse engineering steps.
-\emph{Second}, the translation of a valid configuration to a configuration
-artifact such as a configuration file or a list of command-line arguments may differ
+version a series of versions is assessed:
+\begin{itemize}
+  \item \emph{Feature Model Synthesis:} Not all configurable systems do
+  explicitly exhibit a variability model what is required to derive all valid variants
+	\citep{rabkin_static_2011,nadi_where_2015}.
+	While substantial work exists on reverse engineering variability models from
+	source
+	\citep{rabkin_static_2011,she_reverse_2011,zhou_extracting_2015,nadi_where_2015}
+	code or non-code artifacts
+	\citep{alves_exploratory_2008,andersen_efficient_2012,bakar_feature_2015}, many
+	techniques still involve manual decisions \citep{she_reverse_2011} and domain
+	knowledge \citep{nadi_where_2015}.
+	Moreover, variability models evolve as part of the software
+	\citep{peng_analyzing_2011}, vary from version to version, and, therefore,
+	require repeated reverse engineering steps.
+	
+	\item \emph{Configuration Translation:} the translation of a valid
+	configuration to a configuration artifact such as a configuration file or a list of command-line arguments may differ
 from system to system. This step may be automated, but one still needs to
 detect how configurations are read by the software system one wants to study.
-\emph{Third}, same goes for the infrastructure to compile or build a software
-system since there exist may possible build tools such as makefiles or sbt.
+
+\item \emph{Automated Integration:} Same goes for the infrastructure to
+compile or build a software system since there exist may possible build tools such as makefiles or sbt.
 Again, the build process can be automated, but one needs to detect and
 specify the build mechanism used.
-\emph{Fourth}, to study performance evolution one needs to specify which
-snapshots or versions of a software system one wants to study. While detecting
+
+\item \emph{Version History Sampling:} To study performance evolution one
+needs to specify which snapshots or versions of a software system one wants to study. While detecting
 releases and release candidates should be straightforward, one might, for
 instance, be interested in the performance evolution including snapshots
 between two releases. As not all snapshots though are likely to compile,
 classifying defect snapshots can still be tedious work.
-\emph{Finally}, the accurate assessment of performance evolution requires a
-suitable testing setup. The methodology required for assessing performance
+\item \emph{Performance Assessment Setup:} The accurate assessment of
+performance evolution requires a suitable testing setup. The methodology required for assessing performance
 among others requires the selection of suitable performance metrics and
 corresponding benchmarks, means to record measurements and repeat experiments
 easily, and proper ways to interpret and compare results.
+\end{itemize}
+
+
+
+
+
 
 \section{Goals and Thesis Structure}
 
