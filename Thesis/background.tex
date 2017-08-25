@@ -9,7 +9,6 @@ Sec.~\ref{sec:2.4} we recall and compare in detail different approaches to model
 and predict performance behavior for configurable software systems.
 
 \section{Variability Modeling}
-{\color{violet}
 The design and development of configurable software systems is conceptually
 divided into \emph{problem space} and \emph{solution space} \citep{czarnecki_generative_2000}. The problem space
 comprises the abstract design of features that are contained in the software system as well as
@@ -17,7 +16,7 @@ constraints among features, such as dependencies or mutual-exclusion. The
 solution space describes the technical realization of features and the
 functionality described by and associated with features, e.g., implementation
 and build mechanisms. That is, features cross both spaces since they are mapped
-to corresponding code artifacts.}
+to corresponding code artifacts.
 
 A common way to express features and constraints in the problem space is to
 define a \emph{variability model}, or \emph{feature model}, which subsumes all
@@ -258,8 +257,8 @@ we are primarily interested in finding a hierarchy for knowledge obtained from
 source code. Other scenarios, as already stated in the opener of this section,
 are based on product descriptions or sets of valid configurations. The remainder of
 this subsection we will focus on organizing features and constraints extracted
-from source code. For further reading \cite{andersen_efficient_2012} present algorithms
-for structuring feature diagrams for three different scenarios including the
+from source code. For further reading \cite{andersen_efficient_2012} present
+algorithms for structuring feature diagrams for three different scenarios including the
 ones previously mentioned.
 
 Given an extracted set of features along with corresponding descriptions and
@@ -387,35 +386,6 @@ for a simple command-line compression tool, suitable KPIs are response time and
 throughput, whereas performance for an online shop web application is better
 outlined by availability and capacity.
 
-\subsection{Performance and Software Engineering}
-In the last section we referred to performance, or in detail, the KPIs, as
-possible testing targets we validate against non-functional requirements.
-However, in a broader sense software performance has become a facet of software
-engineering and a lot of effort has been spent to study, describe, and improve
-performance. Performance assessment in a software engineering context,
-according to \cite{molyneaux_art_2014}, comprises a number of activities that
-are related to or part of software development: Besides the analysis of concerns or
-requirements with respect to performance, software performance engineering
-entails performance testing and prediction and can contribute to maintenance
-and evolution aspects \citep{woodside_future_2007}. While performance testing,
-like other testing targets, is intended to validate requirements, prediction aims to
-approximate performance behavior measures for different scenarios or
-configurations. Moreover, performance behavior predictions can help anticipate
-the impact of various changes \citep{woodside_future_2007}.
-The authors, moreover, present the two approaches in assessing software
-performance. So-called model-based approaches aim to describe performance
-behavior by modeling functionality, for instance, modeling scenarios in UML,
-using performance estimations early in the development process. In contrast to
-that, accommodated later in the development process, measurement-based
-approaches aim to model performance behavior based on measurements of existing
-prototypes. The latter class of performance assessment includes classical
-performance (regression) testing. The authors, moreover, outline the
-anticipated future of both approaches and advocate the combination or
-convergence of both approaches in the future. Since then, especially more
-measurement-based performance prediction approaches have emerged. More on this
-in the next section, the remainder of this subsection will outline the general
-performance testing setup.
-
 \subsection{Performance Testing}
 The first step in performance testing, prior to defining relevant KPIs and
 metrics, is to specify a system operation or use case \citep{woodside_future_2007} to
@@ -440,10 +410,13 @@ simulated users at the same time \citep{molyneaux_art_2014}. Benchmarks have oft
 standardized within research and engineering to provide comparable performance
 measurements. A popular examples is the Software Performance Evaluation
 Corporation (SPEC), a consortium providing a variety of benchmarks like the
-CPU2000 processor benchmark consisting of both floating point and integer
-operations. Nonetheless, benchmarks in a sense of repeatable program load can
-be obtained from load generation software like ApacheBench for the Apache web
-server or simply by measuring performance for test cases.
+CPU2000\footnote{The benchmark description
+can be found at \url{https://www.spec.org/cpu2000/}.} processor benchmark
+consisting of both floating point and integer operations. Nonetheless, benchmarks in a sense of repeatable program load can be obtained from load generation software like
+ApacheBench\footnote{Manual
+page of the Apache
+tool \texttt{ab}, \url{http://httpd.apache.org/docs/2.4/en/programs/ab.html}.}
+for the Apache web server or simply by measuring performance for test cases.
 
 Performance testing heavily relies on tool support, especially for repeating
 test cases, recording measurements, and dynamic program analysis. While the
@@ -459,7 +432,7 @@ number of clients for a server-side application. An analysis module, finally,
 collects and summarizes data related to the performance testing target. More on
 summarizing and comparing recorded results in the next section.
 
-\subsection{Statistical Considerations}
+\section{Statistical Considerations}
 In this section we now discuss the appropriate statistical means to summarize,
 compare and interpret measurement results. For the remainder of this section we
 will refer to the following two use cases. First, to obtain robust results, the
@@ -468,11 +441,9 @@ Consequently, to report a single result per metric, the measurements for a
 single variant need to be summarized. Second, the assessment of performance may
 comprise several use cases or system operations, for instance file compression
 and decompression for a compression software. Therefore, performance measures
-aggregated from different benchmarks need to be summarized accurately. Third, 
-since measurements may be conducted using different machines, we require
-accurate means to compare  measurements independently from any host machine.
+aggregated from different benchmarks need to be summarized accurately. 
 
-\subsubsection{Summarizing Values}
+\subsection{Measures of Central Tendency}
 For each test run of a software system or variant, we obtain a single-valued
 measurement per performance metric. Since we repeat each test run $n$ times
 per variant, we obtain a data record $X$ with $n$ measurements $X = X_1, X_2,
@@ -486,7 +457,7 @@ While the arithmetic mean is an appropriate method for many cases, there exist
 other means to summarize data records. Moreover, there exist a number of
 criteria for when to use which means to summarize a data record. 
 
-\paragraph{What is to summarize?} The first question when summarizing a data
+The first question when summarizing a data
 record is to ask what the data actually describe and what we to express with our
 summary. For a data record $X = X_1, X_2, \ldots, X_{n-1}, X_n$, we can define a
 relationship we would like to keep while replacing each single $X_i$ with an
@@ -504,7 +475,7 @@ Based on the term above, we can derive the definition of the method
 appropriate to summarize our data record with respect to the conserved relation
 what is the \emph{arithmetic mean}
 
-\begin{equation} \label{eq1}
+\begin{equation} \label{eq:arithmetic_mean}
 \begin{split}
 \bar{x} = \frac{1}{n} \sum_{i = 1}^{n} X_i.
 \end{split}
@@ -526,10 +497,10 @@ n\cdot T - \sum_{n}^{i=1} X_it_i = 0 \Leftrightarrow n\cdot T - \hat{v}
 \sum_{n}^{i=1} t_i = 0 \Leftrightarrow n = \hat{x} \sum_{n}^{i=1} \frac{1}{X_i}
 $$
 
-Similar to Eq. X we can derive the definition for the summarization method to
-use from the equation above what is the \emph{harmonic mean}, defined as
+Similar to Eq. \ref{eq:arithmetic_mean} we can derive the definition for the summarization
+method to use from the equation above what is the \emph{harmonic mean}, defined as
 
-\begin{equation} \label{eq1}
+\begin{equation} \label{eq:harmonic_mean}
 \begin{split}
 \hat{x} = n \cdot \bigg(\sum_{i=1}^{n} \frac{1}{X_i}\bigg)^{-1} =
 \frac{n}{\frac{1}{X_1} + \frac{1}{X_2} + \ldots +
@@ -537,22 +508,21 @@ use from the equation above what is the \emph{harmonic mean}, defined as
 \end{split}
 \end{equation}
 
-We see that the summarization methods presented in Eq. 1 and 2 are useful for
-different types of data records and they should be used accordingly. The
-arithmetic mean is suitable for records, where the total sum of single
+We see that the summarization methods presented in Eq. \ref{eq:arithmetic_mean}
+and \ref{eq:harmonic_mean} are useful for different types of data records and they should
+be used accordingly. The arithmetic mean is suitable for records, where the total sum of single
 measurements has a meaning, whereas the harmonic mean is suitable for measured
-rates or frequencies \citep{fleming_how_1986,smith_characterizing_1988}.
+rates or frequencies \citep{smith_characterizing_1988}.
 
-\paragraph{What is our data shaped like?}
 While the aforementioned measures of central tendency should be appropriate for
-most cases, they are not always the best choice though. First, the arithmetic
-and harmonic mean are heavily influenced by extreme observations. For instance,
-for the data record $X = 1, 2, 3, 30$ three of four values are smaller than the
+most cases, they are not always the best choice though. The arithmetic
+and harmonic mean are heavily influenced by extreme observations
+\citep{shanmugam_statistics_2015}. For instance, for the data record $X = 1, 2, 3, 30$ three of four values are smaller than the
 arithmetic mean $\bar{x} = 9$. One option is to explicitly exclude outliers
 values from the data record. The so-called \emph{trimmed mean} is
 obtained by truncating the upper and/or lower percentage t of the data record
 and, consequently, computing the (arithmetic or harmonic) mean for the remaining
-data record. 
+data record \citep{shanmugam_statistics_2015}. 
 
 While this method is suitable to omit the effects of outliers, one still needs to specify
 which upper and/or lower percentage t needs to be truncated. Moreover, the use
@@ -563,7 +533,7 @@ symmetric around its measure of central tendency. A simple method to measure the
 skewness of a probability distribution is \emph{Bowley's measure}
 \cite[p.~94]{shanmugam_statistics_2015}, defined as
 
-\begin{equation} \label{eq1}
+\begin{equation} \label{eq:bowley}
 \begin{split}
 B_S = \frac{(Q_3 - M) - (M - Q_1)}{Q_3 - Q_1} = \frac{(Q_3 + Q_1 - 2M)}{Q_3
 - Q_1},
@@ -582,7 +552,7 @@ both skewed and symmetric data records \citep{shanmugam_statistics_2015}. For a
 given ascendingly ordered data record $X = X_1, X_2, \ldots, X_{n-1}, X_n$, we
 can compute the median as follows:
 
-\begin{equation} \label{eq1}
+\begin{equation} \label{eq:median}
 \mathrm{Median}(X) = \begin{cases}
      X_{\frac{n+1}{2}} & \text{if $n$ is odd} \\
      \frac{1}{2}\big(X_{\frac{n}{2}} + X_{\frac{n}{2}+1}\big) & \text{if $n$ is
@@ -590,19 +560,21 @@ can compute the median as follows:
    \end{cases}~\text{with $X_i \leq X_j$ and $i < j \leq n$ }
 \end{equation}
 
+\subsection{Measures of Dispersion}
+
 Last, we take a look at different measures of spread or dispersion. Most
 commonly used are the \emph{variance} $\sigma^2$ and the \emph{standard
 deviation} $\sigma = \sqrt{\sigma^2}$ defined along the mean $\mu$ of a
 probability distribution as
 
-\begin{equation} \label{eq1}
+\begin{equation} \label{eq:variance}
 \begin{split}
 \sigma^2 = \frac{\sum_{i=1}^{n}(X_i - \mu)^2}{n}
 \end{split}
 \end{equation}
 
-Similar to the mean, the variance and the standard deviation are heavily
-influenced by extreme observations \citep{shanmugam_statistics_2015} might not
+Similar to the (arithmetic or harmonic) mean, the variance and the standard
+deviation are heavily influenced by extreme observations \citep{shanmugam_statistics_2015} might not
 be the best choice in all cases (especially those, where the (arithmetic or harmonic) mean itself might not be
 suitable). Instead, two more robust measures are the \emph{median absolute
 deviation} (MAD) and the \emph{inter-quartile range} (IQR). The MAD is defined
@@ -616,18 +588,18 @@ median \citep{molyneaux_art_2014}, or, defined as follows:
 \end{equation}
  
 The IQR, however, defines the range between the first and the third quartile
-$Q_1$ and $Q_3$. This range is larger for a widespread data record and smaller
-for a data range with a narrow spread, but is not influenced by extreme
+$Q_1$ and $Q_3$ \citep{shanmugam_statistics_2015}. This range is larger for a
+widespread data record and smaller for a data range with a narrow spread, but is not influenced by extreme
 observations as those below $Q_1$ and above $Q_3$. The IQR is defined as follows
 
-\begin{equation} \label{eq:mad}
+\begin{equation} \label{eq:iqr}
 \begin{split}
 \mathrm{IQR}(X) = Q_3 - Q_1.
 \end{split}
 \end{equation}
 
-\paragraph{When to use which measure?}
-In this subsection we discussed the arithmetic and harmonic mean as well as the
+\subsection{When to use which measure?}
+In this section we discussed the arithmetic and harmonic mean as well as the
 median as a measure of central tendency, the symmetric property that is
 required to use the arithmetic or harmonic mean, and different measures of
 spread for a given data record. At the beginning we asked for means to
@@ -641,15 +613,137 @@ measurement is appropriate and the data record is symmetric. According to
 \cite{shanmugam_statistics_2015}, the arithmetic mean is preferable ``when the numbers combine
 additively to produce a resultant value'', such as time periods or memory sizes, whereas
 the harmonic mean is preferable ``when reciprocals of several nonzero numbers
-combine additively to produce a resultant value'', such as rates or frequencies.
+combine additively to produce a resultant value'', such as rates or frequencies
+\citep{smith_characterizing_1988}.
 The median is a less precise estimator than the both means, yet more robust
 with regard to extreme observations. In addition, the MAD or IQR provide a more
 robust means of spread than the standard deviation.
 
-\section{Performance Modeling} \label{sec:2.4}
-\begin{itemize}
-  \item Genetic algorithms \citep{guo_genetic_2011}
-  \item Variability-aware modeling \citep{guo_variability-aware_2013}
-  \item via feature-interaction and performance influence models
-  \citep{siegmund_predicting_2012,siegmund_performance-influence_2015}
-\end{itemize}
+\section{Performance Prediction Models}
+\label{sec:performance-prediction-models} 
+In the last section we referred to performance, or in detail, the KPIs, as
+possible testing targets we validate against non-functional requirements.
+However, in a broader sense, software performance has become an aspect of
+software engineering referred to as \emph{software performance engineering}
+(SPE).
+A lot of effort has been spent to study and describe performance behavior as well
+as to improve performance quality. Besides the analysis of concerns or
+requirements with respect to performance, SPE comprises performance testing as
+well as performance prediction, and can contribute to maintenance and evolution
+aspects of a software system \citep{woodside_future_2007}. Predicting
+performance aims to model and estimate performance behavior for different use cases or
+configurations. The first approaches to performance prediction models proposed
+model the underlying software system component or operation from which
+performance estimations are then deduced. These so-called \emph{model-based prediction models} enable a
+performance estimation early in the development process since no actual performance measurement is required. In opposition to
+model-based approaches, measurement-based approaches have emerged. These
+\emph{measurement-based prediction models} are based on a sample of performance
+measures which are used to learn a software systems’ performance behavior
+\citep{woodside_future_2007}. More recently, measurement-based prediction models that emphasize variability have been
+proposed, of which we will discuss a couple of approaches in the remainder of
+this section.
+
+\paragraph{Learning Performance} In essence, learning and predicting performance
+behavior for a configurable system means nothing different than finding an approximation $h$ for a function
+$f: C \rightarrow \mathbb{R}$ where $C$ is the set of configurations and $f(c)
+\in \mathbb{R}$ with $c \in C$ is the corresponding performance measurement. The
+accuracy of the approximation $h$ describes how the estimated performance deviates from the actually measured
+performance. Different approaches to construct such an approximation, referred
+to as a performance prediction model, emerged recently. All approaches utilize
+a two subsets (or samples) of configurations and corresponding performance
+measurements to build and validate the model. A training sample is used to
+learn the approximation from, while a testing sample is used to assess the
+prediction error rate of the previously learned approximation. 
+%While the
+%approaches mentioned below differ in the expression of a performance prediction
+%model, all require ``meaningful'' training samples and stress the importance of
+%sampling strategies.
+
+A straightforward
+methodology to learn performance behavior was proposed by \cite{guo_variability-aware_2013}. The
+authors utilize classification-and-regression-trees (CART), akin to decision
+trees, to derive a top-down classification hierarchy for a given sample. The
+approach supports progressive (and random) sampling, i.e., the performance
+model is constructed several times while the size of the training sample is
+successively increased. The model construction commences with a recursive
+segmentation to find an an accurate CART for a local subset of the training
+sample. Subsequently, the local trees are merged to constitute a CART for the
+whole training sample. It is worth mentioning that the estimation using CART is
+not limited to binary configuration options, but supports numeric features as
+well. Moreover, the approach by \cite{guo_variability-aware_2013} does not produce any further
+computation overhead besides the measurement effort and the construction of a
+CART.
+
+A different approach to modeling performance behavior was
+proposed by \cite{zhang_performance_2015}. The authors propose an approach to construct
+performance prediction model based on a Fourier description of the
+performance-describing function f. The principal idea is to approximate a
+Fourier description of the function f comprising the sum of a series of
+functions, instead of approximating the single performance-describing function.
+The number of terms is exponential in the number of configuration options, yet
+it is limited, in contrast to the classical Fourier transformation. The main
+characteristic of this approach is that, prior to learning a performance
+prediction model, a desired level of prediction accuracy can be specified. That
+is, the approach automatically chooses the sample size required to learn the
+prediction model accordingly.
+
+A third approach to model and predict performance behavior,
+\emph{SPLConqueror}, was proposed by \cite{siegmund_predicting_2012}. The
+authors describe performance behavior  for a configuration as the accumulated influence of
+features the configuration is composed from, and respective feature
+interactions. To estimate the influence of single features and feature
+interactions, the authors propose a number of sampling strategies. While single
+features are assessed by comparing the performance of two different
+configurations per feature: For a feature $f$, two valid configurations are
+compared, whereby both configurations have the minimal number of features
+selected that are not excluded by the selection of $f$. While for one
+configuration $f$ is selected, it is deselected for the other one. The
+difference between the performance measures for both configurations is the estimate
+$\Delta_{min(f)}$ for the performance influence of feature $f$. Feature
+interactions that are performance-relevant are detected automatically in a similar manner. The
+main idea is, that a feature $f$ is more likely to interact with other features,
+the more features are selected along with $f$. Therefore, if $f$ interacts, the
+influence of feature $f$,  $\Delta_{min(f)}$ differs from the influence of $f$,
+when estimated using configurations where the maximal number of features selectable
+together with $f$ are used. Based on the set of interacting features, three
+heuristics are employed to detect feature interactions. Simple feature
+interactions are detected using pair-wise sampling, whereas higher-order
+feature interactions are often composed from simpler ones or are centered
+around a small subset of hot-spot features. Finally, for an arbitrary
+configuration the performance can be predicted by the sum of influence
+estimations per feature and feature interaction.
+
+The idea of predicting performance by estimating the influence of feature
+and feature interactions was further developed by \cite{siegmund_performance-influence_2015} by
+proposing performance influence models for both binary and numeric
+configuration options. A performance influence, similar to SPLConqueror,
+predicts performance by computing the sum of previously learned influence
+estimates. The novelty of this approach lies in the way the terms describing
+the influence of feature and feature interactions are learned. Instead of a
+single constant performance influence estimate, each term can contain of a
+number of functions, such as linear, quadratic or logarithm functions, or
+compositions thereof. This does not only allow to incorporate domain knowledge
+by preselecting functions. Moreover, by introducing combinations of non-linear
+functions and learning the coefficients using linear regressions enables
+learning a non-linear function. The algorithm commences with the selection of a
+terms and successively extending and reducing the term selection to increase 
+the prediction accuracy. The outcome, similar to
+\cite{siegmund_predicting_2012}, is a linear function whose terms represent the estimated influence of features and
+feature interactions on performance.
+
+All aforementioned approaches rely on performance measurements and, to
+some extent, also on a  sampling strategy. While the approaches by
+\cite{siegmund_predicting_2012,siegmund_performance-influence_2015} essentially describe a sampling strategies,
+the approach proposed by \cite{zhang_performance_2015} is able to work with random samples, and the
+approach of \cite{guo_variability-aware_2013} does extend its training sample automatically. As
+performance measurements entails an expensive and time-consuming process,
+\cite{sarkar_cost-efficient_2015} have investigated different sampling strategies.
+The authors compare progressive, where sample sizes are increased successively
+until the learned prediction model performs accurately enough, and projective
+sampling, where the optimal sample size is estimated based on the expected
+learning curve, with respect to cost and prediction accuracy. They advocate the
+use of projective sampling over progressive sampling. In addition, the authors
+propose and evaluate an own sampling heuristic to select an initial sample for
+progressive sampling. This sampling heuristic is based on feature frequencies
+and outperforms t-wise sampling, such as pair-wise sampling
+\citep{sarkar_cost-efficient_2015}.
