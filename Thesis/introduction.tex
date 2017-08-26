@@ -1,5 +1,4 @@
-\section{Context}
-\subsection{Configurable Software}
+\paragraph{Configurable Software}
 Modern software systems often need to
 be customized to satisfy user requirements. Customizable software, for instance,
 enables greater flexibility in supporting varying hardware platforms or tweaking
@@ -60,7 +59,7 @@ of smaller size than the decrypted original.
 This is a positive example for a feature interaction, where the performance
 behavior although being beneficial is unexpected.
 
-\subsection{Performance Behavior}
+\paragraph{Performance Behavior}
 Performance with respect to software and software systems is not
 precisely defined and differs from an end user's and a developer’s perspective.
 According to \cite{molyneaux_art_2014}, from a user’s perspective ``a well-performing
@@ -86,71 +85,90 @@ become unfavorable for corner cases or specific configurations as the feature
 selection influences the execution \citep{foo_mining_2010,heger_automated_2013,nguyen_industrial_2014}. 
 That is, the choice of features as well shapes the performance of a software system.
 
-\subsection{Modeling Performance Behavior}
-{\color{orange}
-The aspect of performance of configurable software systems has gained more
-attention recently, even though from a practitioners view, according to
-\cite{molyneaux_art_2014}, for the most part, performance testing is still not
-accommodated to an acceptable degree in the development process.
+\paragraph{Performance And Evolving Software}
+Actively maintained software systems evolve with every modification made, every
+version released,  and patch provided. Modifications usually introduce new
+functionality to the system, but functionality might as well be divided into
+smaller modules to enable provide more fine-grained configuration options. When
+features are removed from the software system, the corresponding functionality
+might remain in the code base or options are merged
+\citep{apel_feature-oriented_2013}.
 
-Even though, from a practicioners' perspective, performance testing is still not
-accommodated to an acceptable degree in the development process, the assessment
-of performance of configurable software systems has gained more attention
-recently. As assessing performance for configurable systems incorporates
-obtaining knowledge about the performance of every valid configuration, in the
-recent years, a variety of approaches to model and predict performance
-behavior of configurable software system have emerged. The scheme behind these
-approaches is the conception of performance modeling as an optimization
-problem, i.e., to recover and approximate performance behavior as a function of
-the selection of configuration options.
-Genetic algorithms \citep{guo_genetic_2011,sayyad_scalable_2013}  have shown
-reasonable results, yet are not able to handle constraints such as mutual
-exclusion.
-\cite{siegmund_predicting_2012} proposed a method to predict performance for
-arbitrary variants, following an approach for automated detection of feature interactions \citep{siegmund_predicting_2012}.
-Moreover, in 2015 they proposed performance-influence models as a means
-to analyze and predict performance for configurable software systems
-\citep{siegmund_performance-influence_2015}. A performance-influence model
-attempts to approximate the influence of both single features and interacting
-features on the software systems' performance.
-The approach has shown a reasonably low error rate for several real-world
-applications and allows prediction of system performance for arbitrary
-configuration variants.}
+There exists substantial work on understanding the evolution of configurable
+systems, for instance, with respect to software architecture \citep{zhang_variability_2013,passos_feature_2015} or variability
+\citep{seidl_co-evolution_2012,peng_analyzing_2011,passos_towards_2012}. As
+software evolves, the code base which is subject to modifications and the overall architectural quality can degrade. Common symptoms of architectural degradation are code tangling and scattering
+\citep{zhang_variability_2013,passos_feature_2015}, which lead to
+less cohesive and stricter coupled code. The more the code base is constrained and interdependent, the more software can become ``brittle''
+\citep{perry_software_1991} , less flexible, harder to adapt, and therefore harder to evolve.
+Evolution of software, especially with respect to variability, is essentially
+driven by and can be conceived as adapting a software system to changed
+requirements and contextual changes \citep{peng_analyzing_2011}. That is,
+(potential) degradation of software quality as software evolves is often a phenomenon due
+to decisions trading quality assurance (QA) or maintenance with meeting
+requirements and schedules \citep{guo_tracking_2011}. The metaphor of
+\emph{technical debt} \citep{guo_tracking_2011}, which is commonly used to
+describe this trade-offs and corresponding costs, outlines the risk that postponed maintenance tasks pose to
+software evolution. Although every deferred maintenance or QA task saves some
+cost in the first place, it also could also have detected software defects in
+the first place. Technical debt implies both interest, so to speak, the
+potential damage of a defect depending on its severity, as well as the
+probability of incurring interest. A defect can be severe, yet fixable with
+reasonable effort and cost. However, the aforementioned symptoms of
+architectural degradation and deferring maintenance render bug-fixing to become
+more and more expensive.
 
-\subsection{Performance of Evolving Software}
+Besides the aspects of software evolution discussed above, the evolution of
+performance for software systems has gained more attention recently. In
+practice though, quality assurance with respect to performance is still
+conducted to an unsatisfactory extent, or accommodated to late in the
+development process, according to \cite{molyneaux_art_2014}. That is, postponed testing
+with respect to performance is likely to a driving factor for degradation of
+performance quality, or simply called \emph{performance regression}.
 
-Actively maintained (configurable )software systems evolve by adapting to changed
-contexts and requirements \citep{peng_analyzing_2011}. Changes usually
-introduce new functionality to the system, but functionality might as well be
-divided into smaller modules to enable provide more fine-grained configuration
-options. When features are removed from the software system, the
-corresponding functionality might remain in the code base or options are merged
-\citep{apel_feature-oriented_2013}.  While there
-exists substantial work on understanding the evolution of configurable systems,
-for example, documenting common symptoms of architectural decay
-like code scattering and tangling \citep{passos_feature_2015,zhang_variability_2013} or attempting to
-classify patterns for variability evolution
-\citep{seidl_co-evolution_2012,peng_analyzing_2011,passos_towards_2012}, there
-is little reseach addressing the evolution of performance or non-functional
-properties in configurable systems. {\color{red}The evolution of software may
-affect the overall quality of a software system and this, in turn, might affect the
-performance behavior of its variants. The phenomenon of degrading performance
-behavior is commonly referred to as \emph{performance regression}.}
+While performance discipline have emerged as a discipline of or testing target
+in software testing, qualitative root cause analysis, for the most part, is
+conducted manually \citep{molyneaux_art_2014}. However,  there exists work on
+automated root cause analysis for performance bugs, such as measuring the execution time
+of unit tests, whereby an increased execution time indicates performance
+regression, and the corresponding unit test helps isolating the root cause
+thereof \citep{heger_automated_2013,nguyen_industrial_2014}. In conclusion, we
+see that, to better assure good software performance, more knowledge about performance behavior needs to be
+available ideally earlier in the development process.
 
-To get a better understanding about software evolution and to address
-performance regression problems, it is inevitable to continue
-studying the performance and performance evolution of configurable systems. In practice, all
-aforementioned approaches to model and predict performance behavior for a
-configurable software system require exhaustive records of performance
-measurements to learn from. Even though valid configurations can be sampled to
-some extent \citep{apel_feature-oriented_2013,siegmund_performance-influence_2015}, assessing a single version
-of a configurable software system still demands a large number of valid configurations to be measured. In
-addition, to study the performance evolution of configurable software systems,
-a history or series of performance models is required. That is, assessing
-performance evolution of configurable systems is infeasible without
-automated tool support.
+\paragraph{Performance Prediction}
+For configurable systems, performance behavior can be more complex and
+dependent on the feature selection, as we have seen with the example for
+feature interactions above. Similarly, quality assurance for configurable
+software systems is far from exhaustively testing all possible configurations,
+but rather close to only testing a selection of configurations sampled with
+respect to certain constraints. Sampling strategies might stress feature
+interactions, such as pair-wise testing, or feature coverage. However, all
+sample are selected with the intention to learn as much as possible over the
+entire system from a small selection of variants. So to speak, a sampling
+strategy is ``optimal'' if for a resulting sample, the probability of missing an
+arbitrary software defect, is minimal.
 
-\section{Problem Statement}
+While performance testing is apparently useful, recently a number of techniques
+to model and predict performance behavior for arbitrary configurations have
+emerged. The idea behind these approaches is similar to sampling strategies as
+an ``accurate'' prediction model is able to predict most cases of performance
+regressions. The underlying optimization problem of performance prediction
+models is to find an accurate estimator for a function describing a performance
+property depending on the feature selection. While performance properties can
+be estimated without performance measurements, for instance by inferring
+performance properties from software models \citep{woodside_future_2007},
+measurement-based approaches for configurable systems address this optimization problem.  Proposed
+approaches include performance prediction models build on learning performance behavior
+with decision trees \citep{guo_variability-aware_2013}, learning a
+frequency-based representation of the target function
+\citep{zhang_performance_2015}, or learning the influence of single features and feature interactions
+\citep{siegmund_predicting_2012,siegmund_performance-influence_2015}. All approaches have shown promising error rates for several real-world applications and allows prediction
+of system performance for arbitrary configuration variants. However, all
+approaches to create performance prediction models demand a samples of
+performance measurements for multiple configurations to learn performance behavior and validate predictions.
+
+\paragraph{Problem Statement}
 The assessment of performance evolution requires a series of performance models
 describing performance behavior for a series of versions of a configurable
 system. Assessing the performance behavior for a single version of a
@@ -195,12 +213,7 @@ corresponding benchmarks, means to record measurements and repeat experiments
 easily, and proper ways to interpret and compare results.
 \end{itemize}
 
-
-
-
-
-
-\section{Goals and Thesis Structure}
+\paragraph{Goals And Thesis Structure}
 
 The goal of this thesis is to provide a theoretical and practical foundation for
 exhaustive performance measurements of configurable software systems and series
