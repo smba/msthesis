@@ -7,31 +7,31 @@ exhibit a variety of \emph{configuration options}, also called
 \emph{features} \citep{apel_feature-oriented_2013}.
 Configuration options range from fine-grained options that tune small
 functional- and non-functional properties to those that enable or disable entire
-parts of the software. The selection of configuration options can be
-accommodated at different stages: \emph{compile-} or \emph{build-time} when the
-software is built or at \emph{load-time} before the software is actually used.
+parts of the software system. The selection of configuration options can be
+accommodated at different stages, either at \emph{compile-} or \emph{build-time}
+when the software is built or at \emph{load-time} before the software is actually used.
 Compile-time variability usually governs what code sections get
 compiled in the program. For instance, compile-time variability can be
 realized by excluding code sections from compilation using preprocessor
 annotations \citep{hunsen_preprocessor-based_2016} or by assembling the code
-sections to compile incrementally from delta modules
-\citep{schaefer_delta-oriented_2010}. In contrast to that, load-time variability
-controls which code sections can be visited during execution. Configurations for
-load-time variability can be specified using configuration files, environment
-variables or command-line arguments. Examples for configurable software systems
-range from small open-source command-line tools to mature ecosystems including
-Eclipse or even operating systems such as the Linux kernel with more than
-$11,000$ options \citep{dietrich_robust_2012}.
+sections to compile incrementally from predefined code modules depending on the
+feature selection \citep{schaefer_delta-oriented_2010}. In contrast to that,
+load-time variability controls which code sections can be visited during execution. Configurations for
+load-time variability can be specified using
+configuration files, environment variables or command-line arguments.
+Many software systems are configurable, examples range from small open-source
+command-line tools to mature ecosystems including Eclipse or even operating
+systems such as the Linux kernel with more than $11,000$ options \citep{dietrich_robust_2012}.
 
 Configuration options for
 software systems are usually constrained (e.g., are mutually exclusive, imply
 or depend on other features) to a certain extent. In the worst case though,
 where all options can be selected independently, the number of valid
-configurations grows exponentially with every feature added and likely exceeds
+configurations grows exponentially with every feature added, and exceeds
 the number of atoms in the entire universe once we count $265$ independent
 features. Hence, even for a small number of features, any naive approach for
 assessing emergent properties of configurable software systems exhaustively for
-each valid configuration is in general conceived infeasible. Despite this
+each valid configuration is conceived infeasible. Despite this
 mathematical limitation, many feasible approaches to static analysis for
 configurable systems emerged. Those variability-aware approaches enable, for
 instance, type checking in the presence of variability by exploiting
@@ -48,8 +48,8 @@ a configurable system an error-prone task.
 
 To illustrate feature interactions, consider the following example
 \citep{siegmund_performance-influence_2015}. A software system, say a file
-server, is used to store in a data base and provide access upon request. The
-system provides functionality for both encryption and compression. In
+server, is used to store files in a database and provide access upon request.
+The system provides two features, encryption and compression. In
 isolation, both file en- or decryption and file (de-)compression demand an
 expectable fraction of memory and processor time. The performance behavior for
 the software system though may vary if both features are selected. For
@@ -57,23 +57,23 @@ instance, if a file is encrypted and compressed (or vice versa), we can expect
 the operation to demand less resources since an encrypted file is likely to be
 of smaller size than the decrypted original.
 This is a positive example for a feature interaction, where the performance
-behavior although being beneficial is unexpected.
+behavior although being benefitting, is unexpected.
 
 \paragraph{Performance Behavior}
-Performance with respect to software and software systems is not
+The term ``performance'' with respect to software and software systems is not
 precisely defined and differs from an end user's and a developer’s perspective.
 According to \cite{molyneaux_art_2014}, from a user’s perspective ``a well-performing
 application is one that lets the end user carry out a given task without any
 undue perceived delay or irritation''. However, to accurately assess
 performance, from a practitioner’s perspective, performance is outlined by
 measurements called \emph{key performance indicators} (KPIs) which relate to
-non-functional requirements \citep{molyneaux_art_2014}. The set of KPIs include
+non-functional requirements \citep{molyneaux_art_2014}. The set of KPIs includes
 availability of a software system, its response time, throughput, and resource
 utilization. Availability comprises the amount of time an application is
 available to the user. Response time describes the amount of time it takes to
 process a task. Throughput describes the program load or number of items passed
-to a process. Resource utilization describes the used quota of resources used
-for processing a task.
+to a process. Resource utilization describes the used quota of resources
+required for processing a task.
 
 The performance behavior of a software system depends on the functionality
 offered, the respective implementation, program load, the underlying hardware system,
@@ -82,7 +82,7 @@ control what and how functionality is executed, we concentrate here on those
 source of performance. While feature interactions not necessarily cause the
 software system to break severely in all cases, its overall performance can
 become unfavorable for corner cases or specific configurations as the feature
-selection influences the execution \citep{foo_mining_2010,heger_automated_2013,nguyen_industrial_2014}. 
+selection influences the execution. 
 That is, the choice of features as well shapes the performance of a software system.
 
 \paragraph{Performance And Evolving Software}
@@ -95,23 +95,25 @@ might remain in the code base or options are merged
 \citep{apel_feature-oriented_2013}.
 
 There exists substantial work on understanding the evolution of configurable
-systems, for instance, with respect to software architecture \citep{zhang_variability_2013,passos_feature_2015} or variability
+systems, for instance, with respect to software architecture
+\citep{zhang_variability_2013,passos_feature_2015} or variability
 \citep{seidl_co-evolution_2012,peng_analyzing_2011,passos_towards_2012}. As
-software evolves, the code base which is subject to modifications and the overall architectural quality can degrade. Common symptoms of architectural degradation are code tangling and scattering
-\citep{zhang_variability_2013,passos_feature_2015}, which lead to
-less cohesive and stricter coupled code. The more the code base is constrained and interdependent, the more software can become ``brittle''
-\citep{perry_software_1991} , less flexible, harder to adapt, and therefore harder to evolve.
+software evolves, the code base which is subject to modifications and the
+overall architectural quality can degrade. Common symptoms of architectural
+degradation are code tangling and scattering
+\citep{zhang_variability_2013,passos_feature_2015}, which lead to less cohesive and stricter coupled code. 
+The more the code base is constrained and interdependent, the more software can become ``brittle'' \citep{perry_software_1991}, less flexible, harder to adapt, and therefore harder to evolve.
 Evolution of software, especially with respect to variability, is essentially
 driven by and can be conceived as adapting a software system to changed
 requirements and contextual changes \citep{peng_analyzing_2011}. That is,
 (potential) degradation of software quality as software evolves is often a phenomenon due
-to decisions trading quality assurance (QA) or maintenance with meeting
+to decisions trading quality assurance (QA) and maintenance tasks with meeting
 requirements and schedules \citep{guo_tracking_2011}. The metaphor of
-\emph{technical debt} \citep{guo_tracking_2011}, which is commonly used to
+\emph{technical debt} \citep{guo_tracking_2011} which is commonly used to
 describe this trade-offs and corresponding costs, outlines the risk that postponed maintenance tasks pose to
-software evolution. Although every deferred maintenance or QA task saves some
-cost in the first place, it also could also have detected software defects in
-the first place. Technical debt implies both interest, so to speak, the
+software evolution. Although every deferred maintenance or QA task may save
+some cost, it also could have unveiled software defects
+in the first place. Technical debt implies both interest, so to speak, the
 potential damage of a defect depending on its severity, as well as the
 probability of incurring interest. A defect can be severe, yet fixable with
 reasonable effort and cost. However, the aforementioned symptoms of
@@ -122,19 +124,19 @@ Besides the aspects of software evolution discussed above, the evolution of
 performance for software systems has gained more attention recently. In
 practice though, quality assurance with respect to performance is still
 conducted to an unsatisfactory extent, or accommodated to late in the
-development process, according to \cite{molyneaux_art_2014}. That is, postponed testing
-with respect to performance is likely to a driving factor for degradation of
-performance quality, or simply called \emph{performance regression}.
+development process, according to \cite{molyneaux_art_2014}. Thus, postponed
+maintenance and QA with respect to performance is likely to a driving factor for
+degradation of performance quality, or simply called \emph{performance regression}.
 
-While performance discipline have emerged as a discipline of or testing target
+While performance discipline has emerged as a discipline of or target
 in software testing, qualitative root cause analysis, for the most part, is
-conducted manually \citep{molyneaux_art_2014}. However,  there exists work on
-automated root cause analysis for performance bugs, such as measuring the execution time
+still conducted manually \citep{molyneaux_art_2014}. However, there exists work
+on automated root cause analysis for performance bugs, such as measuring the execution time
 of unit tests, whereby an increased execution time indicates performance
 regression, and the corresponding unit test helps isolating the root cause
 thereof \citep{heger_automated_2013,nguyen_industrial_2014}. In conclusion, we
 see that, to better assure good software performance, more knowledge about performance behavior needs to be
-available ideally earlier in the development process.
+available, ideally, earlier in the development process.
 
 \paragraph{Performance Prediction}
 For configurable systems, performance behavior can be more complex and
@@ -143,51 +145,55 @@ feature interactions above. Similarly, quality assurance for configurable
 software systems is far from exhaustively testing all possible configurations,
 but rather close to only testing a selection of configurations sampled with
 respect to certain constraints. Sampling strategies might stress feature
-interactions, such as pair-wise testing, or feature coverage. However, all
-sample are selected with the intention to learn as much as possible over the
-entire system from a small selection of variants. So to speak, a sampling
-strategy is ``optimal'' if for a resulting sample, the probability of missing an
-arbitrary software defect, is minimal.
+interactions, such as pair-wise sampling \citep{apel_feature-oriented_2013}.
+However, all sample are selected with the intention to learn as much as possible
+about the entire system from a small sample of variants. So to speak, a
+sampling strategy is ``optimal'' if for a resulting sample, the probability of missing an
+arbitrary (relevant) feature interaction, is minimal.
 
-While performance testing is apparently useful, recently a number of techniques
+While performance testing is apparently useful, recently, a number of techniques
 to model and predict performance behavior for arbitrary configurations have
-emerged. The idea behind these approaches is similar to sampling strategies as
-an ``accurate'' prediction model is able to predict most cases of performance
-regressions. The underlying optimization problem of performance prediction
-models is to find an accurate estimator for a function describing a performance
-property depending on the feature selection. While performance properties can
-be estimated without performance measurements, for instance by inferring
+emerged. The idea behind all these approaches is similar to sampling strategies
+as an ``accurate'' prediction model is able to predict performance for
+arbitrary configurations with a low error rate.
+The underlying optimization problem of performance prediction models is to find
+an accurate estimator $\hat{f}$ for a function $f$ describing a performance
+property depending on the feature selection. Performance properties can be
+estimated without performance measurements, for instance by inferring
 performance properties from software models \citep{woodside_future_2007},
-measurement-based approaches for configurable systems address this optimization problem.  Proposed
-approaches include performance prediction models build on learning performance behavior
-with decision trees \citep{guo_variability-aware_2013}, learning a
-frequency-based representation of the target function
-\citep{zhang_performance_2015}, or learning the influence of single features and feature interactions
-\citep{siegmund_predicting_2012,siegmund_performance-influence_2015}. All approaches have shown promising error rates for several real-world applications and allows prediction
-of system performance for arbitrary configuration variants. However, all
-approaches to create performance prediction models demand a samples of
-performance measurements for multiple configurations to learn performance behavior and validate predictions.
+measurement-based approaches for configurable systems address this optimization
+problem.  The proposed approaches include performance prediction models build on
+learning performance behavior with decision trees
+\citep{guo_variability-aware_2013}, learning a frequency-based representation
+of the target function \citep{zhang_performance_2015}, or learning the
+influence of single features and all performance-relevant feature interactions
+\citep{siegmund_predicting_2012,siegmund_performance-influence_2015}. All
+approaches have shown promising error rates for several real-world applications
+and allows prediction of system performance for arbitrary configuration
+variants. However, all approaches to create performance prediction models
+demand samples of performance measurements for multiple configurations to
+learn performance behavior and validate predictions.
 
 \paragraph{Problem Statement}
-The assessment of performance evolution requires a series of performance models
-describing performance behavior for a series of versions of a configurable
-system. Assessing the performance behavior for a single version of a
+The assessment of performance evolution requires a series of performance
+prediction models describing performance behavior for a series of versions of a
+configurable system. Assessing the performance behavior for a single version of a
 configurable software system entails a number of necessary and preliminary
-tasks. These tasks can even become more complicated once instead of a single
-version a series of versions is assessed:
+tasks. These tasks can even become more complicated once, instead of a single
+version, a series of versions is assessed:
 \begin{itemize}
   \item \emph{Feature Model Synthesis:} Not all configurable systems do
   explicitly exhibit a variability model what is required to derive all valid variants
 	\citep{rabkin_static_2011,nadi_where_2015}.
 	While substantial work exists on reverse engineering variability models from
-	source
+	code
 	\citep{rabkin_static_2011,she_reverse_2011,zhou_extracting_2015,nadi_where_2015}
-	code or non-code artifacts
+	 or non-code artifacts
 	\citep{alves_exploratory_2008,andersen_efficient_2012,bakar_feature_2015}, many
 	techniques still involve manual decisions \citep{she_reverse_2011} and domain
 	knowledge \citep{nadi_where_2015}.
 	Moreover, variability models evolve as part of the software
-	\citep{peng_analyzing_2011}, vary from version to version, and, therefore,
+	\citep{peng_analyzing_2011}, vary from version to version, and therefore,
 	require repeated reverse engineering steps.
 	
 	\item \emph{Configuration Translation:} the translation of a valid
@@ -232,9 +238,10 @@ configurable software systems.
 
 The Thesis is organized as follows. Chapter \ref{chapter:2} provides the
 background to the relevant topics discussed in this thesis, including
-variability modeling, software evolution, the foundations and statistical
-aspects of performance testing, and recent approaches to performance modeling. In
-Chapter \ref{chapter:3}, we propose our measurement methodology and discuss
+variability modeling, software evolution, feature model synthesis, performance
+assessment, statistical basics to summarize data records, and performance
+prediction models.
+In Chapter \ref{chapter:3}, we propose our measurement methodology and discuss
 the methods used for our performance measurement tool as well as its
 limitations. In Chapter \ref{chapter:4}, we evaluate several aspects of our
 tool with respect to practicality and discuss the results thereof. Finally,

@@ -1,3 +1,4 @@
+{\color{red}
 This chapter is intended to recapitulate the background of the thesis theme. In
 Sec.~\ref{sec:2.1}, we recall the evolution of software systems with respect to
 architecture and variability. In Sec.~\ref{sec:2.2} we outline the characteristics
@@ -7,13 +8,14 @@ performance assessment. In Sec.~\ref{sec:2.3} we present recent approaches for
 feature model extraction from existing software systems and code artifacts. Finally, in
 Sec.~\ref{sec:2.4} we recall and compare in detail different approaches to model
 and predict performance behavior for configurable software systems.
+}
 
 \section{Variability Modeling}
 The design and development of configurable software systems is conceptually
 divided into \emph{problem space} and \emph{solution space} \citep{czarnecki_generative_2000}. The problem space
 comprises the abstract design of features that are contained in the software system as well as
-constraints among features, such as dependencies or mutual-exclusion. The
-solution space describes the technical realization of features and the
+constraints defined among features, such as dependencies or mutual-exclusion.
+The solution space describes the technical realization of features and the
 functionality described by and associated with features, e.g., implementation
 and build mechanisms. That is, features cross both spaces since they are mapped
 to corresponding code artifacts.
@@ -32,10 +34,10 @@ hierarchically, starting with a root feature and subsequent child features. By
 definition, the selection of a child feature requires the parent feature to be
 selected as well. Child features can either be labeled as \emph{optional}
 features  or \emph{mandatory} features; the latter ones need to be selected in
-every valid configuration.
+every configuration.
 Moreover, feature diagrams
-provide a syntax for two different types of feature groups, \emph{or-groups} or
-\emph{alternative-groups}. For an or-group at least one of the group's features
+provide a syntax for two different types of feature groups, \emph{or-groups} and
+\emph{alternative-groups}. For an or-group, at least one of the group's features
 needs to be selected for a valid configuration, whereas for an alternative group
 exactly one out of the group's mutually exclusive features must be selected. In
 addition to the feature hierarchy, constraints, which cannot be expressed by
@@ -48,10 +50,9 @@ required/implied or excluded.
 
 An introductory example for the syntax and semantics of feature diagrams is
 provided in Fig.~\ref{fig:introduction_fm}. In this example an imaginary
-vehicle propulsion can be configured with eight valid configurations. The vehicle requires an engine,
-thus, feature \textsf{Engine} is mandatory. At least one out of the three
-features \textsf{Hybrid}, \textsf{Piston} and \textsf{Electric} needs to be
-selected. For a piston engine, we can select either the feature \textsf{Diesel}
+vehicle propulsion can be configured with eight valid configurations. The
+vehicle requires an engine, and therefore feature \textsf{Engine} is mandatory.
+At least one out of the three features \textsf{Hybrid}, \textsf{Piston} and \textsf{Electric} needs to be selected. For a piston engine, we can select either the feature \textsf{Diesel}
 or \textsf{Petrol}. A petrol engine requires additional ignition sparks in
 contrast to a Diesel engine. For an electric engine we require a
 battery, hence, the feature \textsf{Battery} is mandatory.
@@ -64,7 +65,7 @@ and an electric engine.
 \begin{figure}[htbp]
   \centering
   
-  	\includegraphics[width=0.85\textwidth]{images/introduction_fm.eps}
+  	\includegraphics[width=0.75\textwidth]{images/introduction_fm.eps}
   \caption{Feature diagram for a feature model with eight valid configurations;
   two cross-tree constraints are specified as propositional formulas over
   features}
@@ -73,27 +74,26 @@ and an electric engine.
 
 \section{Evolving Software} \label{sec:2.1}
 \subsection{Software Evolution}
-The first notion of a software systems' development process is usually
+The first notion of the software development process is usually
 developer-centered and merely focuses on software being designed, implemented,
-tested and eventually being released and deployed. Maintainability is a
-generally recognized software quality property to look after, and maintenance
-is, of course, essential to every successful software system. Nonetheless, less
+tested, and eventually being released and deployed.
+{\color{blue}Maintainability is a generally recognized software quality
+property to look after, and maintenance is, of course, essential to every successful software system}. Nonetheless, less
 attention is given to the ability to adapt a software system to changing
 requirements (evolvability) rather than maintaining it to keep functionality
 working \citep{parnas_software_1994}. Software evolution and evolvability, like
 software itself are manifold. Software evolves in many ways ranging from maintenance (refactoring,
 bug-fixes and patches) to adapting to changed requirements (adding, removing,
 reorganizing functionality and variability).
-
 Modern software systems not only often ship with a variety of configuration
-options to select, they also employ routines to be build and sometimes even
+options to select from, they also employ routines to be build and sometimes even
 make use of or are part of platforms, such as apps or plugins. That is,
-software evolution affects all aforementioned aspects and maintainability as
+software evolution affects all aforementioned aspects, maintainability as
 well as evolvability can degrade as software evolves.
 
 \subsection{Software Erosion}
-The negative symptoms of software evolution, which are referred to as
-``architectural erosion'' \citep{breivold_systematic_2012}, have
+The negative symptoms of software evolution which are referred to as
+``architectural erosion'' \citep{breivold_systematic_2012} have
 been addressed by many researchers.
 Most of existing research so far though focuses on evolution regarding software architecture
 \citep{breivold_systematic_2012}. The main driving factors leading to symptoms of decay
@@ -102,7 +102,7 @@ architectural drift. While architectural drift subsumes developers'
 insensitivity when not following a systems architecture or respective guidelines while making changes, architectural erosion subsumes ignoring and violating the existing software
 architecture. \cite{parnas_software_1994} argues that as software evolves, software is maintained
 and evolved by developers who are not necessarily familiar with the initial
-architectural design and, therefore, knowledge about the architecture becomes
+architectural design. Therefore, knowledge about the architecture can become
 unavailable. Although the unfavorable effects of software evolution do not necessary break a
 system necessarily and imminently, the software becomes ``brittle'' \citep{perry_software_1991}
 as maintainability as well as evolvability degrade. Concrete  symptoms of software
@@ -111,9 +111,9 @@ erosion on the implementation level have been documented.
 \cite{zhang_variability_2013} have studied erosion symptoms for a large-scale
 industrial software product line with compile-time variability using
 preprocessor directives.
-They identify variability-related directives and clusters of those to tend to become more
-complex as the software evolves. The negative effects, or symptoms of software
-erosion are described as, but not limited to \emph{code replication} or
+The authors identify variability-related directives and clusters of those that
+tend to become more complex as the software evolves. The negative effects, or symptoms of software
+erosion are described as, but not limited to \emph{code replication} and
 interdependencies between code elements, such as \emph{scattering} and
 \emph{tangling}. Code scattering describes the phenomenon of code belonging to
 a certain feature being scattered across multiple units of implementation,
@@ -132,24 +132,23 @@ worth the effort yet.
 
 \subsection{Variability Evolution}
 Apart from architecture evolution, the variability offered by software systems
-evolves as well. For configurable software systems (or software product lines; 
-these terms are not equivalent, but every SPL is a configurable software system)
-evolution steps will not only affect artifacts in the solution space, yet also be visible in changes in the respective variability models.
-Although the variability aspect of software evolution has not been drawn as
-much attention to as has been on architecture in the past, more and more
+evolves as well. For configurable software systems,
+evolution steps will not only affect artifacts in the solution space, yet also
+be visible in changes in the respective variability models in the problem space.
+Although the variability aspect of software evolution has not gathered as
+much attention as architecture in the past, more and more
 research has emerged recently to address and understand variability evolution.
 
 \cite{peng_analyzing_2011} proposed a classification of variability evolution patterns that
-conceives evolution as adaption to changing (non-)functional requirements as
-well as changing contexts. For a context in that sense, two
-categories exist. A driving context determines, whether a variability model and respective variants
-can meet functional requirements in the first place. A supporting context by
-definition determines how non-functional properties are strengthened or
-weakened. Any changed requirement is likely to change the contexts for a
-software systems variability model and, therefore, will make adaptations of the
-variability model necessary. Within their classification method Peng et al.
-identify  major causes for variability evolution, comprising a) new driving
-contexts emerging, b) weakened supporting contexts (for instance, due to new
+conceives evolution as adaption to changing (non-)functional requirements and
+contexts. For a context in that sense, two categories exist. A driving context
+determines, whether a variability model and respective variants can meet
+functional requirements in the first place. A supporting context by definition
+determines how non-functional properties are strengthened or weakened. 
+Any changed requirement is likely to change the contexts for a software systems
+variability model and, therefore, will make adaptations of the variability
+model necessary. Within their classification method, \cite{peng_analyzing_2011} identify major
+causes for variability evolution, comprising a) new driving contexts emerging, b) weakened supporting contexts (for instance, due to new
 non-functional requirements), and c) unfavorable trade-offs for non-functional
 properties. 
 
@@ -168,30 +167,31 @@ with its parent) or explicit.
 The classification proposed by \cite{peng_analyzing_2011} is a general and formalized approach
 that, as well as \cite{seidl_co-evolution_2012} and \cite{passos_towards_2012}, describes
 elementary evolution patterns which can be composed to more complex patterns. Nonetheless, no
-comprehensive catalog of variability evolution so far has been proposed as all
-mentioned work above focuses on those patterns that appeared to be relevant for
-the respective case study.
+comprehensive catalog of variability evolution so far has been proposed.
 
 \section{Feature Model Synthesis}  \label{sec:2.3}
 A variability model as an abstraction of functionality of a software system is
-required, or at least of great interest, in many contexts. \emph{First}, not
-every configurable system (or software product line) provides an explicit
+required, or at least of great interest, in many contexts. 
+
+\emph{First}, not
+every configurable system provides an explicit
 representation of its variability model. 
 The reasons for inexplicit or absent configuration specification are manifold.
 They can range from poor or inconsistent documentation
-\citep{rabkin_static_2011}, overly complex configurability \citep{xu_hey_2015}
-or configuration constraints originated in different layers of a software
+\citep{rabkin_static_2011} to overly complex configurability
+\citep{xu_hey_2015}, or configuration constraints originated in different layers of a software
 system, e.g.m build constraints  or compiler constraints \citep{nadi_where_2015}. 
 
 \emph{Second}, variability models have emerged to be a useful means in domain
-and domain analysis prior to developing a software system. As variability
-models group and organize functionality, synthesizing a variability model has
-shown to be applicable to extract features and constraints from functional
-requirements. In addition, by comparison of product specifications for an
-existing market domain, variability models can provide detailed feature summary.
+analysis prior to developing a software system. {\color{blue}As variability
+models group and organize functionality, synthesizing a variability model has shown to be
+applicable to extract features and constraints from functional requirements. 
+In addition, by comparison of product specifications for an
+existing market domain, variability models can provide detailed feature
+summary.}
 
 For this thesis, we focus on the first aspect of synthesizing variability
-models, as our work addresses the assessment of already existing configurable
+models as our work addresses the assessment of already existing configurable
 software systems. Nonetheless, many techniques employed in the aforementioned
 second aspect address similar problems, yet rely on natural language artifacts
 rather than code artifacts \citep{alves_exploratory_2008,bakar_feature_2015}.
@@ -202,34 +202,35 @@ requires a well-defined and sound variability model.
 
 \subsection{Feature Extraction} 
 The first objective in recovering a variability model from a configurable
-system is to determine the set of available configuration options to select. In
-addition, for further configuration the type of each configuration option
-(e.g., boolean, numeric or string) and the respective domain of valid values
+system is to determine the available configuration options to select
+from. In addition, for further configuration, the type of each configuration
+option (e.g., boolean, numeric or string) and the respective domain of valid values
 needs to be specified.
 
 \cite{rabkin_static_2011} proposed a static, yet heuristic approach to extract
-configuration options along with respective types and domains. They exploit the
-usage of configuration APIs. Their approach works
-in two stages and commences with extracting all code sections where
-configuration options are parsed. Subsequently, configuration names can be
+configuration options along with respective types and domains. Their approach
+exploits the usage of configuration APIs and works
+in two stages. It commences with extracting all code sections where
+configuration options are parsed. Next, configuration names can be
 recovered as they are either already specified at compile-time or can be
 reconstructed using string analysis yielding respective regular expressions.
-Moreover, they employ a number of heuristics to infer the type of parsed
+Moreover, the authors employ a number of heuristics to infer the type of parsed
 configurations as well as respective domains. First, the return type of the
 parsing method is likely to indicate the type of the configuration option read.
 Second, if a string is read initially, the library method it is passed to can
-reveal information about the actual type. For instance, a method
+reveal valuable information about the actual type. For instance, a method
 \emph{parseInteger} is likely to parse an integer value. Third, whenever a
-parsed configuration option is compared against a constant, expression or value of an enum class,
-these might indicate valid values or at least corner cases of the configuration
-options' domain. The extraction method by \cite{rabkin_static_2011} renders to be precise, but is
-limited, for instance, when an option leaves the scope of the source code.
-Nonetheless, for the systems they evaluated they recovered configuration
+parsed configuration option is compared against a constant, expression, or value
+of an enum class, these might indicate valid values or at least corner cases of
+the configuration option domain. The extraction method by
+\cite{rabkin_static_2011} is precise, but limited, for instance, when an
+option leaves the scope of the source code.
+Nonetheless, for the systems studied, the authors recovered configuration
 options that were not documented, only used for debugging or even not used at
 all.
 
 \subsection{Constraint Extraction}
-The second, or an additional step in recovering a variability model is the
+The second step in recovering a variability model is the
 extraction of configuration constraints. An approach proposed by \cite{zhou_extracting_2015}
 focuses on the extraction of file presence conditions from build files using symbolic execution. A more comprehensive investigation of configuration
 constraints and their origin is provided by \cite{nadi_mining_2014,nadi_where_2015}. They
@@ -242,39 +243,41 @@ first rule aims at inferring constraints that prevent build-time errors, the
 second one is intended to detect features without any effect, at least as part
 of some configurations. Their analysis one the one hand emerged to be accurate
 in recovering constraints with 93~\% for constraints inferred by the first rule
-and 77~\% for second one respectively. On the other hand, their approach was
-only to recover 28~\% of all constraints present in the software system.
+and 77~\% for second one respectively. On the other hand, their approach
+recovered only 28~\% of all constraints present in the software system.
 Further qualitative investigation, including developer interviews, lead to
-the conclusion that most of existing constraints stem from domain knowledge.
+the conclusion that most of existing constraints stem from domain knowledge
+\citep{nadi_where_2015}.
 
 \subsection{Feature Hierarchy Recovery} 
 Besides recovering configuration options and respective constraints, to reverse
 engineer a feature model, one further step is required. The recovered knowledge
-needs a tree-like hierarchy, detection of feature groups and cross-tree
-constraints to be an acceptable feature diagram
-\citep{kang_feature-oriented_1990}. While several approaches to the recover feature model hierarchy have been proposed,
-we are primarily interested in finding a hierarchy for knowledge obtained from
+needs to be organized in a tree-like hierarchy with feature groups specified and
+CTCs explicitly stated to derive a valid feature diagram 
+\citep{kang_feature-oriented_1990}.
+While several approaches to the recover feature model hierarchy have been proposed, we are primarily interested in finding a hierarchy for knowledge obtained from
 source code. Other scenarios, as already stated in the opener of this section,
 are based on product descriptions or sets of valid configurations. The remainder of
 this subsection we will focus on organizing features and constraints extracted
-from source code. For further reading \cite{andersen_efficient_2012} present
+from source code. For further reading, \cite{andersen_efficient_2012} present
 algorithms for structuring feature diagrams for three different scenarios including the
 ones previously mentioned.
 
 Given an extracted set of features along with corresponding descriptions and
-recovered constraints among the features, \cite{she_reverse_2011} propose an
+recovered constraints among the features, \cite{she_reverse_2011} propose a
 semi-automated and interactive approach to synthesize a feature hierarchy.
-Their approach comprises three steps: 1) Specifying a feature hierarchy, 2)
-detecting and selecting feature groups, and 3) adding a cross-tree constraint
-formula to the feature  model.
+Their approach comprises three tasks. First, an overall feature hierarchy based
+on feature implications is specified. Second, potential feature groups are
+detected and manually selected. Finally, the feature diagram is extended with
+remaining CTCs. A detailed decription of the algorithm is presented below:
 
 \begin{enumerate}
-  \item Their approach commences with finding a single parent for each
+  \item The algorithm commences with finding a single parent for each
   feature and, thus, specifying a tree-like feature hierarchy. Based on the
   given constraints a directed acyclic graph (DAG) representing implication
-  relationships among features, a so-called implication graph, is constructed:
-  Every vertex depicts a feature and edges are inserted for each pair of
-  features $(u, v)$, where  $u \implies v$ holds with respect to the given
+  relationships among features, a so-called implication graph, is constructed.
+  Every vertex in the implication graph represents a feature  and edges are
+  inserted for each pair of features $(u, v)$, where  $u \implies v$ holds with respect to the given
   constraints.
    
   In addition to the implication graph, the algorithm for each feature computes
@@ -282,40 +285,42 @@ formula to the feature  model.
   The two rankings both employ the feature descriptions. Feature descriptions
   are compared for similarity using a similarity metric. For two features $p$
   and $s$ the similarity is defined as the weighted sum of the inverse document
-  frequencies $idf(w)$ for the words that the descriptions of features $u$ and
-  $v$ share.
-  The idf-ranking for a word $w$ is the logarithm of the number of features
+  frequencies $idf(w)$ for the words that both descriptions of features $p$
+  and $s$ share.
+  The $idf$-ranking for a word $w$ is the logarithm of the number of features
   divided by the number of features whose description contains $w$. Each $idf$
-  value is weighted by with by the frequency of $w$ in the description of
+  value is weighted with the frequency of $w$ in the description of
   feature $p$.
   
   The first ranking, called Ranked-Implied-Features (RIF), for each feature $f$
-  ranks features by their similarity to $f$ in an descending order, but
+  ranks all features by their similarity to $f$ in an descending order, but
   prioritizes those features that are implied according to the previously
   computed implication graph. The second ranking, called Ranked-All-Features
   (RAF) is similar to RIF, yet less strict since implied features are not
-  prioritized. Given these ranking, a user selects for each feature a suitable
+  prioritized. Given these rankings, a user for each feature selects a suitable
   parent feature from the RIF or RAF ranking. The idea behind providing two
   separate rankings, according to \cite{she_reverse_2011} is that the given
-  extracted constraints can be incomplete and, thus, not all relevant implications are
-  contained.
+  extracted constraints can be incomplete and, thus, not all relevant
+  implications are contained in the implication graph.
 
   \item After the feature hierarchy is specified, another auxiliary graph, a
   mutex graph, similar to the implication graph, is constructed. The mutex
   graph is an undirected graph with features as vertices and edges between two
   features $u$ and $v$, if $u \implies \neg{v}$ and $v \implies \neg{u}$ hold
-  with respect to the given constraints. That is, all incident adjacent are mutually exclusive. Based on
+  with respect to the given constraints. 
+  That is, all adjacent features are mutually exclusive. Based on
   this mutex graph all maximal cliques (subsets of vertices that all are
   connected with each other) among the vertices with the same parent are
-  computed. Those cliques are mutually exclusive and share the same parent and
-  represent mutex- or alternative-groups. \cite{she_reverse_2011} introduce an
+  computed. All features within such a clique are mutually exclusive and share
+  the same parent and represent mutex- or alternative-groups. \cite{she_reverse_2011} introduce an
   additional constraint to extract xor-groups that require one of the groups’
   features to be selected if the parent is selected. This distinction is in
   line with the initial description of feature diagrams by \cite{kang_feature-oriented_1990},
-  but not all descriptions follow this distinction between mutex- and
-  xor-groups and just use the term alternative-group mentioned in Sec. 1.
+  but not all descriptions of feature diagrams follow this distinction between
+  mutex- and xor-groups and just use the term alternative-group discussed in 
+  Sec. \ref{}. %2.1
   
-  \item The cross-tree constraints for the feature diagram are extracted from
+  \item CTCs for the feature diagram are extracted from
   the given configuration constraints. Since CTCs are constraints that could
   not be represented by the feature hierarchy (implication) or
   alternative-groups (exclusion) the derivation of CTCs follows this idea. The
@@ -325,25 +330,27 @@ formula to the feature  model.
   graph by removing all edges among vertices of all mutex-groups. To make the
   feature model sound, the given configuration constraints, reduced to those
   clauses that are not already entailed by the diagram, can be added as an
-  additional CTC formula to the feature diagram.
+  additional CTC formula to the feature diagram \citep{she_reverse_2011}.
 \end{enumerate}
 
 The approach by \cite{she_reverse_2011} provides a practical algorithm to synthesize a
 feature diagram, yet has some aspects we might need to consider. First, the
-approach is not able to detect or-groups as defined in Sec. 1. Second, the
+approach is not able to detect or-groups as defined in Sec. \ref{}. Second, the
 approach does introduce a root feature. Finally, the approach does not
 distinguish between mandatory and optional features. Implicitly, all features
 that do not have a parent feature are optional and all features that have a
 parent feature are by default mandatory. \cite{she_reverse_2011} evaluated the
 algorithm with both complete and incomplete variability knowledge (feature
-names, descriptions and constraints). While the algorithm emerged to be
-practical, detecting features whose parent was the root-feature was difficult.
+names, descriptions and constraints). While the algorithm has shown to be
+practical, detecting features whose parent was the root-feature was difficult
+since, due to the transitive property of implication, it is implied by each
+feature of the feature model.
 
-\section{Assessing Performance} \label{sec:2.2}
+\section{Assessing Performance} \label{sec:assessing_performance}
 While the last three sections covered software evolution and variability
-modeling, we know step forward to the topic of software performance. This
-section will the outline performance with respect to software systems as well
-as to possible measurements. We provide a brief look at the general performance
+modeling, we now step forward to the topic of software performance. This
+section will outline the term performance with respect to software systems as
+well as to possible measurements. We provide a brief look at the general performance
 testing setup and the required prerequisites, including suitable benchmarks.
 Finally, we provide the statistical background to summarize, interpret and
 compare performance measurements accurately.
@@ -352,25 +359,26 @@ compare performance measurements accurately.
 The performance of software systems is, like software quality, primarily a
 matter of perspective. While an end user might consider practical aspects to be
 more important, from a developer’s perspective, performance relates to and is
-best described by non-functional properties \citep{molyneaux_art_2014}. While
-functional properties subsume what exactly a software system does, non-functional
+best described by non-functional properties \citep{molyneaux_art_2014}.
+{\color{blue}While functional properties subsume what exactly a software system does, non-functional
 properties describe how (good or bad) a software system is at providing the
-functionality offered. The notion of good and bad in this sense corresponds to
+functionality offered}. The notion of good and bad in this sense corresponds to
 non-functional requirements (NFR), that is, software with good performance
-behavior satisfies NFRs. The categories of NFRs what shape performance behavior
-are manifold. According to \cite{molyneaux_art_2014}, \emph{key performance
-indicators} (KPIs) include 
+behavior satisfies NFRs. The categories of NFRs that shape performance behavior
+are manifold. According to \cite{molyneaux_art_2014}, the categories or
+\emph{key performance indicators} (KPIs) include 
 
 \begin{itemize}
   \item availability
   \item response time,
+  \item throughput,
   \item resource utilization, and in a broader scope also 
   \item capacity.
 \end{itemize}
 
 Time-related KPIs are availability and response time, whereby
 availability describes the time or time ratio that the software is available to
-the end user and response time subsumes the time it takes to finish a request
+the end user, and response time subsumes the time it takes to finish a request
 or operation. Throughput as a category subsumes the program behavior with
 respect to program load, such as hits per second for a web application or
 amount of data processed per second. Resource utilization describes the extent
@@ -378,10 +386,11 @@ to which a software system uses the physical resources (CPU time, memory, and
 disk or cache space) of the host machine. Finally, from a web-centered
 perspective, capacity describes measurements with respect to servers and
 networks, such as network utilization  (traffic, transmission rate) and server
-utilization, such as resource limitations per application on a host server.
+utilization, such as resource limitations per application on a host server
+\citep{molyneaux_art_2014}.
 
 Consequently, the assessment of performance requires a context or testing
-target that corresponds to the assesses system under test (SUT). For instance,
+target that corresponds to the assessed system under test (SUT). For instance,
 for a simple command-line compression tool, suitable KPIs are response time and
 throughput, whereas performance for an online shop web application is better
 outlined by availability and capacity.
@@ -389,8 +398,8 @@ outlined by availability and capacity.
 \subsection{Performance Testing}
 The first step in performance testing, prior to defining relevant KPIs and
 metrics, is to specify a system operation or use case \citep{woodside_future_2007} to
-validate. A typical use case includes a well defined task or workload to
-process, expected behavior or and outcome or state, and performance
+assess performance for. A typical use case includes a well defined task or
+workload to process, expected behavior, outcome, and performance
 requirements as previously discussed. For the SUT, however, we require a
 version that does compile or, in case it is interpreted, is syntactically
 correct \citep{molyneaux_art_2014}. With regard to performance assessments as part of
@@ -398,37 +407,38 @@ the development process, a code freeze should be obtained since measurement
 results are likely to become meaningless for later versions. In addition to
 that,  the machine or setup used for performance measurement should ideally be
 as close to the production environment as possible, but at least be documented
-to compare different runs.
+to compare different runs \citep{molyneaux_art_2014}.
 
 Finally, one or more benchmarks need to be selected to simulate  the program
 load for the respective use case. A benchmark, all in all, needs to be
 representative, i.e., should relate to the the use case or requirement one
  wants to validate. While benchmarks for file compression usually include
 multiple different types of media data (text, sound, pictures) like the
-Canterbury corpus, web applications can be exposed to dealing with a number of
-simulated users at the same time \citep{molyneaux_art_2014}. Benchmarks have often been
-standardized within research and engineering to provide comparable performance
-measurements. A popular examples is the Software Performance Evaluation
+{\color{blue}Canterbury corpus\footnote{bener}}, web applications can be exposed
+to dealing with a number of simulated users at the same time \citep{molyneaux_art_2014}. Benchmarks have often been
+standardized within research and engineering communities to provide comparable
+performance measurements. A popular example is the Software Performance Evaluation
 Corporation (SPEC), a consortium providing a variety of benchmarks like the
 CPU2000\footnote{The benchmark description
 can be found at \url{https://www.spec.org/cpu2000/}.} processor benchmark
-consisting of both floating point and integer operations. Nonetheless, benchmarks in a sense of repeatable program load can be obtained from load generation software like
-ApacheBench\footnote{Manual
-page of the Apache
+consisting of programs with both floating point and integer operations.
+Moreover, benchmarks in a sense of repeatable program load can be obtained from
+load generation software like ApacheBench\footnote{Manual page of the Apache
 tool \texttt{ab}, \url{http://httpd.apache.org/docs/2.4/en/programs/ab.html}.}
-for the Apache web server or simply by measuring performance for test cases.
+for the Apache web server or simply by measuring performance for test cases
+\citep{heger_automated_2013,nguyen_industrial_2014}.
 
 Performance testing heavily relies on tool support, especially for repeating
-test cases, recording measurements, and dynamic program analysis. While the
+test cases and recording measurements. Since the
 tool solutions for performance testing vary from domain, scale and purpose, we
 will only outline the general tool architecture. \cite{molyneaux_art_2014} describes
-four primary components: a scripting module, a test management module, a load
-injector, and an analysis module. A scripting module handles the generation or
+four primary components for a performance testing setup: a scripting module, a
+test management module, a load injector, and an analysis module. A scripting module handles the generation or
 repetition of use cases which, for instance, can be recorded prior to the test
 for web applications. A test management module creates and executes a test
 session, whose program load is generated by one or more load injectors. A load
-injector can provide a benchmark or generate items to process or can simulate a
-number of clients for a server-side application. An analysis module, finally,
+injector can provide a benchmark by generating items to process, or can simulate
+a number of clients for a server-side application. An analysis module, finally,
 collects and summarizes data related to the performance testing target. More on
 summarizing and comparing recorded results in the next section.
 
@@ -436,11 +446,11 @@ summarizing and comparing recorded results in the next section.
 In this section we now discuss the appropriate statistical means to summarize,
 compare and interpret measurement results. For the remainder of this section we
 will refer to the following two use cases. First, to obtain robust results, the
-assessment of  a single variant needs to be repeated multiple times.
+assessment of a single variant needs to be repeated multiple times.
 Consequently, to report a single result per metric, the measurements for a
-single variant need to be summarized. Second, the assessment of performance may
-comprise several use cases or system operations, for instance file compression
-and decompression for a compression software. Therefore, performance measures
+single variant need to be summarized. Second, the assessment of performance for
+a variant may comprise several use cases or system operations, for instance file
+compression and decompression for a compression software. Therefore, performance measures
 aggregated from different benchmarks need to be summarized accurately. 
 
 \subsection{Measures of Central Tendency}
@@ -459,7 +469,7 @@ criteria for when to use which means to summarize a data record.
 
 The first question when summarizing a data
 record is to ask what the data actually describe and what we to express with our
-summary. For a data record $X = X_1, X_2, \ldots, X_{n-1}, X_n$, we can define a
+summary. For a data record $X$, we can define a
 relationship we would like to keep while replacing each single $X_i$ with an
 average value $\bar{x}$. Based on this relationship, we can derive the
 appropriate method to summarize our record. For instance, our data record $X$
@@ -473,7 +483,7 @@ $$
 
 Based on the term above, we can derive the definition of the method
 appropriate to summarize our data record with respect to the conserved relation
-what is the \emph{arithmetic mean}
+what is the \emph{arithmetic mean}, defined as
 
 \begin{equation} \label{eq:arithmetic_mean}
 \begin{split}
@@ -481,10 +491,10 @@ what is the \emph{arithmetic mean}
 \end{split}
 \end{equation}
 
-Consider another example similar to the one above, where the test
-case is a load test with a predecfined number of users and the measurements $X = X_1, X_2,
-\ldots, X_{n-1}, X_n$ are
-of the form of hits per second. Again, we have different measurements we want to
+Consider another example, similar to the one above, where the test
+case is a load test with a predefined number of users and the measurements $X =
+X_1, X_2, \ldots, X_{n-1}, X_n$ are
+measured as hits per second. Again, we have different measurements we want to
 summarize with respect to a relation to conserve. Each user drops the same
 number of requests $T$, whereby the hit rate $X_i$ and the respective elapsed
 time $t_i = \frac{T}{X_i }$ vary. We now conserve the relationship that the
@@ -517,21 +527,22 @@ rates or frequencies \citep{smith_characterizing_1988}.
 While the aforementioned measures of central tendency should be appropriate for
 most cases, they are not always the best choice though. The arithmetic
 and harmonic mean are heavily influenced by extreme observations
-\citep{shanmugam_statistics_2015}. For instance, for the data record $X = 1, 2, 3, 30$ three of four values are smaller than the
-arithmetic mean $\bar{x} = 9$. One option is to explicitly exclude outliers
+\citep{shanmugam_statistics_2015}. 
+For instance, for the data record $X = 1, 2, 3, 30$ three of four values are smaller than the
+arithmetic mean $\bar{x} = 9$. One option is to explicitly exclude outlier
 values from the data record. The so-called \emph{trimmed mean} is
-obtained by truncating the upper and/or lower percentage t of the data record
+obtained by truncating a upper and/or lower percentage $t$ of the data record
 and, consequently, computing the (arithmetic or harmonic) mean for the remaining
 data record \citep{shanmugam_statistics_2015}. 
 
 While this method is suitable to omit the effects of outliers, one still needs to specify
-which upper and/or lower percentage t needs to be truncated. Moreover, the use
-a (trimmed) mean requires the data record to be symmetric, i.e., the
-probability distribution not to be skewed. A probability distribution is skewed
-(and therefore asymmetric) if, graphically speaking, its histogram is not
+which upper and/or lower percentage $t$ needs to be truncated. Moreover, the use
+a (trimmed) mean requires the data records' frequencies to be distributed
+symmetrically around its mean.
+A probability distribution is skewed (and therefore asymmetric) if, graphically speaking, its histogram is not
 symmetric around its measure of central tendency. A simple method to measure the
 skewness of a probability distribution is \emph{Bowley's measure}
-\cite[p.~94]{shanmugam_statistics_2015}, defined as
+\citep{shanmugam_statistics_2015}, defined as
 
 \begin{equation} \label{eq:bowley}
 \begin{split}
@@ -574,11 +585,9 @@ probability distribution as
 \end{equation}
 
 Similar to the (arithmetic or harmonic) mean, the variance and the standard
-deviation are heavily influenced by extreme observations \citep{shanmugam_statistics_2015} might not
-be the best choice in all cases (especially those, where the (arithmetic or harmonic) mean itself might not be
-suitable). Instead, two more robust measures are the \emph{median absolute
-deviation} (MAD) and the \emph{inter-quartile range} (IQR). The MAD is defined
-as the median of the absolute deviations from the probability distributions'
+deviation are heavily influenced by extreme observations
+\citep{shanmugam_statistics_2015} are not the best choice in all cases. Instead,
+two more robust measures are the \emph{median absolute deviation} (MAD) and the \emph{inter-quartile range} (IQR). The MAD is defined as the median of the absolute deviations from the probability distributions'
 median \citep{molyneaux_art_2014}, or, defined as follows:
 
 \begin{equation} \label{eq:mad}
@@ -590,7 +599,8 @@ median \citep{molyneaux_art_2014}, or, defined as follows:
 The IQR, however, defines the range between the first and the third quartile
 $Q_1$ and $Q_3$ \citep{shanmugam_statistics_2015}. This range is larger for a
 widespread data record and smaller for a data range with a narrow spread, but is not influenced by extreme
-observations as those below $Q_1$ and above $Q_3$. The IQR is defined as follows
+observations as those outliers do not lie within the range $\left[ Q_1,Q_3
+\right] $. The IQR is defined as follows
 
 \begin{equation} \label{eq:iqr}
 \begin{split}
@@ -625,35 +635,34 @@ In the last section we referred to performance, or in detail, the KPIs, as
 possible testing targets we validate against non-functional requirements.
 However, in a broader sense, software performance has become an aspect of
 software engineering referred to as \emph{software performance engineering}
-(SPE).
+(SPE) \citep{woodside_future_2007}.
 A lot of effort has been spent to study and describe performance behavior as well
 as to improve performance quality. Besides the analysis of concerns or
 requirements with respect to performance, SPE comprises performance testing as
-well as performance prediction, and can contribute to maintenance and evolution
-aspects of a software system \citep{woodside_future_2007}. Predicting
-performance aims to model and estimate performance behavior for different use cases or
-configurations. The first approaches to performance prediction models proposed
-model the underlying software system component or operation from which
+well as performance prediction \citep{woodside_future_2007}. Performance
+prediction aims at modeling and estimating performance behavior for different
+use cases or configurations. The first approaches to performance prediction models model the underlying software system component or operation from which
 performance estimations are then deduced. These so-called \emph{model-based prediction models} enable a
-performance estimation early in the development process since no actual performance measurement is required. In opposition to
-model-based approaches, measurement-based approaches have emerged. These
-\emph{measurement-based prediction models} are based on a sample of performance
+performance estimation early in the development process since no actual
+performance measurement is required \citep{woodside_future_2007}. In opposition
+to model-based approaches, measurement-based approaches have emerged. These \emph{measurement-based prediction models} are based on a sample of performance
 measures which are used to learn a software systems’ performance behavior
 \citep{woodside_future_2007}. More recently, measurement-based prediction models that emphasize variability have been
-proposed, of which we will discuss a couple of approaches in the remainder of
+proposed, of which we will discuss three approaches in the remainder of
 this section.
 
 \paragraph{Learning Performance} In essence, learning and predicting performance
 behavior for a configurable system means nothing different than finding an approximation $h$ for a function
 $f: C \rightarrow \mathbb{R}$ where $C$ is the set of configurations and $f(c)
 \in \mathbb{R}$ with $c \in C$ is the corresponding performance measurement. The
-accuracy of the approximation $h$ describes how the estimated performance deviates from the actually measured
-performance. Different approaches to construct such an approximation, referred
-to as a performance prediction model, emerged recently. All approaches utilize
-a two subsets (or samples) of configurations and corresponding performance
+accuracy of the approximation $\hat{f}$ describes how the estimated performance
+$\hat{f}(c)$ deviates from the actually measured performance $f(c)$. 
+Different approaches to construct such an approximation, referred to as a
+\emph{performance prediction model}, emerged recently. All approaches utilize
+two samples of configurations and corresponding performance
 measurements to build and validate the model. A training sample is used to
-learn the approximation from, while a testing sample is used to assess the
-prediction error rate of the previously learned approximation. 
+learn the approximation from, whereas a testing sample is used to assess the
+prediction error rate of the previously learned approximation.
 %While the
 %approaches mentioned below differ in the expression of a performance prediction
 %model, all require ``meaningful'' training samples and stress the importance of
@@ -676,12 +685,11 @@ CART.
 
 A different approach to modeling performance behavior was
 proposed by \cite{zhang_performance_2015}. The authors propose an approach to construct
-performance prediction model based on a Fourier description of the
-performance-describing function f. The principal idea is to approximate a
-Fourier description of the function f comprising the sum of a series of
-functions, instead of approximating the single performance-describing function.
-The number of terms is exponential in the number of configuration options, yet
-it is limited, in contrast to the classical Fourier transformation. The main
+performance prediction models based on a Fourier description of the
+performance-describing function $f$. The principal idea is to approximate a
+Fourier series approximating the function performance-describing $f$, and
+learning all coefficients of the series terms.
+The number of terms is exponential in the number of configuration options. The main
 characteristic of this approach is that, prior to learning a performance
 prediction model, a desired level of prediction accuracy can be specified. That
 is, the approach automatically chooses the sample size required to learn the
@@ -692,7 +700,7 @@ A third approach to model and predict performance behavior,
 authors describe performance behavior  for a configuration as the accumulated influence of
 features the configuration is composed from, and respective feature
 interactions. To estimate the influence of single features and feature
-interactions, the authors propose a number of sampling strategies. While single
+interactions, the authors propose a number of sampling strategies. Single
 features are assessed by comparing the performance of two different
 configurations per feature: For a feature $f$, two valid configurations are
 compared, whereby both configurations have the minimal number of features
@@ -707,39 +715,42 @@ influence of feature $f$,  $\Delta_{min(f)}$ differs from the influence of $f$,
 when estimated using configurations where the maximal number of features selectable
 together with $f$ are used. Based on the set of interacting features, three
 heuristics are employed to detect feature interactions. Simple feature
-interactions are detected using pair-wise sampling, whereas higher-order
-feature interactions are often composed from simpler ones or are centered
-around a small subset of hot-spot features. Finally, for an arbitrary
-configuration the performance can be predicted by the sum of influence
+interactions are detected using pair-wise sampling
+\citep{siegmund_predicting_2012,apel_feature-oriented_2013}, whereas
+higher-order feature interactions are often composed from simpler ones, or centered
+around a small subset of hot-spot features \citep{siegmund_predicting_2012}.
+Finally, for an arbitrary configuration the performance can be predicted by the sum of influence
 estimations per feature and feature interaction.
 
 The idea of predicting performance by estimating the influence of feature
 and feature interactions was further developed by \cite{siegmund_performance-influence_2015} by
 proposing performance influence models for both binary and numeric
-configuration options. A performance influence, similar to SPLConqueror,
+configuration options. A performance influence, similar to \emph{SPLConqueror},
 predicts performance by computing the sum of previously learned influence
 estimates. The novelty of this approach lies in the way the terms describing
-the influence of feature and feature interactions are learned. Instead of a
-single constant performance influence estimate, each term can contain of a
+the influence of feature and feature interactions are learned and not
+derived from a sampling strategy.
+Instead of a single constant performance influence estimate, each term can contain of a
 number of functions, such as linear, quadratic or logarithm functions, or
 compositions thereof. This does not only allow to incorporate domain knowledge
 by preselecting functions. Moreover, by introducing combinations of non-linear
 functions and learning the coefficients using linear regressions enables
-learning a non-linear function. The algorithm commences with the selection of a
-terms and successively extending and reducing the term selection to increase 
+learning a non-linear function. The algorithm commences with the selection of
+terms and successively extends and reduces the term selection to increase 
 the prediction accuracy. The outcome, similar to
 \cite{siegmund_predicting_2012}, is a linear function whose terms represent the estimated influence of features and
 feature interactions on performance.
 
 All aforementioned approaches rely on performance measurements and, to
 some extent, also on a  sampling strategy. While the approaches by
-\cite{siegmund_predicting_2012,siegmund_performance-influence_2015} essentially describe a sampling strategies,
+\cite{siegmund_predicting_2012,siegmund_performance-influence_2015} essentially describe sampling strategies,
 the approach proposed by \cite{zhang_performance_2015} is able to work with random samples, and the
 approach of \cite{guo_variability-aware_2013} does extend its training sample automatically. As
 performance measurements entails an expensive and time-consuming process,
-\cite{sarkar_cost-efficient_2015} have investigated different sampling strategies.
-The authors compare progressive, where sample sizes are increased successively
-until the learned prediction model performs accurately enough, and projective
+\cite{sarkar_cost-efficient_2015} have investigated different sampling
+strategies in this domain.
+The authors compare progressive sampling, where sample sizes are increased
+successively until the learned prediction model performs accurately enough, and projective
 sampling, where the optimal sample size is estimated based on the expected
 learning curve, with respect to cost and prediction accuracy. They advocate the
 use of projective sampling over progressive sampling. In addition, the authors
