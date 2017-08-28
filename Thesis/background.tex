@@ -1,16 +1,16 @@
-{\color{red}
 This chapter is intended to recapitulate the background of the thesis theme. In
-Sec.~\ref{sec:2.1}, we recall the evolution of software systems with respect to
-architecture and variability. In Sec.~\ref{sec:2.2} we outline the characteristics
-of software performance, practical testing and measurement strategies as well as
-some statistical background necessary to analyze, interpret and compare
-performance assessment. In Sec.~\ref{sec:2.3} we present recent approaches for
-feature model extraction from existing software systems and code artifacts. Finally, in
-Sec.~\ref{sec:2.4} we recall and compare in detail different approaches to model
-and predict performance behavior for configurable software systems.
-}
+Sec. \ref{sec:variability_modeling} we recapitulate basic concepts, notations
+and terminology regarding variability modeling, and Sec.
+\ref{sec:feature_model_synthesis} presents methodologies to recover variability
+models from source code. In Sec. \ref{sec:evolving_solftware} we outline
+different aspects of software evolution. Sec. \ref{sec:assessing_performance}
+discusses the assessment and testing of performance, and Sec.
+\ref{sec:statistical_considerations} reviews statistical basics to describe and
+compare performance measurements. Finally, Sec.
+\ref{sec:performance_prediction_models} recalls methodology to predict
+performance behavior for configurable systems.
 
-\section{Variability Modeling}
+\section{Variability Modeling} \label{sec:variability_modeling}
 The design and development of configurable software systems is conceptually
 divided into \emph{problem space} and \emph{solution space} \citep{czarnecki_generative_2000}. The problem space
 comprises the abstract design of features that are contained in the software system as well as
@@ -72,104 +72,7 @@ and an electric engine.
   \label{fig:introduction_fm}
 \end{figure}
 
-\section{Evolving Software} \label{sec:2.1}
-\subsection{Software Evolution}
-The first notion of the software development process is usually
-developer-centered and merely focuses on software being designed, implemented,
-tested, and eventually being released and deployed.
-{\color{blue}Maintainability is a generally recognized software quality
-property to look after, and maintenance is, of course, essential to every successful software system}. Nonetheless, less
-attention is given to the ability to adapt a software system to changing
-requirements (evolvability) rather than maintaining it to keep functionality
-working \citep{parnas_software_1994}. Software evolution and evolvability, like
-software itself are manifold. Software evolves in many ways ranging from maintenance (refactoring,
-bug-fixes and patches) to adapting to changed requirements (adding, removing,
-reorganizing functionality and variability).
-Modern software systems not only often ship with a variety of configuration
-options to select from, they also employ routines to be build and sometimes even
-make use of or are part of platforms, such as apps or plugins. That is,
-software evolution affects all aforementioned aspects, maintainability as
-well as evolvability can degrade as software evolves.
-
-\subsection{Software Erosion}
-The negative symptoms of software evolution which are referred to as
-``architectural erosion'' \citep{breivold_systematic_2012} have
-been addressed by many researchers.
-Most of existing research so far though focuses on evolution regarding software architecture
-\citep{breivold_systematic_2012}. The main driving factors leading to symptoms of decay
-identified by \cite{perry_software_1991} are architectural erosion and
-architectural drift. While architectural drift subsumes developers'
-insensitivity when not following a systems architecture or respective guidelines while making changes, architectural erosion subsumes ignoring and violating the existing software
-architecture. \cite{parnas_software_1994} argues that as software evolves, software is maintained
-and evolved by developers who are not necessarily familiar with the initial
-architectural design. Therefore, knowledge about the architecture can become
-unavailable. Although the unfavorable effects of software evolution do not necessary break a
-system necessarily and imminently, the software becomes ``brittle'' \citep{perry_software_1991}
-as maintainability as well as evolvability degrade. Concrete  symptoms of software
-erosion on the implementation level have been documented. 
-
-\cite{zhang_variability_2013} have studied erosion symptoms for a large-scale
-industrial software product line with compile-time variability using
-preprocessor directives.
-The authors identify variability-related directives and clusters of those that
-tend to become more complex as the software evolves. The negative effects, or symptoms of software
-erosion are described as, but not limited to \emph{code replication} and
-interdependencies between code elements, such as \emph{scattering} and
-\emph{tangling}. Code scattering describes the phenomenon of code belonging to
-a certain feature being scattered across multiple units of implementation,
-e.g., modules, whereas code tangling means that code from different and
-potentially unrelated features in entangled within a single module.
-
-\cite{passos_feature_2015} have studied the extent of usage of scattering for device-drivers
-in the Linux kernel. Despite scattering being quite prevalent, their
-findings suggest that the kernel architecture is robust enough to have evolved
-successfully. Nonetheless, platform drivers in the Linux kernel seem more
-likely to be scattered than non-platform driver. They conclude that this is a
-trade-off between maintainability and performance: a more generalized and
-abstract implementation for platform-drivers in this case could possibly avoid
-scattering, yet refactorings in this manner did not seem to be necessary or
-worth the effort yet.
-
-\subsection{Variability Evolution}
-Apart from architecture evolution, the variability offered by software systems
-evolves as well. For configurable software systems,
-evolution steps will not only affect artifacts in the solution space, yet also
-be visible in changes in the respective variability models in the problem space.
-Although the variability aspect of software evolution has not gathered as
-much attention as architecture in the past, more and more
-research has emerged recently to address and understand variability evolution.
-
-\cite{peng_analyzing_2011} proposed a classification of variability evolution patterns that
-conceives evolution as adaption to changing (non-)functional requirements and
-contexts. For a context in that sense, two categories exist. A driving context
-determines, whether a variability model and respective variants can meet
-functional requirements in the first place. A supporting context by definition
-determines how non-functional properties are strengthened or weakened. 
-Any changed requirement is likely to change the contexts for a software systems
-variability model and, therefore, will make adaptations of the variability
-model necessary. Within their classification method, \cite{peng_analyzing_2011} identify major
-causes for variability evolution, comprising a) new driving contexts emerging, b) weakened supporting contexts (for instance, due to new
-non-functional requirements), and c) unfavorable trade-offs for non-functional
-properties. 
-
-To understand single evolutionary steps, several catalogs of variability
-evolution patterns have been proposed. \cite{peng_analyzing_2011} present three patterns,
-where either a new feature is added, a mandatory feature becomes optional, or a
-mandatory/optional feature is split into alternative features. \cite{seidl_co-evolution_2012} suggest a catalog of
-patterns for co-evolution of variability models and feature mappings that additionally introduces code clones, splitting a feature
-into more fine-grained sub-features and feature removal as evolution patterns.
-In addition, \cite{passos_towards_2012} have studied variability evolution in
-the Linux kernel and present a catalog of patterns where features are removed from the
-variability model, but remain a part of the implementation. Their
-catalog, among others, includes feature merges, either implicit (optional feature merged
-with its parent) or explicit.
-
-The classification proposed by \cite{peng_analyzing_2011} is a general and formalized approach
-that, as well as \cite{seidl_co-evolution_2012} and \cite{passos_towards_2012}, describes
-elementary evolution patterns which can be composed to more complex patterns. Nonetheless, no
-comprehensive catalog of variability evolution so far has been proposed.
-
-\section{Feature Model Synthesis}  \label{sec:2.3}
+\section{Variability Model Synthesis}  \label{sec:feature_model_synthesis}
 A variability model as an abstraction of functionality of a software system is
 required, or at least of great interest, in many contexts. 
 
@@ -183,12 +86,12 @@ They can range from poor or inconsistent documentation
 system, e.g.m build constraints  or compiler constraints \citep{nadi_where_2015}. 
 
 \emph{Second}, variability models have emerged to be a useful means in domain
-analysis prior to developing a software system. {\color{blue}As variability
+analysis prior to developing a software system. As variability
 models group and organize functionality, synthesizing a variability model has shown to be
 applicable to extract features and constraints from functional requirements. 
 In addition, by comparison of product specifications for an
 existing market domain, variability models can provide detailed feature
-summary.}
+summary \citep{alves_exploratory_2008,bakar_feature_2015}.
 
 For this thesis, we focus on the first aspect of synthesizing variability
 models as our work addresses the assessment of already existing configurable
@@ -318,7 +221,7 @@ remaining CTCs. A detailed decription of the algorithm is presented below:
   line with the initial description of feature diagrams by \cite{kang_feature-oriented_1990},
   but not all descriptions of feature diagrams follow this distinction between
   mutex- and xor-groups and just use the term alternative-group discussed in 
-  Sec. \ref{}. %2.1
+  Sec. \ref{sec:variability_modeling}. %2.1
   
   \item CTCs for the feature diagram are extracted from
   the given configuration constraints. Since CTCs are constraints that could
@@ -335,8 +238,8 @@ remaining CTCs. A detailed decription of the algorithm is presented below:
 
 The approach by \cite{she_reverse_2011} provides a practical algorithm to synthesize a
 feature diagram, yet has some aspects we might need to consider. First, the
-approach is not able to detect or-groups as defined in Sec. \ref{}. Second, the
-approach does introduce a root feature. Finally, the approach does not
+approach is not able to detect or-groups as defined in Sec. \ref{sec:variability_modeling}.
+Second, the approach does introduce a root feature. Finally, the approach does not
 distinguish between mandatory and optional features. Implicitly, all features
 that do not have a parent feature are optional and all features that have a
 parent feature are by default mandatory. \cite{she_reverse_2011} evaluated the
@@ -345,6 +248,105 @@ names, descriptions and constraints). While the algorithm has shown to be
 practical, detecting features whose parent was the root-feature was difficult
 since, due to the transitive property of implication, it is implied by each
 feature of the feature model.
+
+\section{Evolving Software} \label{sec:evolving_solftware}
+\subsection{Software Evolution}
+The first notion of the software development process is usually
+developer-centered and merely focuses on software being designed, implemented,
+tested, and eventually being released and deployed.
+Maintainability is a generally recognized software quality
+property to look after, and maintenance is, of course, essential to every
+successful software system \cite{liggesmeyer_software-qualitat:_2009}. Nonetheless, less attention is given to
+the ability to adapt a software system to changing requirements (evolvability) rather than maintaining it to keep functionality
+working \citep{parnas_software_1994}. Software evolution and evolvability, like
+software itself are manifold. Software evolves in many ways ranging from maintenance (refactoring,
+bug-fixes and patches) to adapting to changed requirements (adding, removing,
+reorganizing functionality and variability).
+Modern software systems not only often ship with a variety of configuration
+options to select from, they also employ routines to be build and sometimes even
+make use of or are part of platforms, such as apps or plugins. That is,
+software evolution affects all aforementioned aspects, maintainability as
+well as evolvability can degrade as software evolves.
+
+\subsection{Software Erosion}
+The negative symptoms of software evolution which are referred to as
+``architectural erosion'' \citep{breivold_systematic_2012} have
+been addressed by many researchers.
+Most of existing research so far though focuses on evolution regarding software architecture
+\citep{breivold_systematic_2012}. The main driving factors leading to symptoms of decay
+identified by \cite{perry_software_1991} are architectural erosion and
+architectural drift. While architectural drift subsumes developers'
+insensitivity when not following a systems architecture or respective guidelines while making changes, architectural erosion subsumes ignoring and violating the existing software
+architecture. \cite{parnas_software_1994} argues that as software evolves, software is maintained
+and evolved by developers who are not necessarily familiar with the initial
+architectural design. Therefore, knowledge about the architecture can become
+unavailable. Although the unfavorable effects of software evolution do not necessary break a
+system necessarily and imminently, the software becomes ``brittle'' \citep{perry_software_1991}
+as maintainability as well as evolvability degrade. Concrete  symptoms of software
+erosion on the implementation level have been documented. 
+
+\cite{zhang_variability_2013} have studied erosion symptoms for a large-scale
+industrial software product line with compile-time variability using
+preprocessor directives.
+The authors identify variability-related directives and clusters of those that
+tend to become more complex as the software evolves. The negative effects, or symptoms of software
+erosion are described as, but not limited to \emph{code replication} and
+interdependencies between code elements, such as \emph{scattering} and
+\emph{tangling}. Code scattering describes the phenomenon of code belonging to
+a certain feature being scattered across multiple units of implementation,
+e.g., modules, whereas code tangling means that code from different and
+potentially unrelated features in entangled within a single module.
+
+\cite{passos_feature_2015} have studied the extent of usage of scattering for device-drivers
+in the Linux kernel. Despite scattering being quite prevalent, their
+findings suggest that the kernel architecture is robust enough to have evolved
+successfully. Nonetheless, platform drivers in the Linux kernel seem more
+likely to be scattered than non-platform driver. They conclude that this is a
+trade-off between maintainability and performance: a more generalized and
+abstract implementation for platform-drivers in this case could possibly avoid
+scattering, yet refactorings in this manner did not seem to be necessary or
+worth the effort yet.
+
+\subsection{Variability Evolution}
+Apart from architecture evolution, the variability offered by software systems
+evolves as well. For configurable software systems,
+evolution steps will not only affect artifacts in the solution space, yet also
+be visible in changes in the respective variability models in the problem space.
+Although the variability aspect of software evolution has not gathered as
+much attention as architecture in the past, more and more
+research has emerged recently to address and understand variability evolution.
+
+\cite{peng_analyzing_2011} proposed a classification of variability evolution patterns that
+conceives evolution as adaption to changing (non-)functional requirements and
+contexts. For a context in that sense, two categories exist. A driving context
+determines, whether a variability model and respective variants can meet
+functional requirements in the first place. A supporting context by definition
+determines how non-functional properties are strengthened or weakened. 
+Any changed requirement is likely to change the contexts for a software systems
+variability model and, therefore, will make adaptations of the variability
+model necessary. Within their classification method, \cite{peng_analyzing_2011} identify major
+causes for variability evolution, comprising a) new driving contexts emerging, b) weakened supporting contexts (for instance, due to new
+non-functional requirements), and c) unfavorable trade-offs for non-functional
+properties. 
+
+To understand single evolutionary steps, several catalogs of variability
+evolution patterns have been proposed. \cite{peng_analyzing_2011} present three patterns,
+where either a new feature is added, a mandatory feature becomes optional, or a
+mandatory/optional feature is split into alternative features. \cite{seidl_co-evolution_2012} suggest a catalog of
+patterns for co-evolution of variability models and feature mappings that additionally introduces code clones, splitting a feature
+into more fine-grained sub-features and feature removal as evolution patterns.
+In addition, \cite{passos_towards_2012} have studied variability evolution in
+the Linux kernel and present a catalog of patterns where features are removed from the
+variability model, but remain a part of the implementation. Their
+catalog, among others, includes feature merges, either implicit (optional feature merged
+with its parent) or explicit.
+
+The classification proposed by \cite{peng_analyzing_2011} is a general and formalized approach
+that, as well as \cite{seidl_co-evolution_2012} and \cite{passos_towards_2012}, describes
+elementary evolution patterns which can be composed to more complex patterns. Nonetheless, no
+comprehensive catalog of variability evolution so far has been proposed.
+
+
 
 \section{Assessing Performance} \label{sec:assessing_performance}
 While the last three sections covered software evolution and variability
@@ -360,10 +362,10 @@ The performance of software systems is, like software quality, primarily a
 matter of perspective. While an end user might consider practical aspects to be
 more important, from a developer’s perspective, performance relates to and is
 best described by non-functional properties \citep{molyneaux_art_2014}.
-{\color{blue}While functional properties subsume what exactly a software system does, non-functional
+While functional properties subsume what exactly a software system does, non-functional
 properties describe how (good or bad) a software system is at providing the
-functionality offered}. The notion of good and bad in this sense corresponds to
-non-functional requirements (NFR), that is, software with good performance
+functionality offered \citep{liggesmeyer_software-qualitat:_2009}. The notion
+of good and bad in this sense corresponds to non-functional requirements (NFR), that is, software with good performance
 behavior satisfies NFRs. The categories of NFRs that shape performance behavior
 are manifold. According to \cite{molyneaux_art_2014}, the categories or
 \emph{key performance indicators} (KPIs) include 
@@ -414,9 +416,9 @@ load for the respective use case. A benchmark, all in all, needs to be
 representative, i.e., should relate to the the use case or requirement one
  wants to validate. While benchmarks for file compression usually include
 multiple different types of media data (text, sound, pictures) like the
-{\color{blue}Canterbury corpus\footnote{bener}}, web applications can be exposed
-to dealing with a number of simulated users at the same time \citep{molyneaux_art_2014}. Benchmarks have often been
-standardized within research and engineering communities to provide comparable
+Canterbury corpus\footnote{The Canterbury corpus can be found
+here, \url{http://corpus.canterbury.ac.nz/}.}, web applications can be exposed
+to dealing with a number of simulated users at the same time \citep{molyneaux_art_2014}. Benchmarks have often been standardized within research and engineering communities to provide comparable
 performance measurements. A popular example is the Software Performance Evaluation
 Corporation (SPEC), a consortium providing a variety of benchmarks like the
 CPU2000\footnote{The benchmark description
@@ -442,7 +444,7 @@ a number of clients for a server-side application. An analysis module, finally,
 collects and summarizes data related to the performance testing target. More on
 summarizing and comparing recorded results in the next section.
 
-\section{Statistical Considerations}
+\section{Statistical Considerations}\label{sec:statistical_considerations}
 In this section we now discuss the appropriate statistical means to summarize,
 compare and interpret measurement results. For the remainder of this section we
 will refer to the following two use cases. First, to obtain robust results, the
@@ -629,8 +631,7 @@ The median is a less precise estimator than the both means, yet more robust
 with regard to extreme observations. In addition, the MAD or IQR provide a more
 robust means of spread than the standard deviation.
 
-\section{Performance Prediction Models}
-\label{sec:performance-prediction-models} 
+\section{Performance Prediction Models}\label{sec:performance_prediction_models} 
 In the last section we referred to performance, or in detail, the KPIs, as
 possible testing targets we validate against non-functional requirements.
 However, in a broader sense, software performance has become an aspect of
