@@ -1,6 +1,6 @@
-\paragraph{Configurable Software}
+\paragraph{Configurable Software Systems.}
 Modern software systems often need to
-be customized to satisfy user requirements. Customizable software, for instance,
+be customized to satisfy user requirements. Configurable software, for instance,
 enables greater flexibility in supporting varying hardware platforms or tweaking
 system performance. To make software systems configurable and customizable, they
 exhibit a variety of \emph{configuration options}, also called
@@ -11,22 +11,25 @@ parts of the software system. The selection of configuration options can be
 accommodated at different stages, either at \emph{compile-} or \emph{build-time}
 when the software is built or at \emph{load-time} before the software is actually used.
 Compile-time variability usually governs what code sections get
-compiled in the program. For instance, compile-time variability can be
+compiled in the program. 
+Runtime-variability allows to configure the system during execution, which is
+needed, for example, for context-sensitive systems. For instance, compile-time variability can be
 realized by excluding code sections from compilation using preprocessor
 annotations \citep{hunsen_preprocessor-based_2016} or by assembling the code
 sections to compile incrementally from predefined code modules depending on the
 feature selection \citep{schaefer_delta-oriented_2010}. In contrast to that,
 load-time variability controls which code sections can be visited during execution. Configurations for
 load-time variability can be specified using
-configuration files, environment variables or command-line arguments.
+configuration files, environment variables, or command-line arguments.
 Many software systems are configurable, examples range from small open-source
 command-line tools to mature ecosystems including Eclipse or even operating
-systems such as the Linux kernel with more than $11,000$ options \citep{dietrich_robust_2012}.
+systems, such as the Linux kernel with more than $11,000$ options
+\citep{dietrich_robust_2012}.
 
 Configuration options for
 software systems are usually constrained (e.g., are mutually exclusive, imply
 or depend on other features) to a certain extent. In the worst case though,
-where all options can be selected independently, the number of valid
+at which all options can be selected independently, the number of valid
 configurations grows exponentially with every feature added, and exceeds
 the number of atoms in the entire universe once we count $265$ independent
 features. Hence, even for a small number of features, any naive approach for
@@ -47,21 +50,21 @@ behaviors associated with the individual features involved''
 a configurable system an error-prone task.
 
 To illustrate feature interactions, consider the following example
-\citep{siegmund_performance-influence_2015}. A software system, say a file
+\citep{siegmund_performance-influence_2015}: A software system, say a file
 server, is used to store files in a database and provide access upon request.
 The system provides two features, encryption and compression. In
 isolation, both file en- or decryption and file (de-)compression demand an
 expectable fraction of memory and processor time. The performance behavior for
 the software system though may vary if both features are selected. For
 instance, if a file is encrypted and compressed (or vice versa), we can expect
-the operation to demand less resources since an encrypted file is likely to be
-of smaller size than the decrypted original.
+the operation to demand less resources since an compressed file is likely to be
+of smaller size than the decompressed original.
 This is a positive example for a feature interaction, where the performance
 behavior although being benefitting, is unexpected.
 
-\paragraph{Performance Behavior}
+\paragraph{Performance Behavior.}
 The term ``performance'' with respect to software and software systems is not
-precisely defined and differs from an end user's and a developer’s perspective.
+precisely defined and differs from an end user's and developer’s perspective.
 According to \cite{molyneaux_art_2014}, from a user’s perspective ``a well-performing
 application is one that lets the end user carry out a given task without any
 undue perceived delay or irritation''. However, to accurately assess
@@ -78,18 +81,19 @@ required for processing a task.
 The performance behavior of a software system depends on the functionality
 offered, the respective implementation, program load, the underlying hardware system,
 environment variables, and the resulting execution. Since configuration options
-control what and how functionality is executed, we concentrate here on those
+control what and how functionality is executed, we concentrate here on this
 source of performance. While feature interactions not necessarily cause the
 software system to break severely in all cases, its overall performance can
 become unfavorable for corner cases or specific configurations as the feature
 selection influences the execution. 
-That is, the choice of features as well shapes the performance of a software system.
+That is, the choice of features influences the performance of a software system,
+too.
 
-\paragraph{Performance And Evolving Software}
+\paragraph{Performance and Evolving Software.}
 Actively maintained software systems evolve with every modification made, every
 version released,  and patch provided. Modifications usually introduce new
 functionality to the system, but functionality might as well be divided into
-smaller modules to enable provide more fine-grained configuration options. When
+smaller modules to provide more fine-grained configuration options. When
 features are removed from the software system, the corresponding functionality
 might remain in the code base or options are merged
 \citep{apel_feature-oriented_2013}.
@@ -123,68 +127,64 @@ more and more expensive.
 Besides the aspects of software evolution discussed above, the evolution of
 performance for software systems has gained more attention recently. In
 practice though, quality assurance with respect to performance is still
-conducted to an unsatisfactory extent, or accommodated to late in the
+conducted to an unsatisfactory extent, or accommodated too late in the
 development process, according to \cite{molyneaux_art_2014}. Thus, postponed
 maintenance and QA with respect to performance is likely to a driving factor for
 degradation of performance quality, or simply called \emph{performance regression}.
 
 While performance discipline has emerged as a discipline of or target
-in software testing, qualitative root cause analysis, for the most part, is
+in software testing, qualitative root-cause analysis, for the most part, is
 still conducted manually \citep{molyneaux_art_2014}. However, there exists work
-on automated root cause analysis for performance bugs, such as measuring the execution time
-of unit tests, whereby an increased execution time indicates performance
-regression, and the corresponding unit test helps isolating the root cause
+on automated root-cause analysis for performance bugs, such as measuring the
+execution time of unit tests, whereby an increased execution time indicates performance
+regression, and the corresponding unit test helps isolating the root-cause
 thereof \citep{heger_automated_2013,nguyen_industrial_2014}. In conclusion, we
 see that, to better assure good software performance, more knowledge about performance behavior needs to be
 available, ideally, earlier in the development process.
 
-\paragraph{Performance Prediction}
-For configurable systems, performance behavior can be more complex and
+\paragraph{Performance Prediction.}
+For configurable software systems, performance behavior can be more complex and
 dependent on the feature selection, as we have seen with the example for
 feature interactions above. Similarly, quality assurance for configurable
 software systems is far from exhaustively testing all possible configurations,
 but rather close to only testing a selection of configurations sampled with
 respect to certain constraints. Sampling strategies might stress feature
-interactions, such as pair-wise sampling \citep{apel_feature-oriented_2013}.
-However, all sample are selected with the intention to learn as much as possible
-about the entire system from a small sample of variants. So to speak, a
-sampling strategy is ``optimal'' if for a resulting sample, the probability of missing an
-arbitrary (relevant) feature interaction, is minimal.
+interactions, such as pair-wise sampling \citep{siegmund_predicting_2012}.
+However, all samples are selected with the intention to learn as much as
+possible about the entire system from a small sample set of variants. So to
+speak, a sampling strategy is ``optimal'' if for a resulting sample set, the
+probability of missing an arbitrary (relevant) feature interaction, is minimal.
 
 While performance testing is apparently useful, recently, a number of techniques
 to model and predict performance behavior for arbitrary configurations have
-emerged. The idea behind all these approaches is similar to sampling strategies
-as an ``accurate'' prediction model is able to predict performance for
-arbitrary configurations with a low error rate.
-The underlying optimization problem of performance prediction models is to find
-an accurate estimator $\hat{f}$ for a function $f$ describing a performance
+emerged
+\citep{siegmund_predicting_2012,siegmund_performance-influence_2015,guo_variability-aware_2013,sarkar_cost-efficient_2015}.
+The underlying optimization problem of performance-prediction models is to find an accurate estimator $\hat{f}$ for a function $f$ describing a performance
 property depending on the feature selection. Performance properties can be
 estimated without performance measurements, for instance by inferring
-performance properties from software models \citep{woodside_future_2007},
+performance properties from software models \citep{woodside_future_2007};
 measurement-based approaches for configurable systems address this optimization
-problem.  The proposed approaches include performance prediction models build on
-learning performance behavior with decision trees
-\citep{guo_variability-aware_2013}, learning a frequency-based representation
+problem.  The proposed approaches include learning performance behavior with decision trees
+\citep{guo_variability-aware_2013,sarkar_cost-efficient_2015}, learning a frequency-based representation
 of the target function \citep{zhang_performance_2015}, or learning the
 influence of single features and all performance-relevant feature interactions
 \citep{siegmund_predicting_2012,siegmund_performance-influence_2015}. All
 approaches have shown promising error rates for several real-world applications
-and allows prediction of system performance for arbitrary configuration
-variants. However, all approaches to create performance prediction models
-demand samples of performance measurements for multiple configurations to
-learn performance behavior and validate predictions.
+and allow prediction of system performance for arbitrary configurations.
+To create performance-prediction models, all approaches demand samples of
+performance measurements for multiple configurations.
 
-\paragraph{Problem Statement}
-The assessment of performance evolution requires a series of performance
-prediction models describing performance behavior for a series of versions of a
-configurable system. Assessing the performance behavior for a single version of a
-configurable software system entails a number of necessary and preliminary
-tasks. These tasks can even become more complicated once, instead of a single
-version, a series of versions is assessed:
+\paragraph{Problem Statement.}
+The assessment of performance evolution requires a series of
+performance-prediction models describing performance behavior for a series of
+versions of a configurable software system. Assessing the performance behavior
+for a single version of a configurable software system entails a number of
+necessary and preliminary tasks. These tasks can even become more complicated
+once a series of versions is assessed, instead of a single one:
 \begin{itemize}
-  \item \emph{Feature Model Synthesis:} Not all configurable systems do
-  explicitly exhibit a variability model what is required to derive all valid variants
-	\citep{rabkin_static_2011,nadi_where_2015}.
+  \item \emph{Feature Model Synthesis:} Not all configurable software systems do
+  explicitly exhibit a variability model which is, however, required to derive
+  all valid variants \citep{rabkin_static_2011,nadi_where_2015}.
 	While substantial work exists on reverse engineering variability models from
 	code
 	\citep{rabkin_static_2011,she_reverse_2011,zhou_extracting_2015,nadi_where_2015}
@@ -196,49 +196,51 @@ version, a series of versions is assessed:
 	\citep{peng_analyzing_2011}, vary from version to version, and therefore,
 	require repeated reverse engineering steps.
 	
-	\item \emph{Configuration Translation:} the translation of a valid
+	\item \emph{Configuration Translation:} The translation of a valid
 	configuration to a configuration artifact such as a configuration file or a list of command-line arguments may differ
 from system to system. This step may be automated, but one still needs to
 detect how configurations are read by the software system one wants to study.
 
-\item \emph{Automated Integration:} Same goes for the infrastructure to
-compile or build a software system since there exist may possible build tools such as makefiles or sbt.
+\item \emph{Automated Integration:} The sampe applies to the
+infrastructure to compile or build a software system since there exist many
+possible build tools such as makefiles or sbt.
 Again, the build process can be automated, but one needs to detect and
 specify the build mechanism used.
 
-\item \emph{Version History Sampling:} To study performance evolution one
-needs to specify which snapshots or versions of a software system one wants to study. While detecting
-releases and release candidates should be straightforward, one might, for
-instance, be interested in the performance evolution including snapshots
+\item \emph{Version History Sampling:} To study performance evolution we need to
+specify which snapshots or versions of a software system are relevant to
+describe its performance behavior over time. While detecting releases and release candidates should be straightforward, one might, for instance, be interested in the performance evolution including snapshots
 between two releases. As not all snapshots though are likely to compile,
 classifying defect snapshots can still be tedious work.
 \item \emph{Performance Assessment Setup:} The accurate assessment of
 performance evolution requires a suitable testing setup. The methodology required for assessing performance
 among others requires the selection of suitable performance metrics and
-corresponding benchmarks, means to record measurements and repeat experiments
-easily, and proper ways to interpret and compare results.
+corresponding benchmarks, means to record measurements, and repeat experiments
+easily as well as proper ways to interpret and compare results.
 \end{itemize}
 
-\paragraph{Goals And Thesis Structure}
-
-The goal of this thesis is to provide a theoretical and practical foundation for
-exhaustive performance measurements of configurable software systems and series
-thereof. We contribute a guideline of and tool support for performance
-measurements for configurable and evolving software systems. Our research
-objectives and desired outcomes are
+\paragraph{Goals and Thesis Structure.}
+The goal of this thesis is to provide a theoretical and practical methodology to enable
+exhaustive performance measurements of configurable software systems and over
+their version history. That is, we contribute a guideline of and tool support
+for performance measurements of configurable and evolving software systems. Our
+research objectives and desired outcomes are
 
 \begin{itemize}
 \item a literature overview regarding software evolution, feature model
-synthesis and performance assessment,
+synthesis, and performance assessment,
 \item a methodology to assess performance evolution with respect to the
 aforementioned challenges, and
 \item a practical tool for performance measurement for multiple revisions of
 configurable software systems.
 \end{itemize}
 
-The Thesis is organized as follows. Chapter \ref{chapter:2} provides the
-background to the relevant topics discussed in this thesis, including
-variability modeling, software evolution, feature model synthesis, performance
+We also propose an approach of automatically detecting promising versions of the
+configurable software systems for performance measurements and evaluate whether
+our assumptions hold. 
+
+The thesis is organized as follows. Chapter
+\ref{chapter:2} provides the background to the relevant topics discussed in this thesis, including variability modeling, software evolution, feature model synthesis, performance
 assessment, statistical basics to summarize data records, and performance
 prediction models.
 In Chapter \ref{chapter:3}, we propose our measurement methodology and discuss
@@ -247,3 +249,5 @@ limitations. In Chapter \ref{chapter:4}, we evaluate several aspects of our
 tool with respect to practicality and discuss the results thereof. Finally,
 Chapter \ref{chapter:5} concludes the thesis and gives an outlook on possible
 future work.
+
+\section{Overview}
