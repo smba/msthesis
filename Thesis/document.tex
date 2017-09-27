@@ -153,7 +153,7 @@ als die angegebenen Quellen und Hilfsmittel benutzt habe.
 \vspace{1.3cm}
 
 \noindent{Braunschweig, \today ~~~~~~~\rule{0.6\textwidth}{0.4pt}}
-  $$\qquad$$
+ $$\qquad$$
  $$\qquad$$
  $$\qquad$$
 \subsubsection*{Statement of Originality}
@@ -177,76 +177,14 @@ by another person except where due reference is made in the text.
 \chapter{Background}\label{chapter:2}
 \input{background.tex}
 
-\chapter{Performance Measurement Setup}\label{chapter:3}
+\chapter{Variability Assessment}
+\input{variability_assessment.tex}
 
+\chapter{Version Assessment}
+\input{version_assessment.tex}
 
-\section{Performance Measurement Infrastructure}
-
-\subsection{Repository Retrieval}
-\subsection{Configuration Generation}
-Prior to any test session, we require a set of valid configurations for the
-configurable software system to benchmark. The configuraion semantics is
-commonly expressed in feature diagrams (cf. Sect. 2), but can be translated to
-and from propositional formulas or context-free grammars (CFGs) (although with
-additional CTCs) as well \citep{batory_feature_2005}. The next section presents
-a methodology to translate a given feature diagram to an equivalent CFG, derive
-valid words from the CFG, and subsequently transform derived words to
-configuration artifacts.
-
-\begin{definition}[Context-free grammar]
-A context-free grammar is a tuple $G = (N, T, S, P)$ with a set of non-terminal
-symbols $N$, terminal symbols $T$, a start word $S \in (N \cup T)^*$, and set of
-productions $P \subseteq N \times (N \cup T)^*$. 
-\end{definition}
-
-\begin{definition}[Configuration grammar]
-A configuration grammar (CG) is a CFG, whereby all
-features represent a non-terminal symbols. For each binary feature $b \in N$, we
-introduce two terminal symbols $(b, 0)$ and $(b, 1)$. For each numeric feature
-$n \in N$, we introduce as many terminal symbols of the form $(n, v)$ as
-there are valid numeric values for $n$, where, $v \in dom(n)$. Based on the
-feature hierarchy represented by the underlying feature diagram, we introduce a
-production in the following manner. The set of productions is 
-
-$$P_{CG} = \left\{ (p, \lbrace c \rbrace)~|~ p, c \in N \wedge p \implies  c
-\right\} $$
-
-\end{definition}
-
-\begin{algorithm}[H]
- \KwData{this text}
- \KwResult{how to write algorithm with \LaTeX2e }
- initialization\;
- \While{not at end of this document}{
-  read current\;
-  \eIf{understand}{
-   go to next section\;
-   current section becomes this one\;
-   }{
-   go back to the beginning of current section\;
-  }
- }
- \caption{How to write algorithms}
-\end{algorithm}
-
-\subsection{Sampling strategies}
-\subsection{Benchmarks}
-\subsection{Measurements with \texttt{GNU time}}
-\subsection{Measurement Aggregation}
-
-
-
-\section{Experiment Optimizations}
-
-\section{Preprocessing Strategies}
-\subsection{Variabilty Model Extraction}
-\subsection{Build Mechnism Extraction}
-\subsection{Release Commit Extraction}
-
-\section{Case Study Corpus}
-
-\chapter{Case Study Evaluation} \label{chapter:4} 
-\chapter{Conclusion}\label{chapter:5}
+\chapter{Performance Assessment}
+\input{performance_assessment.tex}
 
 \clearpage
 
