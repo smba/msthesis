@@ -174,7 +174,7 @@ and allow prediction of system performance for arbitrary configurations.
 To create performance-prediction models, all approaches demand samples of
 performance measurements for multiple configurations.
 
-\paragraph{Problem Statement.}
+\section{Problem Statement}
 The assessment of performance evolution requires a series of
 performance-prediction models describing performance behavior for a series of
 versions of a configurable software system. Assessing the performance behavior
@@ -239,6 +239,8 @@ We also propose an approach of automatically detecting promising versions of the
 configurable software systems for performance measurements and evaluate whether
 our assumptions hold. 
 
+{
+\color{red}
 The thesis is organized as follows. Chapter
 \ref{chapter:2} provides the background to the relevant topics discussed in this thesis, including variability modeling, software evolution, feature model synthesis, performance
 assessment, statistical basics to summarize data records, and performance
@@ -249,5 +251,39 @@ limitations. In Chapter \ref{chapter:4}, we evaluate several aspects of our
 tool with respect to practicality and discuss the results thereof. Finally,
 Chapter \ref{chapter:5} concludes the thesis and gives an outlook on possible
 future work.
+}
 
-\section{Overview}
+\section{Performance Evolution Assessment}
+
+The methodology described in this thesis is organized with respect to three
+dimensions of configurable software systems: variability, version history, and
+performance. The schematic overview of the performance evolution assessment
+process shown in Figure~\ref{fig:overview} outlines the major aspects of each
+dimension.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{images/process_overview.eps}
+	\caption{Overview of the performance evolution assessment process}
+	\label{fig:overview}
+\end{figure}
+
+First, objectives related to the variability of a configurable software system
+are considered. This includes the extraction and comprehension of knowledge
+about the system’s variability. econd, we address objectives which emerge with
+evolving software, for instance whether a system compiles for a specific
+version, or whether a version is a promising candidate for detecting
+performance changes. Finally, we describe in detail the assessment of
+performance which comprises the selection of suitable performance benchmarks as
+well as a selection of appropriate statistical means to summarize, compare, and
+evaluate performance statistics in order to derive meaningful insights.
+
+In addition to the three aforementioned dimensions in Figure~\ref{fig:overview},
+performance evolution assessment can also be conceived as consisting of three different
+categories of tasks, as the different colorizations might suggest. First, for a
+configurable software system, knowledge about it needs to be gathered, and
+clear performance goals need to be specified. Second, a sample set of
+configurations along with versions need to be selected. Since covering all
+variants and versions is not feasible, a sampling strategy needs to be chosen
+which is likely to uncover performance changes. Finally, the practical
+performance measurements are conducted and evaluated as mentioned above.

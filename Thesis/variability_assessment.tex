@@ -1,3 +1,16 @@
+{
+\color{blue}
+Articles to look into:
+\begin{itemize}
+  \item \cite{kastner_model_2009}
+  \item \cite{apel_semistructured_2011}
+  \item \cite{kastner_variability-aware_2011}
+  \item \cite{nadi_mining_2014}
+  \item \cite{nguyen_building_2014}
+  \item \cite{meinicke_essential_2016}
+  \item \cite{medeiros_discipline_2017}
+\end{itemize}
+}
 
 \section{Variability Model Synthesis}  \label{sec:feature_model_synthesis}
 A variability model as an abstraction of functionality of a software system is
@@ -80,7 +93,7 @@ Further qualitative investigation, including developer interviews, lead to
 the conclusion that most of existing constraints stem from domain knowledge
 \citep{nadi_where_2015}.
 
-\subsection{Feature Hierarchy Recovery} 
+\subsection{Feature Hierarchy Recovery} \label{sec:feature_hierarchy}
 Besides recovering configuration options and respective constraints, to reverse
 engineer a feature model, one further step is required. The recovered knowledge
 needs to be organized in a tree-like hierarchy with feature groups specified and
@@ -178,3 +191,207 @@ practical, detecting features whose parent was the root-feature was difficult
 since, due to the transitive property of implication, it is implied by each
 feature of the feature model.
 
+\subsection{Variability Model Synthesis in Practice}
+\begin{itemize}
+  \item How do the previously mentioned approaches relate to real-world
+  situations?
+  \item What artifacts can be used aside from code?
+\end{itemize}
+
+\section{Configuration Generation}
+Apart from having knowledge about the variability of a configurable software
+system, either in the form of a set of constraints among features, or a feature
+diagram, we also need to derive all configurations, but at least meaningful
+sample sets thereof, from the variability model. Variability models can be
+expressed in various forms, such as propositional formulas or context-free
+grammars (CFG) \citep{batory_feature_2005}, as well as constraint satisfaction
+problems (CSP) \citep{benavides_automated_2005,benavides_using_2005}.
+Accordingly, the all configurations represent solutions to propositional formulas or CSPs, and valid words for CFGs
+respectively. That is, the generation of all configurations with respect to the
+variability model is equivalent to finding a solution or word set for the
+aforementioned representations of a variability model. In the following, we
+look into how variability models can be encoded as a CSP and describe in detail
+the configuration generation using CFGs.
+
+\subsection{Constraint Satisfaction Problem}
+A constraint satisfaction problem (CSP) in the context of variability modeling
+describes a set of options ranging over finite domain as well as a set of
+constraints which restrict which values variables can take simultaneously
+\citep{benavides_automated_2005}. Fo a binary option $b$, the respective domain
+$dom(b)$ simply is $\lbrace 0, 1\rbrace$.
+For a numeric option, the respective domain $dom(n)$ is a finite set of legal
+values with a minimum and a maximum value, say $\lbrace v_{min}, v_1,
+v_2, \ldots, v_{max}\rbrace$.
+A solution $s: O \rightarrow dom(o_1) \times dom(o_2) \times \ldots \times
+dom(o_{|O|})$ to a CSP is an assignment of options $o_i \in O, i \in \mathbb{N}$
+to values of their respective domain, such that all constraints are satisfied simultaneously \citep{benavides_automated_2005}.  
+
+A solution to a CSP is found by systematically checking for different
+selections of values whether all constraints are satisfied. There exists a
+large number of ready-to-use SAT and CSP solvers, yet we are not covering CSP
+solution here since it is beyond the scope of your thesis. For further reading, 
+\citep{benavides_fama:_2007} present a tool with extensive analysis support for
+various different presentations of variability models.
+
+To encode a variability model as a CSP, \cite{benavides_automated_2005} describe
+the following transformation rules:
+
+\begin{itemize}
+  \item For a parent feature $f$ and a child feature $f’$, a mandatory
+  relationship is expressed as $f \Leftrightarrow f’$, and an optional relationship is
+  expressed as $f’ \implies f$.
+    \item  For a parent feature $f$ and child features $f_i$, where $i = 1, 2,
+    \ldots n$, an or-group is expressed as $f \Leftrightarrow f_1 \lor f_2 \lor
+    \ldots \lor f_n$, and an alternative-group is expressed as $$\bigwedge_{i
+    = 0}^n f_i \Leftrightarrow (f \land \bigwedge_{j \in \lbrack 0, n \rbrack
+    \setminus i} \neg f_j) $$.
+\end{itemize}
+
+To also consider numeric options, the domain of a numeric option $n$ can be
+conceived as an alternative-group since only one value from the domain can be
+selected at a time. Hence, each value of the domain $dom(n)$ can be conceived as
+a binary option. If value $v \in dom(n)$ is selected, this states $n = v$,
+otherwise $n \neq v$.
+
+
+\subsection{Grammar Expansion}
+Besides trying to find solution for satisfiability problems, the expression of
+variability models as context-free grammars (CFGs) enables the derivation of
+configurations directly from a CFG by expanding it. A
+first description of transformation rules, yet only for feature diagrams with
+binary options, was was proposed by \cite{batory_feature_2005}. A hierarchical feature diagram
+can be recovered from a set of constraints using the algorithm of
+\cite{she_reverse_2011} as explained in section \ref{sec:feature_hierarchy}.
+In the following we describe
+how a feature diagram with both binary and numeric features can be transformed
+to a context-free grammar, and how configurations can be derived subsequently.
+
+\begin{definition}[Context-free Grammar]\label{def:cfg}
+A context-free grammar is a tuple $G = (N, T, S, P)$, consisting of a set of
+non-terminal symbols $N$, a set of terminal symbols $T$, a start word $S \in (N
+\cup T)^*$, and a set of productions $P \subseteq N \times (N \cup T)^*$. The
+set $L_G$ describes the language of the grammar $G$ and comprises all valid
+words $w \in L_G$ which can be derived from the start word $S \in L_G$ by
+applying productions a finite number of times to it.
+\end{definition}
+
+Following the Definition.~\ref{def:cfg}, to derive all configurations for a
+given feature diagram, the idea is to first translate it to a context-free
+grammar. In order to do so, especially with respect to handling numeric
+options, we introduce an extended definition for a CFG, a configuration
+generation grammar.
+
+\begin{definition}[Configuration Generation Grammar]\label{def:cgg}
+A configuration generation grammar is a context-free grammar $G = (N, T, S,
+P)$ whose elements are constructed from a feature diagram as follows.
+
+\begin{itemize}
+  \item All features represent non-terminal symbols $N$, which can be divided
+  into two disjoint sets, binary non-terminal symbols $F_\mathcal{B}$ and
+  numeric nont-terminal symbols $F_\mathcal{N}$. That is, $N = F_\mathcal{B}
+  \cup F_\mathcal{N}$ and $F_\mathcal{B} \cap F_\mathcal{N} = \varnothing$.
+
+  \item Similarly, the set of terminal symbols $T$ is consists of two different
+  sets, the binary terminal symbols $T_\mathcal{B}$ and the numeric terminal
+  symbols $T_\mathcal{N}$, so that $T = T_\mathcal{B} \cup T_\mathcal{N}$ and
+  $T_\mathcal{B} \cap T_\mathcal{N} = \varnothing$ with
+  
+  \begin{equation}
+  T_\mathcal{B} = \bigcup_{b\in F_\mathcal{B}} \lbrace b_0,  b_1\rbrace
+  \end{equation}
+  
+  \begin{equation}
+  T_\mathcal{N} = \bigcup_{n\in F_\mathcal{N}} ~ \bigcup_{v_i \in dom(n)}
+  \lbrace n_{v_i}\rbrace.
+  \end{equation}
+  
+  \item All productions $P$ are constructed from the hierarchy specified in the
+  given feature diagram, the binary, and the numeric features. In our definition
+  of a configuration grammar, each word $w$ is expressed as a subset of
+  (non-)terminal symbols, i.e., $w \subseteq (N \cup T)$. A word is a terminal
+  word, if and only if it does not contain any non-terminal symbol. Accordingly,
+  the set of productions is $P \subseteq N \times (N \cup T)$, and a production
+  $p = (u, v) \in P$ is applied to a word $w$ by removing non-terminal symbol
+  $u$ from word $w$ and merging words $v$ and $w$. Hence, the new word $w'$ is
+  defined as $w' = (w \setminus u) \cup v$.
+
+  The productions $P = P_H \cup P_F$ are constructed from the following disjoint
+  two sets of productions:
+  
+  \begin{equation}
+  P_H = \lbrace (p, \lbrace c, c_1 \rbrace) | p, c \in N \land
+  c \implies p\rbrace
+  \end{equation}
+  
+  \begin{equation}
+  P_F = \bigcup_{f \in (F_\mathcal{B} \cup F_\mathcal{N})} ~ \bigcup_{v \in
+  dom(f)} \lbrace (f, v) \rbrace
+  \end{equation}
+	
+  \item Finally, the start word $S \subseteq (N \cup T)$ consists the
+  non-terminal representing the top-level feature in the given feature diagram.
+  The set of respective configurations is described by all words which can be
+  generated by a finite number of applications of productions to the start word
+  $S$.
+  
+  \end{itemize}
+\end{definition}
+
+Based on definition \ref{def:cgg}, we specify the following algorithm
+\ref{alg:expand} to expand the configuration step by step and, thus, derive all valid words from the
+grammar. The algorithm repeatedly derives new words by applying every production
+possible to previously derived words. Once a word is terminal, i.e., does not
+contain any non-terminal symbol, it is returned and not expanded any further.
+The algorithm terminates if there is no word left to expand in the queue of
+partial words.\\
+
+\begin{algorithm}[H]\label{alg:expand}
+ \KwData{Configuration generation grammar $G = \lbrace N, T, S, P \rbrace$, and
+ cross-tree constraints $C$ of the given variability model}
+ \KwResult{All configurations of the given variability model.}
+ \vspace{5mm}
+ words = Queue()\;
+ words.enqueue($S$)\;
+ \While{words is not empty}{
+  current = words.dequeue()\;
+  \If{current does violate any cross-tree constraint}{
+   continue\;
+   }
+   \For{$n \in N$}{
+   		\If{$n \in current$}{
+   			\For{$u \in \lbrace u | (n, u) \in P \rbrace$}{
+   				new = current\;
+   				new = new $\setminus~ n$\;
+   				new = new $\cup~ u$\;
+   				\eIf{$N \cup new = \varnothing$}{
+   					yield new\;
+   				}{
+   					words.enqueue(new)\;
+   				}
+   			}
+   			break\;
+   		}
+   }
+ }
+ 
+ \caption{Expansion algorithm for a configuration generation grammar.}
+\end{algorithm}\vspace{2mm}
+
+In addition to deriving all configurations from a variability model, the
+algorithm can also be used to derive partial configurations, such as
+binary-only configurations. To do so, the numeric features need to be removed
+from the set of non-terminal symbols. The only limitation of this algorithm is
+that, conceptually, it requires all numeric options to be mandatory features.
+This is due to the unspecified semantics of a numeric option being un- or
+deselected.
+
+\section{Configuration Sampling}
+\begin{itemize}
+  \item Sampling strategies with respect to coverage criteria
+  \citep{apel_feature-oriented_2013}
+  \item Evaluation of different sampling strategies \citep{medeiros_comparison_2016}
+  \item Influence-centered sampling \cite{siegmund_predicting_2012}
+\end{itemize}
+
+\subsection{Sampling for Binary Features}
+\subsection{Sampling for Numeric Features}
