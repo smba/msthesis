@@ -386,12 +386,66 @@ This is due to the unspecified semantics of a numeric option being un- or
 deselected.
 
 \section{Configuration Sampling}
+When assessing properties for configurable software systems, it is infeasible
+to consider every possible variant. As previously stated in Section 2.x, with
+variability, interactions between features can emerge and can be the root cause
+for configuration-related faults. Hence, faults may only be uncovered under
+specific configurations. To not exhaustively assess all variants, a variety of
+strategies to select a sample set of configurations have been proposed.
+Every sampling strategy in the context of configurable software system is
+designed with respect to a \emph{coverage criterion} 
+\citep{apel_feature-oriented_2013}. For instance, most feature interactions
+happen to be pair-wise interactions, i.e., interactions between two features.
+Based on this finding, t-wise sampling is one widely used
+strategy, where configurations are part of the sample set, so that all t-tuples
+of features are selected together. Thus, all t-wise feature interactions are
+covered. 
+
+\subsection{Binary Features}
+Most sampling strategies in the context of configurable software systems
+target binary features. Popular sampling strategies for sampling configurations
+of binary features include, but are not limited to the following
+\citep{apel_feature-oriented_2013,medeiros_comparison_2016}:
+
 \begin{itemize}
-  \item Sampling strategies with respect to coverage criteria
-  \citep{apel_feature-oriented_2013}
-  \item Evaluation of different sampling strategies \citep{medeiros_comparison_2016}
-  \item Influence-centered sampling \cite{siegmund_predicting_2012}
+  \item \emph{Feature coverage}: Configurations are selected, so that each
+  feature is selected in at least one configuration
+  \citep{apel_feature-oriented_2013}.
+  
+  \item \emph{Most-enabled-disabled}: Configurations are selected, so that a
+  maximal and minimal number of features is enabled
+  \citep{medeiros_comparison_2016}.
+  
+  \item \emph{One-enabled}: Configurations are selected, so
+  that each feature is enabled at a time \citep{abal_42_2014}. Similarly, with a
+  \emph{one-disabled} strategy, configurations are chosen, so that each feature
+  is deselected at a time.
+  
+  \item \emph{Statement-coverage}: Configurations are
+  selected, so that each variable block of code (for
+  compile-time variability) is at least enabled in one
+  variant \citep{tartler_static_2014}.
+  
+  \item \emph{T-wise sampling}: Configurations are selected, so that all
+  t-tuples of all (binary) features are included in at least one configuration
+  \citep{williams_practical_1996}. That is, the upper bound for the sample size
+  is $\binom{|F|}{t}$ for features $F$ and $t \in \mathbb{N}$.
+
 \end{itemize}
 
-\subsection{Sampling for Binary Features}
-\subsection{Sampling for Numeric Features}
+\cite{medeiros_comparison_2016} have compared different sampling strategies,
+among other things with respect to resulting sample size and fault detection
+rate. \emph{Most-enabled-disabled} results in the smallest
+sample size, whereas \emph{t-wise} sampling, especially for a greater $t$ yields
+the largest samples. Regarding the detection of faults,
+\emph{statement-coverage} performed poorly, whereas \emph{t-wise} sampled
+samples, especially with a greater $t$ unveiled most faults. 
+
+\subsection{Numeric Features}
+\begin{itemize}
+  \item Full factorial designs are infeasible
+  \item Numeric options usually only tune features and do not interact
+  \item Evaluation of game designs by \cite{siegmund_performance-influence_2015}
+\end{itemize}
+
+\subsection{Configuration Sampling in Practice}
