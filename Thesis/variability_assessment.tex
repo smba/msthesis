@@ -1,19 +1,24 @@
-{
-\color{blue}
-Articles to look into:
+\section{Variability Model Synthesis}
 \begin{itemize}
-  \item \cite{kastner_model_2009}
-  \item \cite{apel_semistructured_2011}
-  \item \cite{kastner_variability-aware_2011}
-  \item \cite{nadi_mining_2014}
-  \item \cite{nguyen_building_2014}
-  \item \cite{meinicke_essential_2016}
-  \item \cite{medeiros_discipline_2017}
+  \item Separation of concerns as a driving motivation for variability;
+  different types of separation (physical or virtual) \citep{kastner_model_2009}
+  and accomodation of variability (load-time or compile-time)
+  \citep{apel_feature-oriented_2013}
+  \item Why reverse engineering variability is useful and necessary
+  ((variability-aware) analysis, required for configuration)
 \end{itemize}
-}
 
-\section{Variability Model Synthesis}  \label{sec:feature_model_synthesis}
-A variability model as an abstraction of functionality of a software system is
+\subsection{Reverse Engineering Configurable Software Systems}
+\begin{itemize}
+  \item Reverse engineering, or extracting a model of how variability is
+  integrated in a configurable software system
+  \item Useful to run variability-aware analyses on it, such as \cite{meinicke_essential_2016}
+  \item Variational DOM \cite{nguyen_building_2014}
+  \item Mapping of code segments to conditions \cite{lillack_tracking_2014}
+  \item Variability-aware parsing \cite{kastner_variability-aware_2011}
+\end{itemize}
+\subsection{Reverse Engineering Variability Models}
+\label{sec:feature_model_synthesis} A variability model as an abstraction of functionality of a software system is
 required, or at least of great interest, in many contexts. 
 
 \emph{First}, not
@@ -44,15 +49,15 @@ constraints from source code as well as the organization of constraints into
 feature hierarchy and groups. The further assessment of configurable systems
 requires a well-defined and sound variability model.
 
-\subsection{Feature Extraction} 
+%\subsection{Feature Extraction} 
 The first objective in recovering a variability model from a configurable
 system is to determine the available configuration options to select
 from. In addition, for further configuration, the type of each configuration
 option (e.g., boolean, numeric, or string) and the respective domain of valid
 values needs to be specified.
 
-\cite{rabkin_static_2011} proposed a static, yet heuristic approach to extract
-configuration options along with respective types and domains. Their approach
+\paragraph{Feature Extraction.} \cite{rabkin_static_2011} proposed a static, yet
+heuristic approach to extract configuration options along with respective types and domains. Their approach
 exploits the usage of configuration APIs and works
 in two stages. It commences with extracting all code sections where
 configuration options are parsed. Next, configuration names can be
@@ -73,12 +78,15 @@ Nonetheless, for the systems studied, the authors were able to recover
 configuration options that were not documented, only used for debugging or even not used at
 all.
 
-\subsection{Constraint Extraction}
+\paragraph{Constraint Extraction.} 
+{\color{blue}
 The second step in recovering a variability model is the
 extraction of configuration constraints. An approach proposed by \cite{zhou_extracting_2015}
-focuses on the extraction of file presence conditions from build files using symbolic execution. A more comprehensive investigation of configuration
-constraints and their origin is provided by \cite{nadi_mining_2014,nadi_where_2015}. They
-use variability-aware parsing to infer constraints by
+focuses on the extraction of file presence conditions from build files using
+symbolic execution. \cite{al-kofahi_escaping_2016}
+}
+A more comprehensive investigation of configuration
+constraints and their origin is provided by \cite{nadi_mining_2014,nadi_where_2015}. They use variability-aware parsing to infer constraints by
 evaluating make files and  analyzing preprocessor directives. Inferred
 constraints result from violations of two assumed rules, where (a) every valid
 configuration must not contain build-time errors and (b) every valid
@@ -93,7 +101,7 @@ Further qualitative investigation, including developer interviews, lead to
 the conclusion that most of existing constraints stem from domain knowledge
 \citep{nadi_where_2015}.
 
-\subsection{Feature Hierarchy Recovery} \label{sec:feature_hierarchy}
+\subsection{Reverse Engineering Feature Diagrams} \label{sec:feature_hierarchy}
 Besides recovering configuration options and respective constraints, to reverse
 engineer a feature model, one further step is required. The recovered knowledge
 needs to be organized in a tree-like hierarchy with feature groups specified and
@@ -191,7 +199,7 @@ practical, detecting features whose parent was the root-feature was difficult
 since, due to the transitive property of implication, it is implied by each
 feature of the feature model.
 
-\subsection{Variability Model Synthesis in Practice}
+\subsection{Practical Remarks}
 \begin{itemize}
   \item How do the previously mentioned approaches relate to real-world
   situations?
