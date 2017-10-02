@@ -1,22 +1,87 @@
 \section{Variability Model Synthesis}
-\begin{itemize}
-  \item Separation of concerns as a driving motivation for variability;
-  different types of separation (physical or virtual) \citep{kastner_model_2009}
-  and accomodation of variability (load-time or compile-time)
-  \citep{apel_feature-oriented_2013}
-  \item Why reverse engineering variability is useful and necessary
-  ((variability-aware) analysis, required for configuration)
-\end{itemize}
+The idea of designing and developing configurable software systems is driven by
+the separation of different concerns, or features of a software system. A
+software system which is configurable is designed to be assembled at
+compile-time with respect to its configuration, or to behave according to a
+configuration read at load-time. Moreover, for both types of variability there
+exist various ways of realization. A complete survey of means to implement
+configurable software systems would likely exceed the scope of this section,
+yet we intend to present in this section which shapes of variability are
+meaningful and how they can be assessed. The next two subsections address on
+the one hand, how variable program parts can be extracted, and, on the other
+hand, how variability models itself can be recovered from the code base. While
+the first objective yields representations, which can be a basis for numerous
+variability-aware analyses of the program, the second yields useful knowledge
+on how to actually configure a software system. The third subsection discusses
+the transformation of variability constraints to a hierarchical feature diagram,
+and the last subsection discusses practical remarks on synthesizing a
+variability model.
 
-\subsection{Reverse Engineering Configurable Software Systems}
-\begin{itemize}
-  \item Reverse engineering, or extracting a model of how variability is
-  integrated in a configurable software system
-  \item Useful to run variability-aware analyses on it, such as \cite{meinicke_essential_2016}
-  \item Variational DOM \cite{nguyen_building_2014}
-  \item Mapping of code segments to conditions \cite{lillack_tracking_2014}
-  \item Variability-aware parsing \cite{kastner_variability-aware_2011}
-\end{itemize}
+\subsection{Untangling Configurable Software Systems}
+With the phenomenon of an infeasible number of configurations, naive analyses of
+configurable systems are not trivial since static analysis can only assess one
+variant at a time, and dynamic analyses only follow one execution path.
+Although some approaches to implement variability provide modularization to
+some extent, their representation specifies under which
+configurations a code fragment is refined and compiled, or executed. In
+contrast to that, we know little about the resulting variants without compiling
+every single variant possible, as well as about every execution path without
+explicitly marking alternatives. In this subsection, however, we discuss among
+others techniques to obtain information about every variant possible without a
+single assessment.
+
+\cite{kastner_variability-aware_2011} have proposed a framework,
+\emph{TypeChef}, to enable the construction of variability-aware parsers. A variability-aware parser, like
+ordinary parsers, systematically explores a program to return an abstract
+representation of the parsed program. This parse tree, or abstract syntax tree
+is the basis for compilers to translate a program, or for further static
+analyses including type checking. For a code base with variability expressed by
+preprocessor directives, which are evaluated prior to compilation, a
+variability-aware parser, however, is able to derive a parse tree considering
+all variants in a single run. A parse tree usually consists of nodes
+representing syntactical features of the parsed program. The parse tree
+returned by a variability-aware parser, moreover, comprehends variable segments
+of a program and will include them with respect to their presence conditions.
+For instance, a class may contain a function sort, for which two different
+implementations exist. While there might be numerous variants, the parse tree
+of the class will contain a node with two children, one for each
+implementation; higher numbers of alternative implementations are expresses by
+nesting further nodes. In that way, the variable and invariant program segments
+can be untangled.
+
+While the approach of \cite{kastner_variability-aware_2011} handles
+undisciplined usage of preprocessor directives, such as splitting function parameter lists, variable types, or
+expressions, \cite{medeiros_discipline_2017} have proposed an approach to avoid and
+conservatively refactor those cases. The authors propose a catalog of
+refactoring templates, which describe transformations from undisciplined usage
+of preprocessor annotations to disciplined ones. With respect to
+variability-aware parsing, disciplined usage is conceived as using preprocessor
+annotations only to segment statements, but not to segment a single syntactical
+unit, such as expressions \citep{medeiros_discipline_2017}.
+
+Besides variability-aware parsing, \cite{nguyen_building_2014} have applied symbolic
+execution to unwind variability for PHP Web applications. Web applications are
+staged, i.e., even though it can be configured at load-time, the applications
+is as well variable with respect to input received at run-time. For instance,
+consider WordPress, a popular content management system (CMS) implemented in
+PHP, can be extended with a number of plug-ins. However, the content of a
+website presented to the user also depends on information retrieved from a
+database, and user input. Consequently, a dynamic PHP Web application is staged
+in a sense that it generates configurable HTML templates which are rendered at
+run-time. The authors utilize a symbolic execution to explore all possible
+execution paths. Each user input or database query is considered a symbolic
+value which is propagated through each script. By keeping track of the
+(partially symbolic) HTML output and organizing it in a DOM-like structure,
+their approach approximates the HTML output, which subsequently can be tested,
+for instance for validity \citep{nguyen_auto-locating_2011}.
+
+Similarly, \cite{lillack_tracking_2014} have applied taint-analysis to configurable software
+systems to track the influence of configuration options read at load-time.
+Their static analysis approach taints every value resulting from reading a
+configuration parameter as well as every value resulting from a computation
+that involves previously tainted values. That way, lines of code that are
+possibly depending on configuration options are detected.
+
 \subsection{Reverse Engineering Variability Models}
 \label{sec:feature_model_synthesis} A variability model as an abstraction of functionality of a software system is
 required, or at least of great interest, in many contexts. 
