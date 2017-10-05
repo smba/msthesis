@@ -1,37 +1,56 @@
-\section{Variability Model Synthesis}
+To assess performance evolution for configurable software systems, it is
+inevitable to assess and understand variability of such systems with respect to
+various aspects: \emph{First}, to actually assess single variants, knowledge
+about the variability model is required to configure the software systems accordingly.
+\emph{Second}, obtaining knowledge about feature usage and implementation can
+provide meaningful insights. For instance, knowing that most variable code is dependent
+on larger numbers of features might be useful information when selecting a
+sampling strategy. Similarly, knowing which feature combinations are frequently
+involved in conditioning program functionality and behavior can help understand
+configuration-related defects. \emph{Last}, since the number of configurations
+for most configurable software systems is infeasible, variability assessment faces
+performance- and scalability-related problems. That is, assessments are usually
+conducted constrained by limited resources.
+
+This chapter describes the first preliminary steps in our methodology and
+addresses the following questions. Section \ref{sec:untangling} reviews the synthesis of
+variability models as well as useful analyses of systems' variability; section
+\ref{sec:configuration_gen} describes means to generate configurations from variability
+models, and section \ref{sec:configuration_sam} dicusses different sampling
+strategies.
+
+\section{Untangling Variability}\label{sec:untangling}
 The idea of designing and developing configurable software systems is driven by
-the separation of different concerns, or features of a software system. A
-software system which is configurable is designed to be assembled at
-compile-time with respect to its configuration, or to behave according to a
-configuration read at load-time. Moreover, for both types of variability there
-exist various ways of realization. A complete survey of means to implement
-configurable software systems would likely exceed the scope of this section,
-yet we intend to present in this section which shapes of variability are
-meaningful and how they can be assessed. The next two subsections address on
-the one hand, how variable program parts can be extracted, and, on the other
-hand, how variability models itself can be recovered from the code base. While
-the first objective yields representations, which can be a basis for numerous
-variability-aware analyses of the program, the second yields useful knowledge
-on how to actually configure a software system. The third subsection discusses
-the transformation of variability constraints to a hierarchical feature diagram,
-and the last subsection discusses practical remarks on synthesizing a
-variability model.
+the separation of different concerns, expressed as features of a software
+system. A configurable software system is either assembled at compile-time with
+respect to its configuration, or behaves according to a configuration read at
+load-time. While for both flavors of variability there exist various ways of
+realization, research has proposed a variety of variant-generating
+implementation techniques for compile-time variability, ranging from simple
+preprocessor directives to features as separate modules
+\citep{kastner_model_2009}.  A complete survey of means to implement
+configurable software systems would likely exceed the scope of this section, yet we intend to discuss in this
+section which information regarding variability is required or useful to our
+methodology, and how it can be obtained.
 
-\subsection{Untangling Configurable Software Systems}
-With the phenomenon of an infeasible number of configurations, naive analyses of
-configurable systems are not trivial since static analysis can only assess one
-variant at a time, and dynamic analyses only follow one execution path.
-Although some approaches to implement variability provide modularization to
-some extent, their representation specifies under which
-configurations a code fragment is refined and compiled, or executed. In
-contrast to that, we know little about the resulting variants without compiling
-every single variant possible, as well as about every execution path without
-explicitly marking alternatives. In this subsection, however, we discuss among
-others techniques to obtain information about every variant possible without a
-single assessment.
+\subsection{Family-based Analysis}
+As the number of variants for configurable software systems is usually
+infeasible, naive analyses of configurable systems are not trivial. Any static
+analysis can only assess one variant at a time, as well as dynamic analyses,
+which can only follow one execution path. 
+In contrast to that, recently,
+extended analysis techniques, which are aware of variability of the systems
+studied, have emerged \citep{thum_classification_2014}. In particular, these
+\emph{family-based} analyses avoid redundant computation, such as visiting a
+code section multiple times, and exploit artifacts shared by multiple variants \citep{thum_classification_2014}. Besides more
+efficient analysis, family-based methods incorporate knowledge about valid
+feature combinations \citep{thum_classification_2014} and, therefore, connect analysis results with
+a context, such as feature combinations, for which the findings hold.
+Family-based methods have been widely used across various domains and can
+provide useful information when assessing configurable software systems.
 
-\cite{kastner_variability-aware_2011} have proposed a framework,
-\emph{TypeChef}, to enable the construction of variability-aware parsers. A variability-aware parser, like
+\paragraph{Variability-aware Parsing.} \cite{kastner_variability-aware_2011}
+have proposed a framework, \emph{TypeChef}, to enable the construction of variability-aware parsers. A variability-aware parser, like
 ordinary parsers, systematically explores a program to return an abstract
 representation of the parsed program. This parse tree, or abstract syntax tree
 is the basis for compilers to translate a program, or for further static
@@ -46,8 +65,8 @@ For instance, a class may contain a function sort, for which two different
 implementations exist. While there might be numerous variants, the parse tree
 of the class will contain a node with two children, one for each
 implementation; higher numbers of alternative implementations are expresses by
-nesting further nodes. In that way, the variable and invariant program segments
-can be untangled.
+nesting further nodes. In that way, variable and invariant program segments
+can be separated.
 
 While the approach of \cite{kastner_variability-aware_2011} handles
 undisciplined usage of preprocessor directives, such as splitting function parameter lists, variable types, or
@@ -59,10 +78,10 @@ variability-aware parsing, disciplined usage is conceived as using preprocessor
 annotations only to segment statements, but not to segment a single syntactical
 unit, such as expressions \citep{medeiros_discipline_2017}.
 
-Besides variability-aware parsing, \cite{nguyen_building_2014} have applied symbolic
-execution to unwind variability for PHP Web applications. Web applications are
-staged, i.e., even though it can be configured at load-time, the applications
-is as well variable with respect to input received at run-time. For instance,
+\paragraph{Staged Variability.} Besides variability-aware parsing,
+\cite{nguyen_building_2014} have applied symbolic execution
+\citep{king_symbolic_1976,darringer_applications_1978} to unwind variability for
+PHP Web applications. Web applications are staged, i.e., even though it can be configured at load-time, the applications is as well variable with respect to input received at run-time. For instance,
 consider WordPress, a popular content management system (CMS) implemented in
 PHP, can be extended with a number of plug-ins. However, the content of a
 website presented to the user also depends on information retrieved from a
@@ -82,12 +101,28 @@ configuration parameter as well as every value resulting from a computation
 that involves previously tainted values. That way, lines of code that are
 possibly depending on configuration options are detected.
 
-\subsection{Reverse Engineering Variability Models}
-\label{sec:feature_model_synthesis} A variability model as an abstraction of functionality of a software system is
-required, or at least of great interest, in many contexts. 
+\paragraph{Build System Variability.} Build System Variability. Apart from
+configuring software systems using preprocessor annotations, the assembling of
+a configurable software system can as well be orchestrated by its underlying
+build system. While preprocessor annotations virtually separate code fragments
+of different features, for instance, build systems can physically exclude files
+from compilation. This variability enabled by build systems, in particular of
+Makefiles has been subject to a couple of analysis approaches. \cite{tamrawi_build_2012} have
+proposed Symake, a symbolic execution engine to evaluate Makefiles.
+On top of Symake, \cite{zhou_extracting_2015} use symbolic execution to analyze
+Makefiles and derive file presence conditions, stating under which feature
+selection a file is included or excluded from compilation. The work of
+\cite{al-kofahi_escaping_2016} addresses a more advanced build system, GNU Automake.
+Automake describes a staged build process, where a Makefile can be specified on
+a higher level, and is subsequently compiled to an actual Makefile. The
+authors’ aim to provide a variability-aware representation of all possible
+Makefiles to enable further analyses of the build process.
 
-\emph{First}, not
-every configurable system provides an explicit
+\subsection{Reverse Engineering Variability Models}
+\label{sec:feature_model_synthesis} A variability model as an abstraction of
+functionality of a software system is required, or at least of great interest,
+in many contexts.
+\emph{First}, not every configurable system provides an explicit
 representation of its variability model. 
 The reasons for inexplicit or absent configuration specification are manifold.
 They can range from poor or inconsistent documentation
@@ -95,7 +130,6 @@ They can range from poor or inconsistent documentation
 \citep{xu_hey_2015}, or configuration constraints originated in different layers of a software
 system, such as build constraints  or compiler constraints
 \citep{nadi_where_2015}.
-
 \emph{Second}, variability models have emerged to be a useful means in domain
 analysis prior to developing a software system. As feature diagrams group and
 organize features (representing functionality), synthesizing a variability model
@@ -144,12 +178,6 @@ configuration options that were not documented, only used for debugging or even 
 all.
 
 \paragraph{Constraint Extraction.} 
-{\color{blue}
-The second step in recovering a variability model is the
-extraction of configuration constraints. An approach proposed by \cite{zhou_extracting_2015}
-focuses on the extraction of file presence conditions from build files using
-symbolic execution. \cite{al-kofahi_escaping_2016}
-}
 A more comprehensive investigation of configuration
 constraints and their origin is provided by \cite{nadi_mining_2014,nadi_where_2015}. They use variability-aware parsing to infer constraints by
 evaluating make files and  analyzing preprocessor directives. Inferred
@@ -166,7 +194,7 @@ Further qualitative investigation, including developer interviews, lead to
 the conclusion that most of existing constraints stem from domain knowledge
 \citep{nadi_where_2015}.
 
-\subsection{Reverse Engineering Feature Diagrams} \label{sec:feature_hierarchy}
+\paragraph{Feature Hierarchy Recovery} \label{sec:feature_hierarchy}
 Besides recovering configuration options and respective constraints, to reverse
 engineer a feature model, one further step is required. The recovered knowledge
 needs to be organized in a tree-like hierarchy with feature groups specified and
@@ -266,12 +294,14 @@ feature of the feature model.
 
 \subsection{Practical Remarks}
 \begin{itemize}
-  \item How do the previously mentioned approaches relate to real-world
-  situations?
-  \item What artifacts can be used aside from code?
+  \item Scenarios based on two factors:
+  \begin{itemize}
+    \item documentation of configurability
+    \item visibility of variability
+  \end{itemize}
 \end{itemize}
 
-\section{Configuration Generation}
+\section{Configuration Generation}\label{sec:configuration_gen}
 Apart from having knowledge about the variability of a configurable software
 system, either in the form of a set of constraints among features, or a feature
 diagram, we also need to derive all configurations, but at least meaningful
@@ -458,7 +488,7 @@ that, conceptually, it requires all numeric options to be mandatory features.
 This is due to the unspecified semantics of a numeric option being un- or
 deselected.
 
-\section{Configuration Sampling}
+\section{Configuration Sampling}\label{sec:configuration_sam}
 When assessing properties for configurable software systems, it is infeasible
 to consider every possible variant. As previously stated in Section 2.x, with
 variability, interactions between features can emerge and can be the root cause
