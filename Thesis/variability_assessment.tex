@@ -118,35 +118,37 @@ a higher level, and is subsequently compiled to an actual Makefile. The
 authors’ aim to provide a variability-aware representation of all possible
 Makefiles to enable further analyses of the build process.
 
-\subsection{Reverse Engineering Variability Models}
-\label{sec:feature_model_synthesis} A variability model as an abstraction of
-functionality of a software system is required, or at least of great interest,
-in many contexts.
-\emph{First}, not every configurable system provides an explicit
-representation of its variability model. 
-The reasons for inexplicit or absent configuration specification are manifold.
-They can range from poor or inconsistent documentation
-\citep{rabkin_static_2011} to overly complex configurability
-\citep{xu_hey_2015}, or configuration constraints originated in different layers of a software
-system, such as build constraints  or compiler constraints
-\citep{nadi_where_2015}.
-\emph{Second}, variability models have emerged to be a useful means in domain
-analysis prior to developing a software system. As feature diagrams group and
-organize features (representing functionality), synthesizing a variability model
-has shown to be applicable to extract features and constraints from functional requirements.
-In addition, by comparison of product specifications for an
-existing market domain, variability models can provide a detailed feature
-summary \citep{alves_exploratory_2008,bakar_feature_2015}.
+\subsection{Reverse Engineering Variability Models} \label{sec:feature_model_synthesis} 
+A variability model as an abstraction of functionality of a software system is
+required, or at least of great interest, in many contexts. Not every
+configurable system provides an explicit representation of its variability
+model. The reasons for inexplicit or absent configuration specification are
+manifold. They can range from poor or inconsistent documentation \cite{rabkin_static_2011} to
+overly complex configurability \cite{xu_hey_2015}, or configuration constraints originated in different layers of a software system,
+such as build constraints or compiler constraints \cite{nadi_where_2015}. The
+following paragraphs review different strategies to extract of features and
+feature models from different types of artifacts.
 
-For this thesis, we focus on the first aspect of synthesizing variability
-models as our work addresses the assessment of already existing configurable
-software systems. Nonetheless, many techniques employed in the aforementioned
-second aspect consider similar problems, yet rely on natural language artifacts
-rather than code artifacts \citep{alves_exploratory_2008,bakar_feature_2015}.
-The following section recalls work on extracting configuration options and
-constraints from source code as well as the organization of constraints into
-feature hierarchy and groups. The further assessment of configurable systems
-requires a well-defined and sound variability model.
+\paragraph{NLP-based Extraction.} As feature diagrams group and organize
+features (representing functionality), synthesizing a variability model has shown to be applicable to extract features
+and constraints from natural language artifacts. For instance, by comparing
+product specifications for an existing market domain, variability models can
+provide a detailed feature summary \citep{alves_exploratory_2008}.
+
+The basic idea is to identify commonalities and differences in natural language
+documents, such as product descriptions, requirements, or documentations, by
+using natural language processing (NLP) techniques \citep{bakar_feature_2015}. A
+widely employed technique is to conceive a text as a vector in a vector space model, where each word or
+token represents a dimension. From the tokenized text, irrelevant stop words
+are removed, and all remaining words are reduced to their original word stems.
+The importance of all remaining tokens is (usually) weighed by its tf-idf
+value, an established technique in information retrieval. That is, each text
+(corresponding to a variant or configuration) is represented as a vector of
+tf-idf values in the aforementioned vector space model. Based on this
+representations, texts can be clustered to identify commonalities and
+differences in terms of clusterings. Subsequently, the clustering information
+can be used to extract features or entire feature
+models \cite{alves_exploratory_2008,bakar_feature_2015}.
 
 %\subsection{Feature Extraction} 
 The first objective in recovering a variability model from a configurable
@@ -194,6 +196,32 @@ Further qualitative investigation, including developer interviews, lead to
 the conclusion that most of existing constraints stem from domain knowledge
 \citep{nadi_where_2015}.
 
+\paragraph{Feature Model Approximation.}
+A different strategy to recover variability models, instead of analyzing the
+software artifacts, is to approximate a model. Given a selection of valid
+feature selections, a variability model best describing the configurations can
+be approximated, or learned. \cite{lopez-herrejon_assessment_2015} have surveyed
+different search-based strategies to synthesize feature models of which we
+present two categories. Evolutionary algorithms have been applied to reverse
+engineer feature models from configuration samples
+\citep{lopez-herrejon_reverse_2012,linsbauer_feature_2014}. A population of
+feature models is generated and each instance is evaluated by a fitness function, measuring how well it fits the given sample configurations. Subsequently, a new generation is obtained by applying
+crossover and mutation operators to the previous generation, whereby only the
+fittest remain. This process of evolution is repeated multiple times until a
+desired threshold fitness is reached for a feature model instance.
+\cite{lopez-herrejon_reverse_2012} identify a trade-off between the accuracy of
+recovered feature models and the number of generations employed by evolutionary
+algorithms. Besides promising results, the authors stress the importance of
+effective and scalable fitness functions as well as meaningful samples to learn
+the feature model from.
+Contrary to evolutionary algorithms,
+\cite{haslinger_reverse_2011,haslinger_extracting_2013} have proposed an ad-hoc
+algorithm to reverse engineer feature models. The authors’algorithm recovers
+the feature model layer by layer by  extracting for a parent feature all child
+features recursively. The algorithm does not consider cross-tree constraints.
+Besides promising results for basic feature models, the authors advocate the
+incorporation of human domain-knowledge in the synthesis of feature models.
+ 
 \paragraph{Feature Hierarchy Recovery} \label{sec:feature_hierarchy}
 Besides recovering configuration options and respective constraints, to reverse
 engineer a feature model, one further step is required. The recovered knowledge
@@ -214,71 +242,7 @@ semi-automated and interactive approach to synthesize a feature hierarchy.
 Their approach comprises three tasks. First, an overall feature hierarchy based
 on feature implications is specified. Second, potential feature groups are
 detected and manually selected. Finally, the feature diagram is extended with
-remaining CTCs. A detailed description of the algorithm is presented below:
-
-\begin{enumerate}
-  \item The algorithm commences with finding a single parent for each
-  feature and, thus, specifying a tree-like feature hierarchy. Based on the
-  given constraints, a directed acyclic graph (DAG) representing implication
-  relationships among features, a so-called \emph{implication graph}, is
-  constructed.
-  Every vertex in the implication graph represents a feature  and edges are
-  inserted for each pair of features $(u, v)$, where  $u \implies v$ holds with respect to the given
-  constraints.
-   
-  In addition to the implication graph, the algorithm for each feature computes
-  two rankings of features that are likely to be the respective parent feature.
-  The two rankings both employ the feature descriptions. Feature descriptions
-  are compared for similarity using a similarity metric. For two features $p$
-  and $s$, the similarity is defined as the weighted sum of the inverse document
-  frequencies $idf(w)$ for the words that both descriptions of features $p$
-  and $s$ share.
-  The $idf$-ranking for a word $w$ is the logarithm of the number of features
-  divided by the number of features whose description contains $w$. Each $idf$
-  value is weighted with the frequency of $w$ in the description of
-  feature $p$.
-  
-  The first ranking, called Ranked-Implied-Features (RIF), for each feature $f$
-  ranks all features by their similarity to $f$ in an descending order, but
-  prioritizes those features that are implied according to the previously
-  computed implication graph. The second ranking, called Ranked-All-Features
-  (RAF) is similar to RIF, yet less strict since implied features are not
-  prioritized. Given these rankings, a user for each feature selects a suitable
-  parent feature from the RIF or RAF ranking. The idea behind providing two
-  separate rankings, according to \cite{she_reverse_2011} is that the given
-  extracted constraints can be incomplete and, thus, not all relevant
-  implications are contained in the implication graph.
-
-  \item After the feature hierarchy is specified, another auxiliary graph, a
-  mutex graph, similar to the implication graph, is constructed. The \emph{mutex
-  graph} is an undirected graph with features as vertices and edges between two
-  features $u$ and $v$, if $u \implies \neg{v}$ and $v \implies \neg{u}$ hold
-  with respect to the given constraints. 
-  That is, all adjacent features are mutually exclusive. Based on
-  this mutex graph, all maximal cliques (subsets of vertices that all are
-  connected with each other) among the vertices with the same parent are
-  computed. All features within such a clique are mutually exclusive and share
-  the same parent and represent mutex- or alternative-groups. \cite{she_reverse_2011} introduce an
-  additional constraint to extract xor-groups that require one of the groups’
-  features to be selected if the parent is selected. This distinction is in
-  line with the initial description of feature diagrams by \cite{kang_feature-oriented_1990},
-  but not all descriptions of feature diagrams follow this distinction between
-  mutex- and xor-groups and just use the term alternative-group discussed in 
-  Sec. \ref{sec:variability_modeling}. %2.1
-  
-  \item CTCs for the feature diagram are extracted from
-  the given configuration constraints. Since CTCs are constraints that could
-  not be represented by the feature hierarchy (implication) or
-  alternative-groups (exclusion), the derivation of CTCs follows this idea. The
-  set of cross-tree implications is derived by removing all edges that are part
-  of the feature hierarchy from the initially constructed implication graph.
-  The set of cross-tree exclusions is derived similarly from the mutex
-  graph by removing all edges among vertices of all mutex-groups. To make the
-  feature model sound, the given configuration constraints, reduced to those
-  clauses that are not already entailed by the diagram, can be added as an
-  additional CTC formula to the feature diagram \citep{she_reverse_2011}.
-\end{enumerate}
-
+remaining CTCs. 
 The approach by \cite{she_reverse_2011} provides a practical algorithm to synthesize a
 feature diagram, yet has some limitations we need to consider. First, the
 approach is not able to detect or-groups as defined in Sec. \ref{sec:variability_modeling}.
@@ -292,14 +256,81 @@ practical, detecting features whose parent was the root-feature was difficult
 since, due to the transitive property of implication, it is implied by each
 feature of the feature model.
 
+%\begin{enumerate}
+%  \item The algorithm commences with finding a single parent for each
+%  feature and, thus, specifying a tree-like feature hierarchy. Based on the
+%  given constraints, a directed acyclic graph (DAG) representing implication
+%  relationships among features, a so-called \emph{implication graph}, is
+%  constructed.
+%  Every vertex in the implication graph represents a feature  and edges are
+%  inserted for each pair of features $(u, v)$, where  $u \implies v$ holds with
+%  % respect to the given constraints.
+%   
+%  In addition to the implication graph, the algorithm for each feature computes
+%  two rankings of features that are likely to be the respective parent feature.
+%  The two rankings both employ the feature descriptions. Feature descriptions
+%  are compared for similarity using a similarity metric. For two features $p$
+%  and $s$, the similarity is defined as the weighted sum of the inverse
+%  % document frequencies $idf(w)$ for the words that both descriptions of
+% features $p$%  and $s$ share.
+
+%  The $idf$-ranking for a word $w$ is the logarithm of the number of features
+%  divided by the number of features whose description contains $w$. Each $idf$
+%  value is weighted with the frequency of $w$ in the description of
+%  feature $p$.
+  
+%  The first ranking, called Ranked-Implied-Features (RIF), for each feature $f$
+%  ranks all features by their similarity to $f$ in an descending order, but
+%  prioritizes those features that are implied according to the previously
+%  computed implication graph. The second ranking, called Ranked-All-Features
+%  (RAF) is similar to RIF, yet less strict since implied features are not
+%  prioritized. Given these rankings, a user for each feature selects a suitable
+%  parent feature from the RIF or RAF ranking. The idea behind providing two
+%  separate rankings, according to \cite{she_reverse_2011} is that the given
+%  extracted constraints can be incomplete and, thus, not all relevant
+%  implications are contained in the implication graph.
+
+%  \item After the feature hierarchy is specified, another auxiliary graph, a
+%  mutex graph, similar to the implication graph, is constructed. The
+%  % \emph{mutex graph} is an undirected graph with features as vertices and
+%  % edges between two
+%  features $u$ and $v$, if $u \implies \neg{v}$ and $v \implies \neg{u}$ hold
+%  with respect to the given constraints. 
+%  That is, all adjacent features are mutually exclusive. Based on
+%  this mutex graph, all maximal cliques (subsets of vertices that all are
+%  connected with each other) among the vertices with the same parent are
+%  computed. All features within such a clique are mutually exclusive and share
+%  the same parent and represent mutex- or alternative-groups.
+  % \cite{she_reverse_2011} introduce an additional constraint to extract xor-groups that require one of the groups’
+%  features to be selected if the parent is selected. This distinction is in
+%  line with the initial description of feature diagrams by
+  % \cite{kang_feature-oriented_1990}, but not all descriptions of feature diagrams follow this distinction between
+%  mutex- and xor-groups and just use the term alternative-group discussed in 
+%  Sec. \ref{sec:variability_modeling}. %2.1
+  
+ % \item CTCs for the feature diagram are extracted from
+ % the given configuration constraints. Since CTCs are constraints that could
+ % not be represented by the feature hierarchy (implication) or
+ % alternative-groups (exclusion), the derivation of CTCs follows this idea. The
+%  set of cross-tree implications is derived by removing all edges that are part
+%  of the feature hierarchy from the initially constructed implication graph.
+%  The set of cross-tree exclusions is derived similarly from the mutex
+%  graph by removing all edges among vertices of all mutex-groups. To make the
+%  feature model sound, the given configuration constraints, reduced to those
+%  clauses that are not already entailed by the diagram, can be added as an
+%  additional CTC formula to the feature diagram \citep{she_reverse_2011}.
+%\end{enumerate}
+
 \subsection{Practical Remarks}
-\begin{itemize}
-  \item Scenarios based on two factors:
-  \begin{itemize}
-    \item documentation of configurability
-    \item visibility of variability
-  \end{itemize}
-\end{itemize}
+The last two subsections reviewed a number of family-based analyses for
+configurable software systems as well as approaches proposed to partially
+extract variability models from a system’s code base. The latter approaches
+presented, however, depict isolated solutions due to non-generic assumptions,
+such as the use of configuration APIs \citep{rabkin_static_2011}, or build-time
+variability \citep{nadi_where_2015}. At best, these approaches complement each
+other, or are an appropriate choice under certain circumstances. This
+subsection integrates the previously discussed work and proposes methodological
+strategies to synthesize variability models in different scenarios.
 
 \section{Configuration Generation}\label{sec:configuration_gen}
 Apart from having knowledge about the variability of a configurable software
