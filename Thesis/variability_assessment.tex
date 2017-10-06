@@ -471,53 +471,48 @@ P)$ whose elements are constructed from a feature diagram as follows.
   \end{itemize}
 \end{definition}
 
-Based on definition \ref{def:cgg}, we specify the following algorithm
-\ref{alg:expand} to expand the configuration step by step and, thus, derive all valid words from the
-grammar. The algorithm repeatedly derives new words by applying every production
-possible to previously derived words. Once a word is terminal, i.e., does not
-contain any non-terminal symbol, it is returned and not expanded any further.
-The algorithm terminates if there is no word left to expand in the queue of
-partial words.\\
-
-\begin{algorithm}[H]\label{alg:expand}
- \KwData{Configuration generation grammar $G = \lbrace N, T, S, P \rbrace$, and
- cross-tree constraints $C$ of the given variability model}
- \KwResult{All configurations of the given variability model.}
- \vspace{5mm}
- words = Queue()\;
- words.enqueue($S$)\;
- \While{words is not empty}{
-  current = words.dequeue()\;
-  \If{current does violate any cross-tree constraint}{
-   continue\;
-   }
-   \For{$n \in N$}{
-   		\If{$n \in current$}{
-   			\For{$u \in \lbrace u | (n, u) \in P \rbrace$}{
-   				new = current\;
-   				new = new $\setminus~ n$\;
-   				new = new $\cup~ u$\;
-   				\eIf{$N \cup new = \varnothing$}{
-   					yield new\;
-   				}{
-   					words.enqueue(new)\;
-   				}
-   			}
-   			break\;
-   		}
-   }
- }
- 
- \caption{Expansion algorithm for a configuration generation grammar.}
-\end{algorithm}\vspace{2mm}
-
-In addition to deriving all configurations from a variability model, the
+Based on definition \ref{def:cgg}, we can specify an algorithm that computes the
+transitive closure of the grammar by repeatedly expanding each non-terminal for
+each (partial) word until word containing non-terminal symbols is left.
+In addition to deriving all configurations from a grammar, the
 algorithm can also be used to derive partial configurations, such as
 binary-only configurations. To do so, the numeric features need to be removed
 from the set of non-terminal symbols. The only limitation of this algorithm is
 that, conceptually, it requires all numeric options to be mandatory features.
 This is due to the unspecified semantics of a numeric option being un- or
 deselected.
+
+%\begin{algorithm}[H]\label{alg:expand}
+% \KwData{Configuration generation grammar $G = \lbrace N, T, S, P \rbrace$, and
+% cross-tree constraints $C$ of the given variability model}
+% \KwResult{All configurations of the given variability model.}
+% \vspace{5mm}
+% words = Queue()\;
+% words.enqueue($S$)\;
+% \While{words is not empty}{
+%  current = words.dequeue()\;
+%  \If{current does violate any cross-tree constraint}{
+%   continue\;
+%   }
+%   \For{$n \in N$}{
+%   		\If{$n \in current$}{
+%   			\For{$u \in \lbrace u | (n, u) \in P \rbrace$}{
+%   				new = current\;
+%   				new = new $\setminus~ n$\;
+%   				new = new $\cup~ u$\;
+%   				\eIf{$N \cup new = \varnothing$}{
+%   					yield new\;
+%   				}{
+%   					words.enqueue(new)\;
+%   				}
+%   			}
+%   			break\;
+%   		}
+%   }
+% }
+ 
+% \caption{Expansion algorithm for a configuration generation grammar.}
+%\end{algorithm}\vspace{2mm}
 
 \section{Configuration Sampling}\label{sec:configuration_sam}
 When assessing properties for configurable software systems, it is infeasible
