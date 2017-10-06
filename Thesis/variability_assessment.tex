@@ -325,12 +325,93 @@ feature of the feature model.
 The last two subsections reviewed a number of family-based analyses for
 configurable software systems as well as approaches proposed to partially
 extract variability models from a system’s code base. The latter approaches
-presented, however, depict isolated solutions due to non-generic assumptions,
-such as the use of configuration APIs \citep{rabkin_static_2011}, or build-time
-variability \citep{nadi_where_2015}. At best, these approaches complement each
-other, or are an appropriate choice under certain circumstances. This
-subsection integrates the previously discussed work and proposes methodological
-strategies to synthesize variability models in different scenarios.
+presented, however, are rathe isolated solutions due to non-generic
+assumptions, such as the use of configuration APIs \citep{rabkin_static_2011},
+or build-time variability \citep{nadi_where_2015}. At best, these approaches
+complement each other, or are an appropriate choice under certain
+circumstances, still requiring further manual assessment. This subsection
+integrates the previously discussed work and proposes methodological strategies
+to synthesize variability models for different scenarios, or use cases.
+
+For the recovery of variability models, we propose three scenarios. The
+following distinction is neither complete, nor exclusive, as scenarios may be
+approached with different strategies. Nonetheless, the scenarios should provide
+a practical context to the previously mentioned techniques. The three
+scenarios are outlined in Table \ref{tab:synthesis}; we derive our scenarios
+based on three criteria. \emph{First}, we ask whether, and if so, to which
+extent configurability for a software system is documented. \emph{Second}, we ask
+whether the software system provides sample configurations, such as configuration presets, or whether it ships as different variants, such as
+different Windows flavors. \emph{Last}, we ask whether a variability model is
+explicitly contained in the software, and whether it is visible to
+practitioners, such as the Kconfig system for the Linux kernel. For each
+scenario, in Table \ref{tab:synthesis}, satisfaction of either criterion is
+marked. In addition, we mark criteria as \emph{satisfied optionally}, if we
+assume them to be satisfied, but they are not necessarily relevant for the
+choice of strategy.
+
+\begin{table} 
+	\centering
+	\begin{tabular}{lccc}%
+	\toprule
+	\textbf{Criterion} & \textbf{Scenario A} & \textbf{Scenario B} &
+	\textbf{Scenario C}
+	\\
+	\midrule
+	\mbox{Configurability documentated?} & $\surd$ & $(\surd)$ & $(\surd)$ \\
+	\mbox{Configurations provided?} & $\times$ & $\surd$ & $(\surd)$ \\
+	\mbox{Variability model provided?} & $\times$ & $\times$ & $\surd$ \\
+	\bottomrule
+	\end{tabular}\\
+	\vspace{1mm}
+	{\footnotesize $\surd = \text{Criterion satisfied}$, $(\surd) =
+	\text{Criterion satisfied optionally}$, $\times = \text{Criterion not
+	satisfied}$}
+	\caption{Distinction of three scenarios for variability model synthesis. }
+	\label{tab:synthesis}
+\end{table}
+
+Apparently, the latter scenario C in Table \ref{tab:synthesis} only requires
+little to no assessment, as the variability model is already somehow represented in the implementation.
+Whereas, the former two scenarios A and B require more assessment.
+For scenario A, both natural language artifacts and code artifacts can be
+exploited. A basic start is to study and aggregate documentation information
+about the software system with respect to configurations, such as manuals/man
+pages or API documentation. While there is no template strategy to analyze
+documentation artifacts manually, the key questions to be answered are:
+
+\begin{itemize}
+  \item \emph{How is variability implemented?} Variability can be acommodated at
+  build- or load-time, and can be implemented in various ways.
+  \item \emph{How can the software be configured?} Configurations are read
+  during the build process, for instance as preprocessor annotations or compiler
+  flags; at load-time configurations are read, for instance as command-line
+  arguments.
+  \item \emph{Which configuration options exist, including type and domain?}
+  Configuration options can be binary or numeric options with respective
+  domains.
+  \item \emph{Which configuration options address the same operation mode?} Do
+  configuration options only influence one operation mode, such as compression,
+  but not decompression for a file compression utility?
+  \item \emph{Which configurations are irrelevant for performance assessment?}
+  Configuration options may not influence the overall performance significantly,
+  such as a ``keep input file after processing'' option.
+  \item \emph{Which dependencies or exist between and among configuration
+  options?}
+\end{itemize}
+   
+For scenario B, despite documentation might be available, the
+previously presented variability model approximation approaches
+\citep{haslinger_reverse_2011,haslinger_extracting_2013,lopez-herrejon_reverse_2012,linsbauer_feature_2014}
+can be applied, yet only binary configuration options are supported so far.
+Given the existence of sample configuration or configuration presets, these
+may provide additional information to answer the questions stated above. 
+The remaining approaches mentioned in the previous subsections, unfortunately,
+describe only isolated solutions. Given suitable circumstances, they can
+nevertheless aid the extraction of variability models. The overall scheme in
+sythesizing a variability model is to answer the the questions above manually,
+and refer to automated tool support whenever possible.
+
+
 
 \section{Configuration Generation}\label{sec:configuration_gen}
 Apart from having knowledge about the variability of a configurable software
