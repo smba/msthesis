@@ -16,7 +16,7 @@ This chapter describes the first preliminary steps in our methodology and
 addresses the following questions. Section \ref{sec:untangling} reviews the synthesis of
 variability models as well as useful analyses of systems' variability; section
 \ref{sec:configuration_gen} describes means to generate configurations from variability
-models, and section \ref{sec:configuration_sam} dicusses different sampling
+models, and section \ref{sec:configuration_sam} discusses different sampling
 strategies.
 
 \section{Untangling Variability}\label{sec:untangling}
@@ -33,7 +33,7 @@ configurable software systems would likely exceed the scope of this section, yet
 section which information regarding variability is required or useful to our
 methodology, and how it can be obtained.
 
-\subsection{Family-based Analysis}
+\subsection{Family-based Analyses}
 As the number of variants for configurable software systems is usually
 infeasible, naive analyses of configurable systems are not trivial. Any static
 analysis can only assess one variant at a time, as well as dynamic analyses,
@@ -118,7 +118,7 @@ a higher level, and is subsequently compiled to an actual Makefile. The
 authors’ aim to provide a variability-aware representation of all possible
 Makefiles to enable further analyses of the build process.
 
-\subsection{Reverse Engineering Variability Models} \label{sec:feature_model_synthesis} 
+\subsection{Variability Model Synthesis} \label{sec:feature_model_synthesis} 
 A variability model as an abstraction of functionality of a software system is
 required, or at least of great interest, in many contexts. Not every
 configurable system provides an explicit representation of its variability
@@ -216,7 +216,7 @@ effective and scalable fitness functions as well as meaningful samples to learn
 the feature model from.
 Contrary to evolutionary algorithms,
 \cite{haslinger_reverse_2011,haslinger_extracting_2013} have proposed an ad-hoc
-algorithm to reverse engineer feature models. The authors’algorithm recovers
+algorithm to reverse engineer feature models. The algorithm recovers
 the feature model layer by layer by  extracting for a parent feature all child
 features recursively. The algorithm does not consider cross-tree constraints.
 Besides promising results for basic feature models, the authors advocate the
@@ -325,7 +325,7 @@ feature of the feature model.
 The last two subsections reviewed a number of family-based analyses for
 configurable software systems as well as approaches proposed to partially
 extract variability models from a system’s code base. The latter approaches
-presented, however, are rathe isolated solutions due to non-generic
+presented, however, are rather isolated solutions due to non-generic
 assumptions, such as the use of configuration APIs \citep{rabkin_static_2011},
 or build-time variability \citep{nadi_where_2015}. At best, these approaches
 complement each other, or are an appropriate choice under certain
@@ -380,7 +380,7 @@ pages or API documentation. While there is no template strategy to analyze
 documentation artifacts manually, the key questions to be answered are:
 
 \begin{itemize}
-  \item \emph{How is variability implemented?} Variability can be acommodated at
+  \item \emph{How is variability implemented?} Variability can be accommodated at
   build- or load-time, and can be implemented in various ways.
   \item \emph{How can the software be configured?} Configurations are read
   during the build process, for instance as preprocessor annotations or compiler
@@ -408,7 +408,7 @@ may provide additional information to answer the questions stated above.
 The remaining approaches mentioned in the previous subsections, unfortunately,
 describe only isolated solutions. Given suitable circumstances, they can
 nevertheless aid the extraction of variability models. The overall scheme in
-sythesizing a variability model is to answer the the questions above manually,
+synthesizing a variability model is to answer the the questions above manually,
 and refer to automated tool support whenever possible.
 
 
@@ -432,7 +432,7 @@ the configuration generation using CFGs.
 A constraint satisfaction problem (CSP) in the context of variability modeling
 describes a set of options ranging over finite domain as well as a set of
 constraints which restrict which values variables can take simultaneously
-\citep{benavides_automated_2005}. Fo a binary option $b$, the respective domain
+\citep{benavides_automated_2005}. For a binary option $b$, the respective domain
 $dom(b)$ simply is $\lbrace 0, 1\rbrace$.
 For a numeric option, the respective domain $dom(n)$ is a finite set of legal
 values with a minimum and a maximum value, say $\lbrace v_{min}, v_1,
@@ -503,7 +503,7 @@ P)$ whose elements are constructed from a feature diagram as follows.
 \begin{itemize}
   \item All features represent non-terminal symbols $N$, which can be divided
   into two disjoint sets, binary non-terminal symbols $F_\mathcal{B}$ and
-  numeric nont-terminal symbols $F_\mathcal{N}$. That is, $N = F_\mathcal{B}
+  numeric non-terminal symbols $F_\mathcal{N}$. That is, $N = F_\mathcal{B}
   \cup F_\mathcal{N}$ and $F_\mathcal{B} \cap F_\mathcal{N} = \varnothing$.
 
   \item Similarly, the set of terminal symbols $T$ is consists of two different
@@ -611,37 +611,46 @@ strategy, where configurations are part of the sample set, so that all t-tuples
 of features are selected together. Thus, all t-wise feature interactions are
 covered. 
 
-\subsection{Binary Features}
+\paragraph{Binary Features.}
 Most sampling strategies in the context of configurable software systems
 target binary features. Popular sampling strategies for sampling configurations
 of binary features include, but are not limited to the following
-\citep{apel_feature-oriented_2013,medeiros_comparison_2016}:
+\citep{apel_feature-oriented_2013,medeiros_comparison_2016} strategies listed in
+Table \ref{tab:sampling}.
 
-\begin{itemize}
-  \item \emph{Feature coverage}: Configurations are selected, so that each
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{lp{11cm}}
+	\toprule
+	\textbf{Name} & \textbf{Description} \\
+	\midrule
+	Feature Coverage & Configurations are selected, so that each
   feature is selected in at least one configuration
-  \citep{apel_feature-oriented_2013}.
-  
-  \item \emph{Most-enabled-disabled}: Configurations are selected, so that a
+  \citep{apel_feature-oriented_2013}.\\
+  \midrule
+  Most-enabled-disabled & Configurations are selected, so that a
   maximal and minimal number of features is enabled
-  \citep{medeiros_comparison_2016}.
-  
-  \item \emph{One-enabled}: Configurations are selected, so
+  \citep{medeiros_comparison_2016}. \\
+  \midrule
+  One-enabled & Configurations are selected, so
   that each feature is enabled at a time \citep{abal_42_2014}. Similarly, with a
   \emph{one-disabled} strategy, configurations are chosen, so that each feature
-  is deselected at a time.
-  
-  \item \emph{Statement-coverage}: Configurations are
+  is deselected at a time. \\
+  \midrule
+  Statement-coverage & Configurations are
   selected, so that each variable block of code (for
   compile-time variability) is at least enabled in one
-  variant \citep{tartler_static_2014}.
-  
-  \item \emph{T-wise sampling}: Configurations are selected, so that all
+  variant \citep{tartler_static_2014}. \\
+  \midrule
+  T-wise sampling & Configurations are selected, so that all
   t-tuples of all (binary) features are included in at least one configuration
   \citep{williams_practical_1996}. That is, the upper bound for the sample size
-  is $\binom{|F|}{t}$ for features $F$ and $t \in \mathbb{N}$.
-
-\end{itemize}
+  is $\binom{|F|}{t}$ for features $F$ and $t \in \mathbb{N}$.\\  
+	\bottomrule
+	\end{tabular}
+	\caption{Selection of sampling strategies for binary features.}
+	\label{tab:sampling}
+\end{table}
 
 \cite{medeiros_comparison_2016} have compared different sampling strategies,
 among other things with respect to resulting sample size and fault detection
@@ -651,11 +660,29 @@ the largest samples. Regarding the detection of faults,
 \emph{statement-coverage} performed poorly, whereas \emph{t-wise} sampled
 samples, especially with a greater $t$ unveiled most faults. 
 
-\subsection{Numeric Features}
-\begin{itemize}
-  \item Full factorial designs are infeasible
-  \item Numeric options usually only tune features and do not interact
-  \item Evaluation of game designs by \cite{siegmund_performance-influence_2015}
-\end{itemize}
+\paragraph{Numeric Features.}
+Similar to selecting meaningful sample sets of binary options, for numeric
+options, sampling strategies are designed with respect to covering possible
+interactions. Subsumed under the term \emph{design of experiments} various
+sampling strategies, or experimental plans have been proposed, each assigning values
+(from an option’s domain) to independent variables (numeric options, in this
+case) \citep{antony_design_2014}. As the choice of an experimental plan (for
+both binary and numeric options) determines the number of measurements, and therefore the cost of
+assessment, not all designs might scale and be suitable for our assessments.
+\cite{siegmund_performance-influence_2015} have reviewed and evaluated a number
+of established experimental plans with respect to feasibility. The authors exclude a number of
+designs due to an infeasible number of measurements, and advocate the use of
+four designs, including the Plackett-Burman Design and Random Designs. Assuming
+a discrete domain of values for each numeric option, the former design requires
+each combination of levels for each pair of numeric options to occur equally.
+The latter design is advocated not least because of an negligible number of
+constraints among numeric options \citep{siegmund_performance-influence_2015}.
+For further reading on more detailed descriptions of experimental designs, refer
+to \cite{antony_design_2014}. 
 
-\subsection{Configuration Sampling in Practice}
+Depending on whether binary, numeric, or both
+types of configurations options are present, sampling strategies are selected,
+respectively. To derive mixed configurations, first, samples are selected from
+both binary and numeric configuration options. Second, the final sample
+of mixed configurations is computed as the cross-product of binary and numeric
+partial configurations.
