@@ -177,11 +177,12 @@ performance measurements for multiple configurations.
 \section{Problem Statement}
 The assessment of performance evolution requires a series of
 performance-prediction models describing performance behavior for a series of
-versions of a configurable software system. Assessing the performance behavior
-for a single version of a configurable software system entails a number of
-necessary and preliminary tasks. These tasks can even become more complicated
-once a series of versions is assessed, instead of a single one:
+versions of a corresponding configurable software system. Assessing the
+performance behavior for a single version of a configurable software system entails a number of
+necessary and preliminary tasks. However, these tasks become even more
+complicated once a series of versions needs to be assessed:
 \begin{itemize}
+
   \item \emph{Feature Model Synthesis:} Not all configurable software systems do
   explicitly exhibit a variability model which is, however, required to derive
   all valid variants \citep{rabkin_static_2011,nadi_where_2015}.
@@ -197,21 +198,22 @@ once a series of versions is assessed, instead of a single one:
 	require repeated reverse engineering steps.
 	
 	\item \emph{Configuration Translation:} The translation of a valid
-	configuration to a configuration artifact such as a configuration file or a list of command-line arguments may differ
-from system to system. This step may be automated, but one still needs to
-detect how configurations are read by the software system one wants to study.
+	configuration to a configuration artifact such as a configuration file or a
+	list of command-line arguments usually differs from system to system. This step
+	may be automated, but one still needs to detect how configurations are read by the software system one wants to study.
 
-\item \emph{Automated Integration:} The sampe applies to the
-infrastructure to compile or build a software system since there exist many
-possible build tools such as makefiles or sbt.
+\item \emph{Automated Integration:} The sampe challenge applies to the
+infrastructure when we need to compile or build a software system for a specific
+configuration since there exist many possible build tools such as makefiles.
 Again, the build process can be automated, but one needs to detect and
-specify the build mechanism used.
+specify the build mechanism used and relate it to a specific configuration.
 
-\item \emph{Version History Sampling:} To study performance evolution we need to
+\item \emph{Version-History Sampling:} To study performance evolution,e need to
 specify which snapshots or versions of a software system are relevant to
 describe its performance behavior over time. While detecting releases and release candidates should be straightforward, one might, for instance, be interested in the performance evolution including snapshots
-between two releases. As not all snapshots though are likely to compile,
-classifying defect snapshots can still be tedious work.
+between two releases, for example after bug fixes. Since it is  often the case
+that not all snapshots do compile, classifying defect snapshots can still be tedious work.
+
 \item \emph{Performance Assessment Setup:} The accurate assessment of
 performance evolution requires a suitable testing setup. The methodology required for assessing performance
 among others requires the selection of suitable performance metrics and
@@ -253,7 +255,7 @@ Chapter \ref{chapter:5} concludes the thesis and gives an outlook on possible
 future work.
 }
 
-\section{Performance Evolution Assessment}
+\section{A Methodology for Assessing Performance Evolution}
 
 The methodology described in this thesis is organized with respect to three
 dimensions of configurable software systems: variability, version history, and
@@ -264,13 +266,13 @@ dimension.
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.7\textwidth]{images/process_overview.eps}
-	\caption{Overview of the performance evolution assessment process}
+	\caption{Overview of the the proposed methodology including the necessary processes.}
 	\label{fig:overview}
 \end{figure}
 
 First, objectives related to the variability of a configurable software system
 are considered. This includes the extraction and comprehension of knowledge
-about the system’s variability. econd, we address objectives which emerge with
+about the system’s variability. Second, we address objectives which emerge with
 evolving software, for instance whether a system compiles for a specific
 version, or whether a version is a promising candidate for detecting
 performance changes. Finally, we describe in detail the assessment of
@@ -280,10 +282,12 @@ evaluate performance statistics in order to derive meaningful insights.
 
 In addition to the three aforementioned dimensions in Figure~\ref{fig:overview},
 performance evolution assessment can also be conceived as consisting of three different
-categories of tasks, as the different colorizations might suggest. First, for a
-configurable software system, knowledge about it needs to be gathered, and
-clear performance goals need to be specified. Second, a sample set of
-configurations along with versions need to be selected. Since covering all
-variants and versions is not feasible, a sampling strategy needs to be chosen
-which is likely to uncover performance changes. Finally, the practical
-performance measurements are conducted and evaluated as mentioned above.
+categories of tasks, as the different colorizations indicate. 
+First, for a configurable software system, its variability needs to be
+assessed in order to obtain a variability model to derive and
+select configurations from.
+Second, for a software system, a sample set of revisions needs to be selected.
+Since covering all variants and versions is not feasible, a sampling strategy needs to be chosen
+which is likely to uncover performance changes. Finally, the
+performance assessment goals are specified and corresponding
+measurements are conducted and evaluated as mentioned above.
