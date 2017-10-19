@@ -7,6 +7,16 @@
 	openright
 ]{book}
 
+% only for tables
+\usepackage{rotating}
+\usepackage{array}
+\usepackage{floatpag}
+\usepackage{paralist}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+
 \usepackage{amsthm}
 \usepackage{tabularx}
 \usepackage{pgfplots}
@@ -24,7 +34,8 @@
 \usepackage{caption}
 %\usepackage[caption=false]{subfig}
 
-\captionsetup[figure]{labelfont={bf},name={Fig.},labelsep=period}
+\captionsetup[figure]{labelfont={bf},name={Figure},labelsep=period}
+\captionsetup[table]{labelfont={bf},name={Table},labelsep=period}
 
 \usepackage{amssymb}
 \renewcommand{\labelitemi}{\tiny$\square$}
@@ -37,6 +48,7 @@
 \usepackage{geometry}
 \geometry{a4paper,left=25mm,right=25mm,bottom=2cm}
 
+\usepackage{tikz}
 
 \usepackage{titlesec}
 \titleformat{\chapter}{\normalfont\huge\bf}{\thechapter.}{20pt}{\huge\bf}
@@ -181,13 +193,13 @@ by another person except where due reference is made in the text.
 \chapter{Background}\label{chapter:2}
 \input{background.tex}
 
-\chapter{Variability Assessment}
+\chapter{Methodology: Variability Assessment}
 \input{variability_assessment.tex}
 
-\chapter{Version Assessment}
+\chapter{Methodology: Version Assessment}
 \input{version_assessment.tex}
 
-\chapter{Performance Assessment}
+\chapter{Methodology: Performance Assessment}
 \input{performance_assessment.tex}
 
 \chapter{Evaluation}
