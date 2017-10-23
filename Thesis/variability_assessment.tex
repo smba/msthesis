@@ -12,6 +12,14 @@ for most configurable software systems is infeasible, variability assessment fac
 performance- and scalability-related problems. That is, assessments are usually
 constrained by limited resources.
 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{images/process_varassesment.eps}
+	\caption{Methodological roadmap: questions to address during variability
+	assessment.}
+	\label{fig:roadmap_1}
+\end{figure}
+
 This chapter describes the first steps in our methodology and
 aembraces the following topics: section \ref{sec:untangling} reviews the
 synthesis of variability models as well as corresponding analyses of systems' variability;
@@ -20,6 +28,13 @@ models, and section \ref{sec:configuration_sam} discusses different sampling
 strategies.
 
 \section{Untangling Variability}\label{sec:untangling}
+{\color{gray}Before presenting strategies to synthesize variability models in
+the next section, we first recap a number of techniques to untangle configurable
+software composed from variable and invariant code. In the context of our
+methodology, these techniques are useful means to make variable code segments
+visible, and to understand how variability influences the overall resulting
+variants of a software systems.}
+
 The idea of designing and developing configurable software systems is driven by
 the separation of different concerns, expressed as features of a software
 system. A configurable software system is either assembled at compile-time with
@@ -79,6 +94,16 @@ variability-aware parsing, disciplined usage is conceived as using preprocessor
 annotations only to segment statements, but not to segment a single syntactical
 unit, such as expressions \citep{medeiros_discipline_2017}.
 
+{
+\color{gray}
+In the context of our methodology, the parse tree resulting from
+variability-aware parsing can be used as a basis for further analysis. Since
+the parse tree provides a machine-readable decomposition of variable and
+invariant code segments along with presence conditions, for instance, it has
+been used to derive constraints among features
+\citep{nadi_mining_2014,nadi_where_2015} as we will see in the next subsection.
+}
+
 \paragraph{Staged Variability.} Besides variability-aware parsing,
 \cite{nguyen_building_2014} have applied symbolic execution
 \citep{king_symbolic_1976,darringer_applications_1978} to unwind variability for
@@ -104,6 +129,14 @@ configuration parameter as well as every value resulting from a computation
 that involves previously tainted values. That way, lines of code that are
 possibly depending on configuration options are detected.
 
+{\color{gray}
+In the context of our methodology, addressing staged variability with techniques
+such as symbolic execution is required to assess performance for Web
+applications. Both the code executed at server-side as well as the dynamically
+generated (dynamic) HTML are interdependent of the Web application,  for
+instance via user inputs. Any suitable and elaborate performance measurement
+setup for Web applications must incorporate both stages. }
+
 \paragraph{Build System Variability.} Apart from
 configuring software systems using preprocessor annotations, the assembling of
 a configurable software system can as well be orchestrated by its underlying
@@ -121,16 +154,50 @@ a higher level, and is subsequently compiled to an actual Makefile. The
 authors’ aim to provide a variability-aware representation of all possible
 Makefiles to enable further analyses of the build process.
 
+{\color{gray}
+In the context of out methodology, the symbolic evaluation of a software
+system’s build process follows an intention similar to the one of
+variability-aware parsing. Not only could further analysis tools be build upon
+a symbolic evaluation engine, but also does symbolic evaluation in this context
+untangle the variability accommodated in the build process. The file presence
+conditions extracted by \cite{zhou_extracting_2015}
+and \cite{al-kofahi_escaping_2016} are a strong basis for further constraint
+extraction, and therefore variability model assessment.\\}
+
+In the context of our methodology, the mentioned family-based analyses serve to
+fundamental purposes. First, family-based analyses can help to get an overview
+of what, or how much code in a software is variable as well as to which extent.
+For instance, if most extracted presence conditions contain only very few
+features, higher-order features are unlikely. Second, family-based analyses
+provide a feasible means to untangle variability and, as we will see in the
+next section, are the basis for some elaborate techniques to extract
+variability models \citep{nadi_mining_2014,nadi_where_2015}. In conclusion,
+these analyses are not essential to extract variability models, yet are useful tools to use in
+addition to the strategies mentioned in the next section.
+
 \subsection{Variability Model Synthesis} \label{sec:feature_model_synthesis} 
 A variability model as an abstraction of functionality of a software system is
 required, or at least of great interest, in many contexts. Not every
 configurable system provides an explicit representation of its variability
 model. The reasons for inexplicit or absent configuration specification are
-manifold. They can range from poor or inconsistent documentation \cite{rabkin_static_2011} to
-overly complex configurability \citep{xu_hey_2015}, or configuration constraints
-originated in different layers of a software system, such as build constraints or compiler constraints \cite{nadi_where_2015}. The
-following paragraphs review different strategies to extract of features and
-feature models from different types of artifacts.
+manifold. They can range from poor or inconsistent documentation
+\citep{rabkin_static_2011} to overly complex configurability
+\citep{xu_hey_2015}, or configuration constraints originated in different layers of a software system,
+such as build constraints or compiler constraints
+\citep{nadi_mining_2014,nadi_where_2015}.
+The following paragraphs review different \emph{strategies to synthesize
+variability models} from different types of artifacts. A classification of
+strategies, along with corresponding literature is illustrated in Figure~\ref{fig:varsynth_overview}
+The first category comprises extraction based on Natural Language Processing (NLP) utilize
+similarities between textual representations of different variants to derive
+common features \citep{alves_exploratory_2008,bakar_feature_2015}. The
+approaches in the second category are heuristics based on static analyses, whereby configuration option names \citep{rabkin_static_2011} are
+extracted, or constraints are derived from assessing the software’s build
+process \citep{nadi_mining_2014,nadi_where_2015}. The last category comprises
+techniques which conceive variability model as an optimization problem. For a set of given and
+valid configurations, genetic algorithms are used to approximate an optimal
+feature model representing constraints among features 
+\citep{lopez-herrejon_reverse_2012,lopez-herrejon_assessment_2015,linsbauer_feature_2014}.
 
 \begin{figure}[h!]
 \centering
@@ -139,25 +206,28 @@ feature models from different types of artifacts.
     draw, align=center,
     top color=white, bottom color=blue!20},thick,scale=0.95, every
     node/.style={scale=0.95}]
-  \node {Variability Model Synthesis}
-    child { node [align=left] {{\begin{tabular}{c}NLP-based Extraction \\
+  \node {\sf Variability Model Synthesis}
+    child { node [align=left] {{\begin{tabular}{c}{\sf NLP-based Extraction} \\
     \citep{alves_exploratory_2008} \\ \citep{bakar_feature_2015}
     \end{tabular}}}} 
-    child { node [align=left] {\begin{tabular}{c} Static Analyses\end{tabular}}
-    	child { node [align=left] {\begin{tabular}{c} Feature Extraction \\
+    child { node [align=left] {\begin{tabular}{c} {\sf Static
+    Analyses}\end{tabular}} child { node [align=left] {\begin{tabular}{c}
+    {\sf Feature Extraction} \\
     	\citep{rabkin_static_2011}
     	\end{tabular}}} 
-    	child { node [align=left] {\begin{tabular}{c} Constraint Extraction \\
+    	child { node [align=left] {\begin{tabular}{c} {\sf Constraint Extraction}
+    	\\
     	\citep{nadi_mining_2014,nadi_where_2015}
     	\end{tabular}}} }
-    child { node [align=left] {\begin{tabular}{c} Feature-Model
-    Approximation \\
+    child { node [align=left] {\begin{tabular}{c} {\sf Feature-Model
+    Approximation} \\
     \citep{lopez-herrejon_reverse_2012,lopez-herrejon_assessment_2015} \\
     \citep{linsbauer_feature_2014}\end{tabular}}};
 \end{tikzpicture}
 \caption{Overview of our literature survey on
 variability model synthesis.}\label{fig:varsynth_overview}
 \end{figure}
+
 \paragraph{NLP-based Extraction.} As feature diagrams group and organize
 features (representing functionality), synthesizing a variability model has shown to be applicable to extract features
 and constraints from natural language artifacts. For instance, by comparing
@@ -286,7 +356,7 @@ algorithm with both complete and incomplete variability knowledge (feature
 names, descriptions and constraints). While the algorithm has shown to be
 practical, detecting features whose parent was the root-feature was difficult
 since, due to the transitive property of implication, it is implied by each
-feature of the feature model.
+feature of the feature model.\\
 
 %\begin{enumerate}
 %  \item The algorithm commences with finding a single parent for each
@@ -353,6 +423,36 @@ feature of the feature model.
 %  additional CTC formula to the feature diagram \citep{she_reverse_2011}.
 %\end{enumerate}
 
+Although the approaches mentioned in the paragraphs above, excluding the
+feature-hierarchy recovery, in principal address the same problem, they are
+isolated solutions to that problem and their applicability  is depending on a
+number of cross-cutting boundary conditions.
+
+\emph{First}, for the overall problem of variability model synthesis we can
+identify two different contexts for which different techniques apply. The NLP-based
+techniques summarized by \cite{alves_exploratory_2008} and \cite{bakar_feature_2015} address
+the extraction of features in the context of requirements engineering, for instance by comparing different
+software products in the same market domain. However, the remaining techniques
+intend to extract features for a given single software system.
+
+\emph{Second}, for variability assessment the exist two different principal
+analysis approaches. While the techniques proposed by \cite{nadi_mining_2014,nadi_where_2015}
+and \cite{rabkin_static_2011} approach a configurable software system as a monolithic system,
+both the family of NLP-based techniques and the approximative techniques
+\cite{lopez-herrejon_reverse_2012,lopez-herrejon_assessment_2015,linsbauer_feature_2014}
+explicitly require a set of variants or configurations, respectively.
+
+\emph{Third}, the techniques differ in the type of variability they are able to
+extract variability models for. While Nadi’s approach only works for build-time
+variability, the work of \cite{rabkin_static_2011} will only work for configurations read at
+load-time. Moreover, the remaining techniques do not consider the different types of
+variability at all.
+
+In conclusion, it becomes clear that there is no single textbook solution to
+the problem of variability model assessment as this problem may arise in
+different contexts be approached from different perspectives, or be emergent
+for different types of variability.
+
 \subsection{Methodological Strategies}
 The last two subsections reviewed a number of family-based analyses for
 configurable software systems as well as approaches proposed to partially
@@ -416,18 +516,19 @@ suitable methods to use are described in Table \ref{tab:manual_var_assessment}.
   \thisfloatpagestyle{empty}  
   \centering
   
-  \begin{tabular}{L{0.25\textwidth} L{0.45\textwidth} L{0.3\textwidth}}
+  \begin{tabular}{L{0.22\textwidth} L{0.48\textwidth} L{0.3\textwidth}}
   
   	\toprule 
     {\bf Question} & {\bf What approach or technique to use?} & {\bf
     Information Gain} \\
     \midrule
+    
     {How is variability implemented?\linebreak
-	{\footnotesize\it Variability can be accommodated at build- or
-	load-time, and can be implemented in various ways (cf. Section 3.1.1).}} & 
+	{\footnotesize\it Variability can be accommodated at build- or 	load-time.}} & 
 	
 	{\small\begin{compactitem}
-	  \item Review of the documentation with respect to configurability.
+	  \item Manual review of the documentation with respect to what configuration
+	  mechanism is used, such as run-time parameters or preprocessor annotations.
 	  \item Family-based variability analyses help understand what parts of the
 	  software are variable and how they are enabled, or made accessible.	  
 	\end{compactitem}} & 
@@ -437,12 +538,14 @@ suitable methods to use are described in Table \ref{tab:manual_var_assessment}.
 	\midrule
 	
 	{How can the software be configured?\linebreak
-	{\footnotesize\it Software can be configured at build-time or load-time
-	(\ldots).}} &
+	{\footnotesize\it Variability can be implemented in various ways.}} &
 	
 	{\small\begin{compactitem}
-	  \item Review of documentation with respect to installation of the software.
-	\end{compactitem}} & 
+	  \item Manual review of the documentation with respect to how configurations
+	  are actually encoded to be machine-readable. Look out for standard or example
+	  configurations.
+	 \end{compactitem}}
+	  &
 	
 	{Knowledge about how a configuration can be translated to a machine-readable
 	format required by the software, such as argument lists or preprocessor annotations.}\\
@@ -450,16 +553,13 @@ suitable methods to use are described in Table \ref{tab:manual_var_assessment}.
 	\midrule
 	
 	{Which configuration options exist, including types and domains?\linebreak
-	{\footnotesize\it Configuration options can be binary or numeric options with
-	respective domains.}} & 
+	{\footnotesize\it Configuration options can be binary or numeric options.}} & 
 	
 	{\small\begin{compactitem}
-	  \item Review of the documentation with respect to configurability.
-	  \item NLP-based feature extraction using product or variant descriptons
-	  \citep{alves_exploratory_2008,bakar_feature_2015}.
-	  \item Feature Extraction via configuration API exploitation
-	  \citep{rabkin_static_2011} .
-	\end{compactitem}} & 
+	  \item List all configuration options mentioned in the documentation. Unless
+	  not provided, consider standard or sample configurations or option names to
+	  infer a type, and valid values and corresponding domains.
+	\end{compactitem}} &
 	
 	{Knowledge about what configuration options exist, whether they are binary or
 	numeric options, and what valid values can be assigned to them.}\\
@@ -469,11 +569,10 @@ suitable methods to use are described in Table \ref{tab:manual_var_assessment}.
 	{Which dependencies or exist between and among configuration options?} & 
 	
 	{\small\begin{compactitem}
-	  \item Constraint extraction from preprocessor annotations
-	  \citep{nadi_mining_2014,nadi_where_2015}.
-	  \item Approximation of feature constraints
-	  \citep{lopez-herrejon_reverse_2012,linsbauer_feature_2014}.
-	\end{compactitem}} & 
+	  \item Manual review of the configuration options with respect to implied,
+	  excluded, or alternative configuration options. Similarly, numeric
+	  constraints may exist. 
+	\end{compactitem}} &
 	
 	{Obtaining a (approximated) variability model, which is required to decide
 	whether a configuration is valid or not.}\\
@@ -485,13 +584,15 @@ suitable methods to use are described in Table \ref{tab:manual_var_assessment}.
 	{\small\begin{compactitem} 
 		\item Review of release notes and changes in the documentation with respect to
 		new features as well as constraints added, modified, or removed. 
+		\item Manual inspection of changes over time in code sections where
+		configuration options are read. 
 	\end{compactitem}} & 
 	
 	{Knowledge about whether synthesizing different versions of the variability
 	model is required.}\\
     \bottomrule
   \end{tabular}
-  \caption{Questionaire for manual variability
+  \caption{Questionnaire for manual variability
   assessment.}\label{tab:manual_var_assessment}
 \end{sidewaystable}
 
