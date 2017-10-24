@@ -14,18 +14,21 @@ constrained by limited resources.
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.7\textwidth]{images/process_varassesment.eps}
+	\includegraphics[width=0.75\textwidth]{images/process_varassesment.eps}
 	\caption{Methodological roadmap: questions to address during variability
 	assessment.}
 	\label{fig:roadmap_1}
 \end{figure}
-
-This chapter describes the first steps in our methodology and
-aembraces the following topics: section \ref{sec:untangling} reviews the
-synthesis of variability models as well as corresponding analyses of systems' variability;
-section \ref{sec:configuration_gen} describes means to generate configurations from variability
-models, and section \ref{sec:configuration_sam} discusses different sampling
-strategies.
+ 
+This chapter describes the first aspect in our methodology, variability
+assessment, as illustrated in Figure \ref{fig:roadmap_1}. This first tier of our
+methodology embraces two main tasks, first, the synthesis (or extraction) of a variability
+model for a configurable software system, and second, strategies to select
+meaningful sample sets of configurations to assess performance for. In
+section~\ref{sec:untangling} we review the synthesis of variability models as
+well as corresponding analyses of systems’ variability; in
+section~\ref{sec:configuration_gen} we describe means to generate configurations from variability models, and finally,
+section~\ref{sec:configuration_sam} discusses different sampling strategies.
 
 \section{Untangling Variability}\label{sec:untangling}
 {\color{gray}Before presenting strategies to synthesize variability models in
@@ -508,9 +511,7 @@ model is already available.
 For scenario A, both natural language artifacts and code artifacts must be
 exploited. A basic start is to study and aggregate documentation information
 about the software system with respect to configurations, such as manuals/man
-pages or API documentation. While there is no template strategy to analyze
-documentation artifacts manually, the key questions to be answered, along with
-suitable methods to use are described in Table \ref{tab:manual_var_assessment}.
+pages or API documentation. 
 
 \begin{sidewaystable}
   \thisfloatpagestyle{empty}  
@@ -608,29 +609,52 @@ nevertheless aid the extraction of variability models. The overall scheme in
 synthesizing a variability model is to answer the the questions above manually,
 and refer to automated tool support whenever possible.
 
+For scenario A, when the main source of information regarding variability is
+the software system's documentation, we are left with no other option than manual
+assessment. To do so, we provide a questionnaire of
+five main questions to be anwered in Table~\ref{tab:manual_var_assessment}.
+The corners of the questionnaire cover, besides the manual synthesis of the
+variability model, the questions of how variability is implemented,
+configurations are encoded, and whether the variability model has changed
+during evolution. Although the automated approaches discusses earlier are only
+applicable for scenarios B or C, family-based analyses can support manual
+assessment.
 
+We have seen that the extent to which automated solutions are applicable to
+variability assessment depends on the degree to which variability is
+documented. If the variability model is available  in a machine-readable
+format, little to no further assessment is required, while, if documentation was
+done manually, so variability assessment remains a task to be done manually. 
+In conclusion, the questionnaire in Table~\ref{tab:manual_var_assessment} covers
+most aspects required to comprehend variability for a configurable software system and can be
+conceived as a guideline. Whenever applicable, additional synthesis or analysis
+techniques can be taken into account.
 
 \section{Configuration Generation}\label{sec:configuration_gen}
-Apart from having knowledge about the variability of a configurable software
-system, either in the form of a set of constraints among features, or a feature
-diagram, we also need to derive all configurations, but at least meaningful
-sample sets thereof, from the variability model. Variability models can be
-expressed in various forms, such as propositional formulas or context-free
-grammars (CFG) \citep{batory_feature_2005}, as well as constraint satisfaction
-problems (CSP) \citep{benavides_automated_2005,benavides_using_2005}.
-Accordingly, the all configurations represent solutions to propositional formulas or CSPs, and valid words for CFGs
+The next intermediate step in our methodology is the generation of
+configurations from the variability model. Once obtained, we use the
+variability model to derive valid feature selections. For the assessment of
+quality attributes for configurable software systems, such as test case
+coverage or performance, we usually assess a sample set of variants. Hence, we
+require techniques to derive valid feature selections from the variability
+model to select meaningful sample sets from. As there exist various forms to
+express a variability model, configurations may be generated in various ways.
+
+Variability models can, for instance, be expressed as propositional formulas,
+context-free grammars (CFG) \cite{batory_feature_2005}, or constraint satisfaction problems
+(CSP) \cite{benavides_automated_2005,benavides_using_2005}. Accordingly, all configurations
+represent solutions to propositional formulas or CSPs, or valid words for CFGs
 respectively. That is, the generation of all configurations with respect to the
-variability model is equivalent to finding a solution or word set for the
+variability model is equivalent to finding a solution or sentence for the
 aforementioned representations of a variability model. In the following, we
-look into how variability models can be encoded as a CSP and describe in detail
+review how variability models can be encoded as a CSP and describe in detail
 the configuration generation using CFGs.
 
 \subsection{Constraint Satisfaction Problem}
 A constraint satisfaction problem (CSP) in the context of variability modeling
-describes a set of options ranging over finite domain as well as a set of
-constraints which restrict which values variables can take simultaneously
-\citep{benavides_automated_2005}. For a binary option $b$, the respective domain
-$dom(b)$ simply is $\lbrace 0, 1\rbrace$.
+describes a set of options ranging over finite domains as well as a set of
+constraints which restrict the value range of a variable
+\citep{benavides_automated_2005}. For a binary option $b$, the respective domain $dom(b)$ simply is $\lbrace 0, 1\rbrace$.
 For a numeric option, the respective domain $dom(n)$ is a finite set of legal
 values with a minimum and a maximum value, say $\lbrace v_{min}, v_1,
 v_2, \ldots, v_{max}\rbrace$.
@@ -641,7 +665,7 @@ to values of their respective domain, such that all constraints are satisfied si
 A solution to a CSP is found by systematically checking for different
 selections of values whether all constraints are satisfied. There exists a
 large number of ready-to-use SAT and CSP solvers, yet we are not covering CSP
-solution here since it is beyond the scope of your thesis. For further reading, 
+solution here since it is beyond the scope of the thesis. For further reading, 
 \citep{benavides_fama:_2007} present a tool with extensive analysis support for
 various different presentations of variability models.
 
@@ -661,20 +685,20 @@ the following transformation rules:
 
 To also consider numeric options, the domain of a numeric option $n$ can be
 conceived as an alternative-group since only one value from the domain can be
-selected at a time. Hence, each value of the domain $dom(n)$ can be conceived as
-a binary option. If value $v \in dom(n)$ is selected, this states $n = v$,
+selected at a time. This is often called disretization of the domain. Hence,
+each value of the domain $dom(n)$ can be conceived as a binary option. If value $v \in dom(n)$ is selected, this states $n = v$,
 otherwise $n \neq v$.
 
 
 \subsection{Grammar Expansion}
-Besides trying to find solution for satisfiability problems, the expression of
+Besides trying to find a solution for satisfiability problems, the expression of
 variability models as context-free grammars (CFGs) enables the derivation of
 configurations directly from a CFG by expanding it. A
 first description of transformation rules, yet only for feature diagrams with
 binary options, was was proposed by \cite{batory_feature_2005}. A hierarchical feature diagram
 can be recovered from a set of constraints using the algorithm of
 \cite{she_reverse_2011} as explained in section \ref{sec:feature_hierarchy}.
-In the following we describe
+In the following, we describe
 how a feature diagram with both binary and numeric features can be transformed
 to a context-free grammar, and how configurations can be derived subsequently.
 
@@ -687,7 +711,7 @@ words $w \in L_G$ which can be derived from the start word $S \in L_G$ by
 applying productions a finite number of times to it.
 \end{definition}
 
-Following the Definition.~\ref{def:cfg}, to derive all configurations for a
+Following the Definition~\ref{def:cfg}, to derive all configurations for a
 given feature diagram, the idea is to first translate it to a context-free
 grammar. In order to do so, especially with respect to handling numeric
 options, we introduce an extended definition for a CFG, a configuration
@@ -751,7 +775,7 @@ P)$ whose elements are constructed from a feature diagram as follows.
 
 Based on definition \ref{def:cgg}, we can specify an algorithm that computes the
 transitive closure of the grammar by repeatedly expanding each non-terminal for
-each (partial) word until word containing non-terminal symbols is left.
+each (partial) word until a word containing non-terminal symbols is left.
 In addition to deriving all configurations from a grammar, the
 algorithm can also be used to derive partial configurations, such as
 binary-only configurations. To do so, the numeric features need to be removed
@@ -760,6 +784,20 @@ that, conceptually, it requires all numeric options to be mandatory features.
 This is due to the unspecified semantics of a numeric option being un- or
 deselected.
 
+In the context of our methodology, configuration generation remains an
+intermediate step between the synthesis of a variability model and the
+selection of a meaningful sample set of configurations. The results obtained
+from applying both techniques, the encoding as a logical problem or the
+translation to a context-free grammar,  to a variability model are equivalent.
+However, both techniques differ in terms of cost and tool support. While the
+former technique generally demands additional tool support, such as SAT or CSP
+solvers, their use is well established among research tools, such as FeatureIDE
+\cite{al-hajjaji_incling:_2016} or SPLConqueror \cite{siegmund_predicting_2012}. Moreover, research
+has shown that SAT solvers generally scale for large configurable software systems. In turn, the latter technique using
+context-free grammars can easily be implemented, yet the exhaustive expansion
+of a context-free grammar is infeasible and does not scale since all valid
+configurations are derived. Nonetheless, for handling smaller variability
+models, context-free grammar might be a makeshift solution.
 %\begin{algorithm}[H]\label{alg:expand}
 % \KwData{Configuration generation grammar $G = \lbrace N, T, S, P \rbrace$, and
 % cross-tree constraints $C$ of the given variability model}
@@ -793,20 +831,23 @@ deselected.
 %\end{algorithm}\vspace{2mm}
 
 \section{Configuration Sampling}\label{sec:configuration_sam}
-When assessing properties for configurable software systems, it is infeasible
-to consider every possible variant. As previously stated in Section 2.x, with
-variability, interactions between features can emerge and can be the root cause
-for configuration-related faults. Hence, faults may only be uncovered under
-specific configurations. To not exhaustively assess all variants, a variety of
-strategies to select a sample set of configurations have been proposed.
+When assessing emergent properties for configurable software systems, it is
+infeasible to consider every possible variant. As previously stated in
+section~\ref{sec:variability_modeling} interactions between
+features can emerge, and can be the root cause for configuration-related
+performannce-interactions. Hence, effects on performance quality may be
+identified only under specific configurations. To not exhaustively assess all
+variants, a variety of strategies to select a sample set of configurations have been proposed.
 Every sampling strategy in the context of configurable software system is
 designed with respect to a \emph{coverage criterion} 
-\citep{apel_feature-oriented_2013}. For instance, most feature interactions
-happen to be pair-wise interactions, i.e., interactions between two features.
-Based on this finding, t-wise sampling is one widely used
-strategy, where configurations are part of the sample set, so that all t-tuples
-of features are selected together. Thus, all t-wise feature interactions are
-covered. 
+\citep{apel_feature-oriented_2013}. While some coverage criteria take into
+account the coverage of feature interactions, such as t-wise sampling, others
+consider code coverage, such as statement coverage sampling. Although
+configurations in our case can contain both binary and numeric options, we
+distinguish sampling strategies for both categories. In the following, we
+review a selection of popular sampling strategies for binary options as well as
+sampling strategies for numeric options, especially in the context of
+performance assessment.
 
 \paragraph{Binary Features.}
 Most sampling strategies in the context of configurable software systems
@@ -817,32 +858,45 @@ Table \ref{tab:sampling}.
 
 \begin{table}[h!]
 	\centering
-	\begin{tabular}{lp{11cm}}
+	\begin{tabular}{p{0.25\textwidth}p{0.7\textwidth}}
 	\toprule
-	\textbf{Name} & \textbf{Description} \\
+	\textbf{Strategy Name} & \textbf{Description} \\
 	\midrule
-	Feature Coverage & Configurations are selected, so that each
-  feature is selected in at least one configuration
-  \citep{apel_feature-oriented_2013}.\\
+	\mbox{Feature Coverage} & Configurations are selected, so
+	that each feature is selected in at least one configuration
+  \citep{apel_feature-oriented_2013}. An extension proposed by
+  \cite{sarkar_cost-efficient_2015} for projective sampling takes into account feature frequencies. The frequency of a feature is the frequency of the feature being selected or deselected in a sample set. As a coverage criterion, a minimum frequency is specified.\\
   \midrule
   Most-enabled-disabled & Configurations are selected, so that a
   maximal and minimal number of features is enabled
   \citep{medeiros_comparison_2016}. \\
   \midrule
   One-enabled & Configurations are selected, so
-  that each feature is enabled at a time \citep{abal_42_2014}. Similarly, with a
+  that each feature is enabled at a time \citep{siegmund_predicting_2012}. Similarly, with a
   \emph{one-disabled} strategy, configurations are chosen, so that each feature
   is deselected at a time. \\
   \midrule
+  Random Sampling & Configurations are selected randomly, i.e., for a
+  configuration, for each optional feature a random value out of 0 or 1 is
+  assigned. \cite{guo_variability-aware_2013} have studied learning performance
+  of a configurable software system from a random sample with acceptable
+  accuracy. \\
+  \midrule
   Statement-coverage & Configurations are
   selected, so that each variable block of code (for
-  compile-time variability) is at least enabled in one
-  variant \citep{tartler_static_2014}. \\
+  compile-time variability) is at least included in one
+  variant \citep{tartler_static_2014}. This either applies to variable code
+  sections via preprocessor annotations, or to entire files or compilation
+  units. \\
   \midrule
   T-wise sampling & Configurations are selected, so that all
   t-tuples of all (binary) features are included in at least one configuration
   \citep{williams_practical_1996}. That is, the upper bound for the sample size
-  is $\binom{|F|}{t}$ for features $F$ and $t \in \mathbb{N}$.\\  
+  is $\binom{|F|}{t}$ for features $F$ and $t \in \mathbb{N}$.
+  \cite{siegmund_predicting_2012} extend this approach by composing
+  higher-order feature tuples ($t > 2$) from already known pair-wise
+  interactions. The rationale behind this heuristic is that, if pairs of
+  features interact, also tuples including those pairs are likely to interact.\\
 	\bottomrule
 	\end{tabular}
 	\caption{Selection of sampling strategies for binary features.}
@@ -855,7 +909,10 @@ rate. \emph{Most-enabled-disabled} results in the smallest
 sample size, whereas \emph{t-wise} sampling, especially for a greater $t$ yields
 the largest samples. Regarding the detection of faults,
 \emph{statement-coverage} performed poorly, whereas \emph{t-wise} sampled
-samples, especially with a greater $t$ unveiled most faults. 
+samples, especially with a greater $t$ unveiled most faults. Note that statement
+coverage is not applicable in the context of performance assessment since for
+performance measurements, the software system is generally conceived as a  black
+box. 
 
 \paragraph{Numeric Features.}
 Similar to selecting meaningful sample sets of binary options, for numeric
@@ -877,9 +934,19 @@ constraints among numeric options \citep{siegmund_performance-influence_2015}.
 For further reading on more detailed descriptions of experimental designs, refer
 to \cite{antony_design_2014}. 
 
-Depending on whether binary, numeric, or both
-types of configurations options are present, sampling strategies are selected,
+In conclusion, finding a suitable sampling strategy remains a tasks with many
+aspects to consider. Depending on whether binary, numeric, or both types of
+configurations options are present, sampling strategies are selected,
 respectively. To derive mixed configurations, first, samples are selected from
-both binary and numeric configuration options. Second, the final sample
-of mixed configurations is computed as the cross-product of binary and numeric
-partial configurations.
+both binary and numeric configuration options. Second, the final sample of
+mixed configurations is computed as the cross-product of binary and numeric
+partial configurations. As stated by \cite{siegmund_predicting_2012}, the
+treating binary and numeric options separately is justified since usually binary options enable
+or disable functionality while numeric options merely tune functionality. In
+the context of out methodology, a suitable sampling strategy might include
+combining different strategies, either due to different types of configuration
+options, or due to multiple coverage criteria to meet. As a guideline for
+selecting a sampling strategy, especially in the context of performance
+assessment, no clear recommendation can be given. However, from samples
+selected via random sampling (Sarkar) and pair-wise sampling
+\cite{sarkar_cost-efficient_2015} have shown acceptable results in terms of accuracy.
