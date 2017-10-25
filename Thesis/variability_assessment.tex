@@ -4,13 +4,13 @@ various aspects: \emph{First}, to actually assess single variants, knowledge
 about the variability model is required to configure the software systems accordingly.
 \emph{Second}, obtaining knowledge about feature usage and implementation can
 provide meaningful insights. For instance, knowing that most variable code is dependent
-on larger numbers of features might be useful information when selecting a
+on small numbers of features might be useful information when selecting a
 sampling strategy. Similarly, knowing which feature combinations are frequently
 involved in conditioning program functionality and behavior can help understand
 configuration-related defects. \emph{Last}, since the number of configurations
 for most configurable software systems is infeasible, variability assessment faces
-performance- and scalability-related problems. That is, assessments are usually
-constrained by limited resources.
+performance- and scalability-related problems. That is, variability assessment
+is usually constrained by limited resources.
 
 \begin{figure}[h!]
 	\centering
@@ -20,23 +20,23 @@ constrained by limited resources.
 	\label{fig:roadmap_1}
 \end{figure}
  
-This chapter describes the first aspect in our methodology, variability
-assessment, as illustrated in Figure \ref{fig:roadmap_1}. This first tier of our
-methodology embraces two main tasks, first, the synthesis (or extraction) of a variability
-model for a configurable software system, and second, strategies to select
+This chapter describes the first aspect in our methodology, the assessment of
+variability. As illustrated in Figure \ref{fig:roadmap_1}, this first tier of
+our methodology embraces two main tasks, first, the synthesis (or extraction) of a variability model for a configurable software system, and second, strategies to select
 meaningful sample sets of configurations to assess performance for. In
 section~\ref{sec:untangling} we review the synthesis of variability models as
 well as corresponding analyses of systems’ variability; in
 section~\ref{sec:configuration_gen} we describe means to generate configurations from variability models, and finally,
-section~\ref{sec:configuration_sam} discusses different sampling strategies.
+section~\ref{sec:configuration_sam} discusses different strategies for selecting
+sample sets of configurations.
 
 \section{Untangling Variability}\label{sec:untangling}
-{\color{gray}Before presenting strategies to synthesize variability models in
+Before presenting strategies to synthesize variability models in
 the next section, we first recap a number of techniques to untangle configurable
 software composed from variable and invariant code. In the context of our
 methodology, these techniques are useful means to make variable code segments
 visible, and to understand how variability influences the overall resulting
-variants of a software systems.}
+variants of a software systems.
 
 The idea of designing and developing configurable software systems is driven by
 the separation of different concerns, expressed as features of a software
@@ -71,19 +71,19 @@ provide useful information when assessing configurable software systems.
 have proposed the framework \emph{TypeChef} to enable the construction of
 variability-aware parsers. A variability-aware parser, like ordinary parsers,
 systematically explores a program to return an abstract representation of the
-parsed program. This parse tree, or abstract syntax tree
+parsed program. This parse tree, or abstract syntax tree,
 is the basis for compilers to translate a program, or for further static
-analyses including type checking. For a code base with variability expressed by
-preprocessor directives, which are evaluated prior to compilation, a
+analyses, such as type checking. For a code base with variability expressed by
+preprocessor annotations, which are evaluated prior to compilation, a
 variability-aware parser, however, is able to derive a parse tree considering
 all variants in a single run. A parse tree usually consists of nodes
 representing syntactical features of the parsed program. The parse tree
 returned by a variability-aware parser, moreover, comprehends variable segments
 of a program and will include them with respect to their presence conditions.
-For instance, a class may contain a function sort, for which two different
-implementations exist. While there might be numerous variants, the parse tree
+For instance, a class may contain a function \textit{sort()}, for which two
+different implementations exist. While there might be numerous variants, the parse tree
 of the class will contain a node with two children, one for each
-implementation; higher numbers of alternative implementations are expresses by
+implementation; higher numbers of alternative implementations are expressed by
 nesting further nodes. In that way, variable and invariant program segments
 can be separated.
 
@@ -97,34 +97,31 @@ variability-aware parsing, disciplined usage is conceived as using preprocessor
 annotations only to segment statements, but not to segment a single syntactical
 unit, such as expressions \citep{medeiros_discipline_2017}.
 
-{
-\color{gray}
 In the context of our methodology, the parse tree resulting from
-variability-aware parsing can be used as a basis for further analysis. Since
+variability-aware parsing can be used as a basis for further analyses. Since
 the parse tree provides a machine-readable decomposition of variable and
 invariant code segments along with presence conditions, for instance, it has
 been used to derive constraints among features
 \citep{nadi_mining_2014,nadi_where_2015} as we will see in the next subsection.
-}
+
 
 \paragraph{Staged Variability.} Besides variability-aware parsing,
 \cite{nguyen_building_2014} have applied symbolic execution
 \citep{king_symbolic_1976,darringer_applications_1978} to unwind variability for
 PHP Web applications. Web applications are staged, i.e., even though they can be
 configured at load-time, the application is as well variable with respect to
-input received at run-time. For instance, consider WordPress, a popular content
-management system (CMS) implemented in PHP, which can be extended with a number
+input received at run-time. For instance, consider \emph{WordPress}, a popular
+content management system (CMS) implemented in PHP, which can be extended with a number
 of plug-ins. However, the content of a website presented to the user also depends
 on information retrieved from a database, and user input. Consequently, a
 dynamic PHP Web application is staged in a sense that it generates configurable
 HTML templates which are rendered at run-time. The authors utilize a symbolic
-execution to explore all possible execution paths. Each user input or database
-query is considered a symbolic value which is propagated through each script.
+execution engine to explore all possible execution paths. Each user input or
+database query is considered a symbolic value which is propagated through each script.
 By keeping track of the (partially symbolic) HTML output and organizing it in a
 DOM-like structure, their approach approximates the HTML output, which
 subsequently can be tested, for instance for validity
 \citep{nguyen_auto-locating_2011}.
-
 Similarly, \cite{lillack_tracking_2014} have applied taint-analysis to configurable software
 systems to track the influence of configuration options read at load-time.
 Their static analysis approach taints every value resulting from reading a
@@ -132,32 +129,31 @@ configuration parameter as well as every value resulting from a computation
 that involves previously tainted values. That way, lines of code that are
 possibly depending on configuration options are detected.
 
-{\color{gray}
 In the context of our methodology, addressing staged variability with techniques
 such as symbolic execution is required to assess performance for Web
 applications. Both the code executed at server-side as well as the dynamically
-generated (dynamic) HTML are interdependent of the Web application,  for
-instance via user inputs. Any suitable and elaborate performance measurement
-setup for Web applications must incorporate both stages. }
+generated HTML are interdependent parts of the Web application. Any suitable and
+elaborate performance measurement setup for Web applications must incorporate
+both stages.
 
 \paragraph{Build System Variability.} Apart from
 configuring software systems using preprocessor annotations, the assembling of
 a configurable software system can as well be orchestrated by its underlying
 build system. While preprocessor annotations virtually separate code fragments
 of different features, for instance, build systems can physically exclude files
-from compilation. This variability enabled by build systems, in particular of
-Makefiles has been subject to a couple of analysis approaches. \cite{tamrawi_build_2012} have
-proposed Symake, a symbolic execution engine to evaluate Makefiles.
-On top of Symake, \cite{zhou_extracting_2015} use symbolic execution to analyze
-Makefiles and derive file presence conditions, stating under which feature
+from compilation. This implementation of variability enabled by build systems,
+in particular of Makefiles, has been subject to a couple of analysis approaches.
+\cite{tamrawi_build_2012} have proposed \emph{Symake}, a symbolic execution
+engine to evaluate Makefiles.
+On top of \emph{Symake}, \cite{zhou_extracting_2015} utilize symbolic execution
+to analyze Makefiles and derive file presence conditions, stating under which feature
 selection a file is included or excluded from compilation. The work of
-\cite{al-kofahi_escaping_2016} addresses a more advanced build system, GNU Automake.
-Automake describes a staged build process, where a Makefile can be specified on
-a higher level, and is subsequently compiled to an actual Makefile. The
+\cite{al-kofahi_escaping_2016} addresses a more advanced build system, \emph{GNU
+Automake}. \emph{Automake} describes a staged build process, where a Makefile
+can be specified on a higher level, and is subsequently compiled to an actual Makefile. The
 authors’ aim to provide a variability-aware representation of all possible
 Makefiles to enable further analyses of the build process.
 
-{\color{gray}
 In the context of out methodology, the symbolic evaluation of a software
 system’s build process follows an intention similar to the one of
 variability-aware parsing. Not only could further analysis tools be build upon
@@ -165,14 +161,15 @@ a symbolic evaluation engine, but also does symbolic evaluation in this context
 untangle the variability accommodated in the build process. The file presence
 conditions extracted by \cite{zhou_extracting_2015}
 and \cite{al-kofahi_escaping_2016} are a strong basis for further constraint
-extraction, and therefore variability model assessment.\\}
+extraction, and therefore variability model assessment.\\
 
-In the context of our methodology, the mentioned family-based analyses serve to
-fundamental purposes. First, family-based analyses can help to get an overview
-of what, or how much code in a software is variable as well as to which extent.
+In the context of our methodology, the mentioned family-based analyses serve two
+fundamental purposes. \emph{First}, family-based analyses can help to obtain an
+overview of what, or how much code in a configurable software system is variable
+as well as to which extent.
 For instance, if most extracted presence conditions contain only very few
-features, higher-order features are unlikely. Second, family-based analyses
-provide a feasible means to untangle variability and, as we will see in the
+features, higher-order feature interactions are unlikely. \emph{Second},
+family-based analyses provide a feasible means to untangle variability and, as we will see in the
 next section, are the basis for some elaborate techniques to extract
 variability models \citep{nadi_mining_2014,nadi_where_2015}. In conclusion,
 these analyses are not essential to extract variability models, yet are useful tools to use in
@@ -209,20 +206,22 @@ feature model representing constraints among features
     draw, align=center,
     top color=white, bottom color=blue!20},thick,scale=0.95, every
     node/.style={scale=0.95}]
-  \node {\sf Variability Model Synthesis}
-    child { node [align=left] {{\begin{tabular}{c}{\sf NLP-based Extraction} \\
+  \node {\sffamily Variability Model Synthesis}
+    child { node [align=left] {{\begin{tabular}{c}{\sffamily NLP-based
+    Extraction} \\
     \citep{alves_exploratory_2008} \\ \citep{bakar_feature_2015}
     \end{tabular}}}} 
-    child { node [align=left] {\begin{tabular}{c} {\sf Static
+    child { node [align=left] {\begin{tabular}{c} {\sffamily Static
     Analyses}\end{tabular}} child { node [align=left] {\begin{tabular}{c}
-    {\sf Feature Extraction} \\
+    {\sffamily Feature Extraction} \\
     	\citep{rabkin_static_2011}
     	\end{tabular}}} 
-    	child { node [align=left] {\begin{tabular}{c} {\sf Constraint Extraction}
+    	child { node [align=left] {\begin{tabular}{c} {\sffamily Constraint
+    	Extraction}
     	\\
     	\citep{nadi_mining_2014,nadi_where_2015}
     	\end{tabular}}} }
-    child { node [align=left] {\begin{tabular}{c} {\sf Feature-Model
+    child { node [align=left] {\begin{tabular}{c} {\sffamily Feature-Model
     Approximation} \\
     \citep{lopez-herrejon_reverse_2012,lopez-herrejon_assessment_2015} \\
     \citep{linsbauer_feature_2014}\end{tabular}}};
@@ -247,18 +246,10 @@ The importance of all remaining tokens is (usually) weighed by its tf-idf
 value, an established technique in information retrieval. That is, each text
 (corresponding to a variant or configuration) is represented as a vector of
 tf-idf values in the aforementioned vector space model. 
-
 Based on these representations, text instances are clustered to identify
 commonalities and differences, for instance in terms of shared words.
 Subsequently, the clustering information can be used to extract features or entire feature
 models \citep{alves_exploratory_2008,bakar_feature_2015}.
-
-%\subsection{Feature Extraction} 
-%The first objective in recovering a variability model from a configurable
-%system is to determine the available configuration options to select
-%from. In addition, for further configuration, the type of each configuration
-%option (e.g., boolean, numeric, or string) and the respective domain of valid
-%values needs to be specified.
 
 \paragraph{Feature Extraction.} \cite{rabkin_static_2011} proposed a static, yet
 heuristic approach to extract configuration options along with respective types and domains. Their approach
@@ -268,27 +259,29 @@ configuration options are parsed. Next, configuration names can be
 recovered as they are either already specified at compile-time or can be
 reconstructed using string analysis yielding respective regular expressions.
 Moreover, the authors employ a number of heuristics to infer the type of parsed
-options as well as respective domains. First, the return type of the
+options as well as respective domains. \emph{First}, the return type of the
 parsing method is likely to indicate the type of the configuration option read.
-Second, if a string is read initially, the library method it is passed to can
-reveal valuable information about the actual type. For instance, a method
-\emph{parseInteger} is likely to parse an integer value. Third, whenever a
-parsed configuration option is compared against a constant, expression, or value
+\emph{Second}, if a string value is read initially, the library method it is
+passed to can reveal valuable information about the actual type. For instance, a method
+\texttt{parseInteger} is likely to parse an integer value. \emph{Third},
+whenever a parsed configuration option is compared against a constant, expression, or value
 of an enum class, these might indicate valid values or at least corner cases of
 the configuration option domain. The extraction method by
 \cite{rabkin_static_2011} is precise, but limited, for instance, when an
-option leaves the scope of the source code.
+option leaves the scope of the source code and is passed to a database.
 Nonetheless, for the systems studied, the authors were able to recover
 configuration options that were not documented, only used for debugging or even not used at
 all.
 
 \paragraph{Constraint Extraction.} 
 A more comprehensive investigation of configuration
-constraints and their origin is provided by \cite{nadi_mining_2014,nadi_where_2015}. They use variability-aware parsing to infer constraints by
-evaluating makefiles and  analyzing preprocessor directives. Inferred
-constraints result from violations of two assumed rules, where (a) every valid
-configuration must not contain build-time errors and (b) every valid
-configuration should result in a lexically different program. While the
+constraints and their origin is provided by
+\cite{nadi_mining_2014,nadi_where_2015}. They use variability-aware parsing to
+infer constraints by evaluating Makefiles and  analyzing preprocessor
+directives. Inferred constraints result from violations of two assumed rules,
+where (a) every valid configuration must not contain build-time errors and (b)
+every valid configuration should result in a lexically different program.
+While the
 first rule aims at inferring constraints that prevent build-time errors, the
 second one is intended to detect features without any effect, at least as part
 of some configurations. Their analysis has shown a high accuracy
@@ -308,10 +301,11 @@ different search-based strategies to synthesize feature models of which we
 present two categories. Evolutionary algorithms have been applied to reverse
 engineer feature models from configuration samples
 \citep{lopez-herrejon_reverse_2012,linsbauer_feature_2014}. A population of
-feature models is generated and each instance is evaluated by a fitness function, measuring how well it fits the given sample configurations. Subsequently, a new generation is obtained by applying
-crossover and mutation operators to the previous generation, whereby only the
-fittest remain. This process of evolution is repeated multiple times until a
-desired threshold fitness is reached for a feature model instance.
+feature models is generated and each instance is evaluated by a fitness
+function, measuring how well it fits the given sample set of configurations.
+Subsequently, a new generation is obtained by applying crossover and mutation
+operators to the previous generation, whereby only the fittest instances remain.
+This process of evolution is repeated multiple times until a desired threshold fitness is reached for a feature model instance.
 \cite{lopez-herrejon_reverse_2012} identify a trade-off between the accuracy of
 recovered feature models and the number of generations employed by evolutionary
 algorithms. Besides promising results, the authors stress the importance of
@@ -326,7 +320,7 @@ cross-tree constraints.
 Besides promising results for basic feature models, the authors advocate the
 incorporation of human domain-knowledge in the synthesis of feature models.
  
-\paragraph{Feature-Hierarchy Recovery} \label{sec:feature_hierarchy}
+\paragraph{Feature-Hierarchy Recovery.} \label{sec:feature_hierarchy}
 Besides recovering features and their respective constraints, to reverse
 engineer a feature model, one further step is required when the outcome should
 be human readable in a feature diagram. The recovered knowledge can be
@@ -335,24 +329,22 @@ constraints explicitly stated to derive a valid feature diagram
 \citep{kang_feature-oriented_1990}.
 While several approaches for recovering the feature-model hierarchy have been
 proposed, we are primarily interested in finding a hierarchy for knowledge
-obtained from source code. Other scenarios, as already stated in the opener of
-this section, are based on product descriptions or sets of valid configurations
-\citep{aleti_software_2013,bakar_feature_2015}. In the remainder of this
+obtained from source code. In the remainder of this
 subsection, we will focus on organizing features and constraints extracted from
-source code. For further reading, \cite{andersen_efficient_2012} present algorithms for structuring feature diagrams for three different scenarios including the ones previously mentioned.
+source code.
 
 Given an extracted set of features along with corresponding descriptions and
 recovered constraints among the features, \cite{she_reverse_2011} propose a
 semi-automated and interactive approach to synthesize a feature hierarchy.
-Their approach comprises three tasks. First, an overall feature hierarchy based
-on feature implications is specified. Second, potential feature groups are
-detected and manually selected. Finally, the feature diagram is extended with
-remaining CTCs. 
+Their approach comprises three steps. \emph{First}, an overall feature hierarchy
+based on feature implications is specified. \emph{Second}, potential feature
+groups are detected and manually selected. \emph{Finally}, the feature diagram
+is extended with remaining CTCs. 
 The approach by \cite{she_reverse_2011} provides a practical algorithm to synthesize a
-feature diagram, yet has some limitations we need to consider. First, the
+feature diagram, yet has some limitations we need to consider. \emph{First}, the
 approach is not able to detect or-groups as defined in Sec. \ref{sec:variability_modeling}.
-Second, the approach does introduce a root feature. Finally, the approach does not
-distinguish between mandatory and optional features. Implicitly, all features
+\emph{Second}, the approach does introduce a root feature. \emph{Finally}, the
+approach does not distinguish between mandatory and optional features. Implicitly, all features
 that do not have a parent feature are optional and all features that have a
 parent feature are by default mandatory. \cite{she_reverse_2011} evaluated the
 algorithm with both complete and incomplete variability knowledge (feature
@@ -428,23 +420,20 @@ feature of the feature model.\\
 
 Although the approaches mentioned in the paragraphs above, excluding the
 feature-hierarchy recovery, in principal address the same problem, they are
-isolated solutions to that problem and their applicability  is depending on a
-number of cross-cutting boundary conditions.
-
+isolated solutions to the problem of variability assessment, and their
+applicability is depending on a number of cross-cutting boundary conditions.
 \emph{First}, for the overall problem of variability model synthesis we can
 identify two different contexts for which different techniques apply. The NLP-based
 techniques summarized by \cite{alves_exploratory_2008} and \cite{bakar_feature_2015} address
 the extraction of features in the context of requirements engineering, for instance by comparing different
 software products in the same market domain. However, the remaining techniques
 intend to extract features for a given single software system.
-
-\emph{Second}, for variability assessment the exist two different principal
+\emph{Second}, for variability assessment there exist two different principal
 analysis approaches. While the techniques proposed by \cite{nadi_mining_2014,nadi_where_2015}
 and \cite{rabkin_static_2011} approach a configurable software system as a monolithic system,
 both the family of NLP-based techniques and the approximative techniques
 \cite{lopez-herrejon_reverse_2012,lopez-herrejon_assessment_2015,linsbauer_feature_2014}
 explicitly require a set of variants or configurations, respectively.
-
 \emph{Third}, the techniques differ in the type of variability they are able to
 extract variability models for. While Nadi’s approach only works for build-time
 variability, the work of \cite{rabkin_static_2011} will only work for configurations read at
@@ -478,7 +467,7 @@ software system is documented. \emph{Second}, we ask whether the software
 system provides sample configurations, such as configuration presets, or
 whether it ships as different variants, such as different Windows flavors.
 \emph{Last}, we ask whether a variability model is explicitly contained in the
-software, and whether it is visible to practitioners, such as the Kconfig
+software, and whether it is visible to practitioners, such as the \emph{Kconfig}
 system for the Linux kernel. For each scenario, in Table \ref{tab:synthesis},
 satisfaction of either criterion is marked. In addition, we mark criteria as
 \emph{satisfied optionally}, if we assume them to be satisfied, but they are
@@ -506,12 +495,8 @@ not necessarily relevant for the choice of strategy.
 \end{table}
 
 Apparently, the latter scenario C in Table \ref{tab:synthesis} requires only
-little to no assessment of the application's variability, as the variability
+little to no assessment of the application's variability since the variability
 model is already available.
-For scenario A, both natural language artifacts and code artifacts must be
-exploited. A basic start is to study and aggregate documentation information
-about the software system with respect to configurations, such as manuals/man
-pages or API documentation. 
 
 \begin{sidewaystable}
   \thisfloatpagestyle{empty}  
@@ -617,8 +602,8 @@ The corners of the questionnaire cover, besides the manual synthesis of the
 variability model, the questions of how variability is implemented,
 configurations are encoded, and whether the variability model has changed
 during evolution. Although the automated approaches discusses earlier are only
-applicable for scenarios B or C, family-based analyses can support manual
-assessment.
+applicable for scenarios B or C, or under specific circumstances, family-based
+analyses can support manual assessment.
 
 We have seen that the extent to which automated solutions are applicable to
 variability assessment depends on the degree to which variability is
@@ -639,11 +624,10 @@ coverage or performance, we usually assess a sample set of variants. Hence, we
 require techniques to derive valid feature selections from the variability
 model to select meaningful sample sets from. As there exist various forms to
 express a variability model, configurations may be generated in various ways.
-
 Variability models can, for instance, be expressed as propositional formulas,
-context-free grammars (CFG) \cite{batory_feature_2005}, or constraint satisfaction problems
-(CSP) \cite{benavides_automated_2005,benavides_using_2005}. Accordingly, all configurations
-represent solutions to propositional formulas or CSPs, or valid words for CFGs
+context-free grammars (CFG) \citep{batory_feature_2005}, or constraint
+satisfaction problems (CSP)
+\citep{benavides_automated_2005,benavides_using_2005}. Accordingly, all configurations represent solutions to propositional formulas or CSPs, or valid words for CFGs
 respectively. That is, the generation of all configurations with respect to the
 variability model is equivalent to finding a solution or sentence for the
 aforementioned representations of a variability model. In the following, we
@@ -773,7 +757,7 @@ P)$ whose elements are constructed from a feature diagram as follows.
   \end{itemize}
 \end{definition}
 
-Based on definition \ref{def:cgg}, we can specify an algorithm that computes the
+Based on Definition \ref{def:cgg}, we can specify an algorithm that computes the
 transitive closure of the grammar by repeatedly expanding each non-terminal for
 each (partial) word until a word containing non-terminal symbols is left.
 In addition to deriving all configurations from a grammar, the
@@ -791,10 +775,11 @@ from applying both techniques, the encoding as a logical problem or the
 translation to a context-free grammar,  to a variability model are equivalent.
 However, both techniques differ in terms of cost and tool support. While the
 former technique generally demands additional tool support, such as SAT or CSP
-solvers, their use is well established among research tools, such as FeatureIDE
-\cite{al-hajjaji_incling:_2016} or SPLConqueror \cite{siegmund_predicting_2012}. Moreover, research
-has shown that SAT solvers generally scale for large configurable software systems. In turn, the latter technique using
-context-free grammars can easily be implemented, yet the exhaustive expansion
+solvers, their use is well established among research tools, such as
+\emph{FeatureIDE} \citep{al-hajjaji_incling:_2016} or \emph{SPLConqueror}
+\citep{siegmund_predicting_2012}. Moreover, research has shown that SAT solvers
+generally scale for large configurable software systems. 
+In turn, the latter technique using context-free grammars can easily be implemented, yet the exhaustive expansion
 of a context-free grammar is infeasible and does not scale since all valid
 configurations are derived. Nonetheless, for handling smaller variability
 models, context-free grammar might be a makeshift solution.
@@ -833,7 +818,7 @@ models, context-free grammar might be a makeshift solution.
 \section{Configuration Sampling}\label{sec:configuration_sam}
 When assessing emergent properties for configurable software systems, it is
 infeasible to consider every possible variant. As previously stated in
-section~\ref{sec:variability_modeling} interactions between
+section~\ref{sec:variability_modeling}, interactions between
 features can emerge, and can be the root cause for configuration-related
 performannce-interactions. Hence, effects on performance quality may be
 identified only under specific configurations. To not exhaustively assess all
@@ -841,9 +826,10 @@ variants, a variety of strategies to select a sample set of configurations have 
 Every sampling strategy in the context of configurable software system is
 designed with respect to a \emph{coverage criterion} 
 \citep{apel_feature-oriented_2013}. While some coverage criteria take into
-account the coverage of feature interactions, such as t-wise sampling, others
-consider code coverage, such as statement coverage sampling. Although
-configurations in our case can contain both binary and numeric options, we
+account the coverage of feature interactions, such as t-wise sampling
+\citep{williams_practical_1996}, others consider code coverage, such as
+statement coverage sampling \citep{tartler_static_2014}.
+Although configurations in our case can contain both binary and numeric options, we
 distinguish sampling strategies for both categories. In the following, we
 review a selection of popular sampling strategies for binary options as well as
 sampling strategies for numeric options, especially in the context of
@@ -865,7 +851,10 @@ Table \ref{tab:sampling}.
 	\mbox{Feature Coverage} & Configurations are selected, so
 	that each feature is selected in at least one configuration
   \citep{apel_feature-oriented_2013}. An extension proposed by
-  \cite{sarkar_cost-efficient_2015} for projective sampling takes into account feature frequencies. The frequency of a feature is the frequency of the feature being selected or deselected in a sample set. As a coverage criterion, a minimum frequency is specified.\\
+  \cite{sarkar_cost-efficient_2015} for projective sampling takes into account
+  feature frequencies. The frequency of a feature is the frequency of the
+  feature being selected or deselected in a sample set. As a coverage
+  criterion, a specified minimum feature frequency is to be reached.\\
   \midrule
   Most-enabled-disabled & Configurations are selected, so that a
   maximal and minimal number of features is enabled
@@ -886,7 +875,7 @@ Table \ref{tab:sampling}.
   selected, so that each variable block of code (for
   compile-time variability) is at least included in one
   variant \citep{tartler_static_2014}. This either applies to variable code
-  sections via preprocessor annotations, or to entire files or compilation
+  sections via preprocessor annotations, or to entire files and compilation
   units. \\
   \midrule
   T-wise sampling & Configurations are selected, so that all
@@ -909,9 +898,9 @@ rate. \emph{Most-enabled-disabled} results in the smallest
 sample size, whereas \emph{t-wise} sampling, especially for a greater $t$ yields
 the largest samples. Regarding the detection of faults,
 \emph{statement-coverage} performed poorly, whereas \emph{t-wise} sampled
-samples, especially with a greater $t$ unveiled most faults. Note that statement
-coverage is not applicable in the context of performance assessment since for
-performance measurements, the software system is generally conceived as a  black
+samples, especially with a greater $t$ unveiled most faults. Note that
+sampling with respect to statement coverage is not applicable in the context of
+performance assessment since for performance measurements, the software system is generally conceived as a  black
 box. 
 
 \paragraph{Numeric Features.}
@@ -924,8 +913,9 @@ case) \citep{antony_design_2014}. As the choice of an experimental plan (for
 both binary and numeric options) determines the number of measurements, and therefore the cost of
 assessment, not all designs might scale and be suitable for our assessments.
 \cite{siegmund_performance-influence_2015} have reviewed and evaluated a number
-of established experimental plans with respect to feasibility. The authors exclude a number of
-designs due to an infeasible number of measurements, and advocate the use of
+of established experimental plans with respect to applicability in the context
+of configurable software systems.
+The authors exclude a number of designs due to an infeasible number of measurements, and advocate the use of
 four designs, including the Plackett-Burman Design and Random Designs. Assuming
 a discrete domain of values for each numeric option, the former design requires
 each combination of levels for each pair of numeric options to occur equally.
@@ -940,7 +930,7 @@ configurations options are present, sampling strategies are selected,
 respectively. To derive mixed configurations, first, samples are selected from
 both binary and numeric configuration options. Second, the final sample of
 mixed configurations is computed as the cross-product of binary and numeric
-partial configurations. As stated by \cite{siegmund_predicting_2012}, the
+partial configurations. As stated by \cite{siegmund_performance-influence_2015}, the
 treating binary and numeric options separately is justified since usually binary options enable
 or disable functionality while numeric options merely tune functionality. In
 the context of out methodology, a suitable sampling strategy might include
@@ -948,5 +938,6 @@ combining different strategies, either due to different types of configuration
 options, or due to multiple coverage criteria to meet. As a guideline for
 selecting a sampling strategy, especially in the context of performance
 assessment, no clear recommendation can be given. However, from samples
-selected via random sampling (Sarkar) and pair-wise sampling
-\cite{sarkar_cost-efficient_2015} have shown acceptable results in terms of accuracy.
+selected via random sampling \citep{sarkar_cost-efficient_2015} and pair-wise
+sampling \citep{siegmund_performance-influence_2015} have shown acceptable results in terms
+of accuracy.
