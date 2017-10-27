@@ -21,7 +21,7 @@ revision sampling.
 
 The chapter is organized as follows. In section~\ref{sec:towards_revsampling} we
 present the methodological requirements for a designing and selecting a revision sampling
-strategy. In section ~\ref{sec:revsampling_strat} we propose five approaches to
+strategy. In section ~\ref{sec:revsampling_strat} we propose four approaches to
 revision sampling based on observations of configurable software systems. In
 section~\ref{sec:revsampling_eval} we evaluate the different approaches against
 exhaustive measurements of a selection of configurable software systems.
@@ -54,9 +54,9 @@ variability, a performance change might only affect a subset of the assessed
 configurations. A representative sample set, therefore, should describe a
 history of significant performance changes with respect to all variants
 assessed. We consider a performance change to be significant, if it affects a
-significant portion of the sample of variants (effect range) and if the
-relative change in performance measurements is significantly huge (effect
-magnitude).
+significant portion of the sample of variants (\emph{effect range}) and if the
+relative change in performance measurements is significantly large (\emph{effect
+magnitude}).
 
 \begin{figure}[h!]
 	\centering
@@ -99,7 +99,16 @@ revision a performance change is likely, or performance measurements might have
 changed compared to prior commits, we want  this classifier to be sensitive,
 i.e., to have a preferably high true positive rate. That is, a sampling
 strategy is meaningful if we learn which revision features most likely indicate
-performance evolution.
+performance changes.\\
+
+In conclusion, when designing a revision sampling strategy, we ask for a
+plausible rationale or coverage criterion with respect to performance changes.
+A resulting sample set of revisions, in addition, is representative, if the
+contained revisions sketch performance changes. For the context of this
+methodology, we remain with a clear definition of what performance
+changes are significant. Based on these assumptions, in the next section we
+propose a selection of four revision sampling approaches based on different
+observations.
  
 \section{Revision Sampling Strategies}\label{sec:revsampling_strat}
 
@@ -154,23 +163,77 @@ level 3/.style={sibling distance=6cm},
     				{\sffamily \parbox{3cm}{\centering Binary Search Sampling}}
     			\end{tabular}
     		}
-    	} 
-    	child { 
-    		node [align=left] {
-	    		\begin{tabular}{c} 
-	    			{\sffamily \parbox{3cm}{\centering Hot-Spot Sampling}}
-	    		\end{tabular}
-    		}
-    	} 
-    };
+    	}
+    	};
+%    	child { 
+%   		node [align=left] {
+%	    		\begin{tabular}{c} 
+%	    			{\sffamily \parbox{3cm}{\centering Hot-Spot Sampling}}
+%	    		\end{tabular}
+%    		}
+%    	} 
+%    };
 \end{tikzpicture}
+
 \caption{Overview of our proposed revision
 sampling strategies.}\label{fig:revsampling_overview}
 \end{figure}
 
 \subsection{Documentation-driven Sampling}
 \subsection{Version History Segmentation}
+\begin{figure}[h!]
+\def\tabularxcolumn#1{m{#1}}
+\begin{tabularx}{\linewidth}{@{}cXX@{}}
+\centering
+\begin{tabular}{cc}
+\subfloat[Activity graph for \texttt{GNU XZ}, generated from 1,135 versions
+between December 8, 2007, and August 14, 2017.]
+{\includegraphics[width=0.45\textwidth]{images/activity_xz.eps}}
+&
+\subfloat[Activity graph for \texttt{x264}, generated from 2,851 versions
+between June 3, 2004, and June 26, 2017.]{\includegraphics[width=0.45\textwidth]{images/activity_x264.eps}}\\
+\end{tabular}
+\end{tabularx}
+\caption{Commit activity for two sample systems, the compression
+utility \texttt{GNU XZ} and the video encoder \texttt{x264}. For each version,
+the activity is measured as the number of commits that were pushed within a
+certain timeframe of eight weeks.}
+\label{fig:ActivityGraphs}
+\end{figure}
+
+\begin{figure}[h!]
+\def\tabularxcolumn#1{m{#1}}
+\begin{tabularx}{\linewidth}{@{}cXX@{}}
+\centering
+\begin{tabular}{cc}
+\subfloat[Distribution of time to next commits for \texttt{GNU XZ}]
+{\includegraphics[width=0.45\textwidth]{images/commit_differences_xz.eps}}
+&
+\subfloat[Distribution of time to next commits for \texttt{x264}]
+{\includegraphics[width=0.45\textwidth]{images/commit_differences_x264.eps}}\\
+\end{tabular}
+\end{tabularx}
+\caption{Distribution of time to next commits for two configurable software
+systems, measured as the distance between a commit and its successor.}
+\label{fig:bener}
+\end{figure}
+
 \subsection{Change Coverage Sampling}
+\begin{figure}[h!]
+\def\tabularxcolumn#1{m{#1}}
+\begin{tabularx}{\linewidth}{@{}cXX@{}}
+\centering
+\begin{tabular}{cc}
+\subfloat[Distribution of changed lines per commit for \texttt{GNU XZ}]
+{\includegraphics[width=0.45\textwidth]{images/commit_sizes_xz.eps}}
+&
+\subfloat[Distribution of changed lines per commit for \texttt{x264}]{\includegraphics[width=0.45\textwidth]{images/commit_sizes_x264.eps}}\\
+\end{tabular}
+\end{tabularx}
+\caption{Distribution of commit sizes in lines of code for two configurable
+software systems, \texttt{GNU XZ} and \texttt{x264}.}
+\label{fig:bener}
+\end{figure}
 \subsection{Binary-Search-based Sampling}
 \subsection{Hot-Spot Sampling}
 
