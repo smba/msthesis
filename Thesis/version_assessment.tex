@@ -112,6 +112,26 @@ propose a selection of four revision sampling approaches based on different
 observations.
  
 \section{Revision Sampling Strategies}\label{sec:revsampling_strat}
+As there are no established approaches to select sample sets of versions for
+configurable software systems, especially with respect to performance
+assessment, in the following five subsections, we propose five different
+strategies to address this problem. Our proposals utilize different sources of
+information regrading the software system studied, and are inspired by
+approaches that have proven to be applicable in different contexts. An overview
+and classification of the five proposals is presented in
+Figure~\ref{fig:revsampling_overview}. 
+Our approaches can be grouped into two categories. The first category incorporates
+meta-data about a commit, including its lifetime (how long it has been the
+latest commit), and the number of lines of code modified by it. For the first
+category, sampling strategies intend to achieve high coverage of the overall
+version lifetime, or modifications, respectively. The proposals listed in the
+second category may as well use take into account meta-data, yet for a
+different purpose. The classification-based proposals use meta-data along with
+performance measurements to learn and predict the likelihood of a commit
+introducing performance changes. The remaining approach, in the overview
+referred to as performance history approximation, adapts the bisection approach
+by Heger et al. mentioned earlier. The approach continuously expands a sample
+set until no performance-changing commits can be identified.
 
 \begin{figure}[t]
 \centering
@@ -123,7 +143,7 @@ level 3/.style={sibling distance=6cm},
     draw, align=center,
     top color=white, bottom color=blue!20},thick,scale=0.95, every
     node/.style={scale=0.95}]
-  \node {\sffamily Revision Sampling Strategies}
+  \node {\sffamily\bfseries Revision Sampling Strategies}
     child { 
     	node [align=left] {
     		\begin{tabular}{c} 
@@ -148,7 +168,7 @@ level 3/.style={sibling distance=6cm},
     child { 
     	node [align=left] {
     		\begin{tabular}{c} 
-    			{\sffamily \parbox{3.2cm}{\centering Classificator-based Sampling}}
+    			{\sffamily \parbox{3.5cm}{\centering Classification-based Sampling}}
     		\end{tabular}
     	}
     	child { 
@@ -412,6 +432,11 @@ changes.
 
 
 \section{Strategy Evaluation}\label{sec:revsampling_eval}
+
+\begin{itemize}
+  \item Quality criteria / performance history similarity
+\end{itemize}
+
 \section{Methodological Remarks}\label{sec:revsampling_method}
 
 %\begin{figure}
