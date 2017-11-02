@@ -70,16 +70,17 @@ Figure~\ref{fig:xz_evosample} we see a history of performance measurements (exec
 small-scale configurable software system, file compression tool called \emph{GNU
 XZ Utils}. The graphic depicts execution time measures for executing a standard
 compression benchmark for $1,135$ different versions and covers a version
-history of about nine years. In this excerpt, we only show the execution time measures
-of four different variants, i.e., each version was assessed with four different
-configurations. One can see that the execution time for the red and the green
-configurations remains stable and does not fluctuate, while for the blue and
-grey configuration, the execution time measures are generally more volatile.
-Moreover, between 2010 and 2012, performance for the latter variants fluctuates
-heavily. With regard to the two facets of significance mentioned above, not all
-variants are affected similarly by this effect. That is, if performance were
-assessed solely for one of the non-fluctuating variants, no performance
-evolution could be identified.
+history of about nine years. 
+
+In this excerpt, we only show the execution time measures of five different
+variants, i.e., each version was assessed with five different configurations.
+Each performance measurement is depicted by a single marker. In addition, we
+provide a plot of a moving median, to identify trends. We see that each variant
+has a certain performance level, and overall, the performance measurements
+remain stable. While the blue and purple variant are generally more volatile,
+for all variants, we see performance measurements oscillating during the first
+250 versions. With regard to the two facets of significance mentioned earlier,
+not all variants are affected similarly by this effect to the same degree.
 
 While the former significance criterion can unambiguously defined by a threshold
 number of variants, for the latter one one needs to define how to summarize
@@ -112,10 +113,10 @@ observations.
  
 \section{Revision Sampling Strategies}\label{sec:revsampling_strat}
 
-\begin{figure}[h!]
+\begin{figure}[t]
 \centering
 \begin{tikzpicture}[%sibling distance=15em,
-level 1/.style={sibling distance=8cm},
+level 1/.style={sibling distance=6cm},
 level 2/.style={sibling distance=3cm}, 
 level 3/.style={sibling distance=6cm},
   every node/.style = {rounded corners,
@@ -126,27 +127,20 @@ level 3/.style={sibling distance=6cm},
     child { 
     	node [align=left] {
     		\begin{tabular}{c} 
-    			{\sffamily \parbox{3cm}{\centering Metadata-based Sampling}}
+    			{\sffamily \parbox{3.2cm}{\centering Metadata-based Sampling}}
     		\end{tabular}
     	}
     	child { 
     		node [align=left] {
-    			\begin{tabular}{c}
-    				{\sffamily \parbox{3cm}{\centering Documentation-based Sampling}}
-    			\end{tabular}
-    		}
-    	} 
-    	child { 
-    		node [align=left] {
     			\begin{tabular}{c} 
-    				{\sffamily \parbox{3cm}{\centering Version History Segmentation}}
+    				{\sffamily \parbox{3.2cm}{\centering Version Lifetime Segmentation}}
     			\end{tabular}
     		}
     	}
     	child { 
     		node [align=left] {
     			\begin{tabular}{c} 
-    				{\sffamily \parbox{3cm}{\centering Commit Size Coverage}}
+    				{\sffamily \parbox{3.2cm}{\centering Change Size Coverage}}
     			\end{tabular}
     		}
     	} 
@@ -154,17 +148,31 @@ level 3/.style={sibling distance=6cm},
     child { 
     	node [align=left] {
     		\begin{tabular}{c} 
-    			{\sffamily \parbox{3cm}{\centering Progressive Sampling}}
+    			{\sffamily \parbox{3.2cm}{\centering Classificator-based Sampling}}
     		\end{tabular}
-    	} 
+    	}
     	child { 
     		node [align=left] {
-    			\begin{tabular}{c}
-    				{\sffamily \parbox{3cm}{\centering Binary Search Sampling}}
+    			\begin{tabular}{c} 
+    				{\sffamily \parbox{3.2cm}{\centering Keyword pattern Matching}}
     			\end{tabular}
     		}
     	}
-    	};
+    	child { 
+    		node [align=left] {
+    			\begin{tabular}{c} 
+    				{\sffamily \parbox{3.2cm}{\centering Changed-Files Sampling}}
+    			\end{tabular}
+    		}
+    	} 
+    }
+    child { 
+    	node [align=left] {
+    		\begin{tabular}{c} 
+    			{\sffamily \parbox{3.2cm}{\centering Performance History Approximation}}
+    		\end{tabular}
+    	} 
+    };
 %    	child { 
 %   		node [align=left] {
 %	    		\begin{tabular}{c} 
@@ -179,9 +187,52 @@ level 3/.style={sibling distance=6cm},
 sampling strategies.}\label{fig:revsampling_overview}
 \end{figure}
 
-\subsection{Documentation-driven Sampling}
-\subsection{Version History Segmentation}
-\begin{figure}[h!]
+\subsection{Keyword Pattern Matching}
+The first version sampling strategy we present is driven by the conception that
+a commit message usually summarizes the changes of a commit in terms of what
+has been implemented, modified, removed, or what problems have been fixed.
+Commit messages can include keywords or phrases that indicate a performance
+context, such as ``\textsf{fixed performance bug \ldots}'', or exhibit
+information about the version of the software system, such as ``\textsf{bumped
+version number to \ldots'}'.
+Based on this information, we propose to use pattern matching to check whether a commit
+message contains a keyword that might indicate a performance context, or a new
+version, respectively. The sampling algorithm works as follows. Given a set of
+keywords, such as ``\textsf{performance, bug, fix, slower, faster, \ldots}'', we
+first derive the word stems for each keyword. Second, for each commit message, we split the
+message into separate words and derive their corresponding word stems. Third,
+we match all sets of resulting word stems (one set per commit message) against
+the set of keyword sets and retain those commit messages, for which
+sufficiently word stems are contained. As these commit messages contain our
+previously defined keywords, we select the corresponding commits as our version
+sample set.
+
+This approach is simplistic and its accuracy clearly
+depends on the quality of the initial selection of the keyword set. Moreover, more sophisticated ways to
+compute similarity between texts, such as the tf-idf-measure and various
+similarity metrics \citep{huang_similarity_2008}. However, we only propose this
+strategy to evaluate the overall applicability of approaches driven by text
+similarity to the problem of version sampling.
+
+\subsection{Version Lifetime Segmentation}
+The second approach to select sample versions from the history of versions is
+based on assumptions and observations obtained via repository mining. The
+following approach is driven by the assumption that performance changes are
+more likely to occur when the software system is revised frequently in a short
+period of time. Not only is this simply due to a higher number of revisions. We
+can also assume that if a software system has not been revised for a long
+period of time, changes in terms of performance-relevant fixes were not
+necessary, or have been deferred. Although postponing performance-relevant
+fixes has become sort of a virtue \citep{molyneaux_art_2014}, for the latter
+case the can exist other reasons, including organizational constraints or performance
+issues being undetected at that time. That is, we assume that those versions
+that have been the latest version for a long time due to the absence of changes
+as well as the necessity thereof can sketch a software systems performance
+history. We do not assume that long-lasting versions introduce performance
+changes, but they enable the segmentation of a software systems version history
+in a way that it represents a large portion of the software systems lifetime.
+
+\begin{figure}[!htb]
 \def\tabularxcolumn#1{m{#1}}
 \begin{tabularx}{\linewidth}{@{}cXX@{}}
 \centering
@@ -201,7 +252,29 @@ certain timeframe of eight weeks.}
 \label{fig:ActivityGraphs}
 \end{figure}
 
-\begin{figure}[h!]
+Making the connection with our methodological context and the aim to design a
+version sampling strategy, we intend to achieve a high “lifetime coverage” with
+a small number of versions. For this reason, we have evaluated the “lifetime”
+of versions of different software systems. In the following, lifetime of a
+version or commit refers to the period of time between a commit and its
+successor. We have investigated the distribution of version lifetime for two
+open-source software systems, a free file compression tool, \emph{GNU XZ}, and a
+free video encoder, \emph{x264}. – This selection is by far not representative, yet
+the observations obtained from systems document our assumptions. Since we will
+refer to those two and other systems for the evaluation, we answer how and why
+these systems were selected in the evaluation in chapter 5.  – The first
+observation regarding the lifetime of single versions is illustrated in
+Figure~\ref{fig:ActivityGraphs} for the two software systems, respectively. The
+figure, for each version, shows the activity during development of both systems.
+For each commit, we have counted the number of commits preceding and succeeding
+it within a four week time frame, respectively. One can see that for both
+software systems we can identify spikes with a high commit frequency as well as
+plunges with little to no commit activity. Moreover, if we look at the
+histogram of all commits lifetime for both systems respectively as illustrated
+in Figure~\ref{fig:version_lifetime}, we see that there actually are many
+commits with a short lifetime (activity spikes) as well as only very few commits with a long lifetime (plunges).
+
+\begin{figure}[!htb]
 \def\tabularxcolumn#1{m{#1}}
 \begin{tabularx}{\linewidth}{@{}cXX@{}}
 \centering
@@ -215,11 +288,39 @@ certain timeframe of eight weeks.}
 \end{tabularx}
 \caption{Distribution of time to next commits for two configurable software
 systems, measured as the distance between a commit and its successor.}
-\label{fig:bener}
+\label{fig:version_lifetime}
 \end{figure}
 
-\subsection{Change Coverage Sampling}
-\begin{figure}[h!]
+Based on the aforementioned assumptions as well as the distribution of version
+lifetimes, when translating this in the context of a version sampling strategy,
+we can achieve high ``lifetime coverage''  by selecting very few versions from a
+list of versions sorted by lifetime in descending order. This sampling strategy
+picks the longest-lasting commits until a desired coverage threshold, or
+version threshold number is reached. This sample selection of commits is a
+segmentation or clustering of the overall version history. We assume that each
+segment represents a (sort of) steady state of the software systems performance
+history.
+
+\subsection{Change Size Coverage}
+The third approach we propose adapts the idea of the previously mentioned
+version lifetime segmentation. The following sampling strategy design is driven
+by the assumption that a version or commit is more likely to introduce
+performance changes to a software system if it modifies a large portion of
+code. We assume that the effect of modifying a single line of code is not as
+significant as modifying multiple lines of code. Of course, modifications can
+accumulate, or trigger already existing interactions, yet from a black-box
+perspective, commits affecting more lines of code are more likely to introduce
+performance changes or to trigger interactions. That is, for designing a
+version sampling strategy, we aim to cover most of all changes made to the
+software system with a few number of versions. Similar to the assessment of
+version lifetime in Figures~\ref{fig:ActivityGraphs} and
+\ref{fig:version_lifetime}, we have investigated the distribution of commit
+sizes in terms of lines of code for the two software systems \emph{GNU XZ} and
+\emph{x264}. As illustrated in Figure~\ref{fig:version_size}, we see that, by far, most
+commits modify less than 2,000 lines of code, whereas very few commits modify
+or add larger code sections.
+
+\begin{figure}[!htb]
 \def\tabularxcolumn#1{m{#1}}
 \begin{tabularx}{\linewidth}{@{}cXX@{}}
 \centering
@@ -232,10 +333,83 @@ systems, measured as the distance between a commit and its successor.}
 \end{tabularx}
 \caption{Distribution of commit sizes in lines of code for two configurable
 software systems, \texttt{GNU XZ} and \texttt{x264}.}
-\label{fig:bener}
+\label{fig:version_size}
 \end{figure}
-\subsection{Binary-Search-based Sampling}
-\subsection{Hot-Spot Sampling}
+
+Based on these observations and given the assumption that larger commits are
+more likely to introduce performance changes, we propose to obtain a sample of
+versions by selecting versions from a list of versions sorted by commit size in
+a descending order. Similarly to version lifetime segmentation, one can specify
+a threshold of sample set size or commit size coverage to achieve. We assume
+that a sample set of versions obtained using this approach is likely to cover
+significant performance changes since a larger portion of the overall change
+history is covered.
+
+
+\subsection{Performance History Approximation}
+The next sampling strategy that we propose is an adaption of the revision
+sampling approach used by \cite{heger_automated_2013}. For a software system’s version
+history along with test cases and corresponding performance measurements, the
+authors aim to identify those commits which may have introduced performance
+regression. The authors have used a binary-search-like approach to iteratively
+bisect the version history to find commits for which performance measurements
+deviate significantly from previously measured ones. Once a relevant commit is
+identified, it can be subject of further root-cause analysis.
+
+\begin{wrapfigure}{r}{0.5\textwidth}
+  \begin{center}
+    \vspace{-1cm}
+    \includegraphics[width=0.48\textwidth]{images/inverse_douglas_peucker}
+  \end{center}
+  \caption{Given a initial sample of five versions and four segments (blue
+  line), the steepest segment is bisected and replaced by two segments (orange).
+  The first of the orange segments is steeper than the segment that was
+  bisected. \label{fig:example_bisection}}
+\end{wrapfigure}
+
+We adapt this approach to extract performance-relevant commits given an initial
+sample of versions along with performance measurements. A performance-relevant
+commit in this context is a commit for which performance measurements
+significantly deviate from measurements of previous commits. The sampling
+strategy is applied as follows. Given an initial sample of $n$ versions and
+corresponding performance measurements, the version history is segmented into
+$n-1$ segments. Each segment is clearly specified by two commits. For each
+segment $s_i$, the algorithm now computed the difference in performance measures
+$\delta_i$ for the start and the end commit. For the largest differences, the
+segment is bisected. For the resulting two segments $\delta_{i_1}$ and
+$\delta_{i_2}$, the performance measurement differences are calculated. If the
+absolute difference between $\delta_{i_1}$ and  $\delta_{i_2}$ is greater than
+zero, one of the two children segments is ``steeper'', i.e. has a greater
+performance measurement difference than the parent segment as exemplified in
+Figure~\ref{fig:example_bisection}.
+One can specify a minimum threshold difference to retain those resulting segments. This procedure
+is repeated until no further segments can be bisected without violating the
+minimum performance difference threshold. That is, the algorithm approximates
+an interpolation of the overall performance history while focusing on sketching
+the steepest changes.
+
+\subsection{Changed-Files Sampling}
+The last version sampling strategy that we are going to present is a binary
+classifier that predicts whether a commit is likely to introduce performance
+changes. The idea behind this classifier is that performance changes might
+depend on changes in specific code sections or combinations thereof. For each
+commit we can retrieve which code sections, or files have been touched. If
+there exists a relation between a commit’s file change set and performance
+changes, one could learn it and predict performance change likelihood for
+arbitrary commits.
+
+We propose a sampling strategy that based on a random initial sample learns a
+possible relation between a commit’s set of changed files and performance
+changes. For each commit in the initial learning sample, the performance
+difference to the previous commit is calculated. Since we are interested in any
+change in performance, not only performance degradation, we consider the
+absolute performance difference as the performance change introduced by that
+commit. Consequently, using classification and regression trees (CARTs), we
+approximate a function that maps a commit’s set of changed files to it’s
+absolute performance change. If the classificator is accurate enough, it can be
+used to select the commits that are most likely to introduce performance
+changes.
+
 
 \section{Strategy Evaluation}\label{sec:revsampling_eval}
 \section{Methodological Remarks}\label{sec:revsampling_method}
