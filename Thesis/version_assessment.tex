@@ -366,10 +366,11 @@ significant performance changes since a larger portion of the overall change
 history is covered.
 
 
-\subsection{Performance History Approximation}
+\subsection{Bisection Sampling}
 The next sampling strategy that we propose is an adaption of the revision
-sampling approach used by \cite{heger_automated_2013}. For a software system’s version
-history along with test cases and corresponding performance measurements, the
+sampling approach used by \cite{heger_automated_2013}. For a software system’s
+ version history along with test cases and corresponding performance
+ measurements, the
 authors aim to identify those commits which may have introduced performance
 regression. The authors have used a binary-search-like approach to iteratively
 bisect the version history to find commits for which performance measurements
@@ -377,14 +378,15 @@ deviate significantly from previously measured ones. Once a relevant commit is
 identified, it can be subject of further root-cause analysis.
 
 \begin{wrapfigure}{r}{0.5\textwidth}
-  \begin{center}
-    \vspace{-1cm}
-    \includegraphics[width=0.48\textwidth]{images/inverse_douglas_peucker}
-  \end{center}
-  \caption{Given a initial sample of five versions and four segments (blue
-  line), the steepest segment is bisected and replaced by two segments (orange).
-  The first of the orange segments is steeper than the segment that was
-  bisected. \label{fig:example_bisection}}
+ \begin{center}
+   \vspace{-1cm}
+   \includegraphics[width=0.48\textwidth]{images/inverse_douglas_peucker}
+ \end{center}
+ \caption{Given a initial sample of five versions and four segments (blue
+ line), the steepest segment is bisected and replaced by two segments
+ (orange).
+The first of the orange segments is steeper than the segment that was
+bisected. \label{fig:example_bisection}}
 \end{wrapfigure}
 
 We adapt this approach to extract performance-relevant commits given an initial
@@ -394,70 +396,302 @@ significantly deviate from measurements of previous commits. The sampling
 strategy is applied as follows. Given an initial sample of $n$ versions and
 corresponding performance measurements, the version history is segmented into
 $n-1$ segments. Each segment is clearly specified by two commits. For each
-segment $s_i$, the algorithm now computed the difference in performance measures
-$\delta_i$ for the start and the end commit. For the largest differences, the
+segment $s_i$, the algorithm now computed the difference in performance
+ measures $\delta_i$ for the start and the end commit. For the largest differences, the
 segment is bisected. For the resulting two segments $\delta_{i_1}$ and
 $\delta_{i_2}$, the performance measurement differences are calculated. If the
 absolute difference between $\delta_{i_1}$ and  $\delta_{i_2}$ is greater than
 zero, one of the two children segments is ``steeper'', i.e. has a greater
 performance measurement difference than the parent segment as exemplified in
 Figure~\ref{fig:example_bisection}.
-One can specify a minimum threshold difference to retain those resulting segments. This procedure
-is repeated until no further segments can be bisected without violating the
+
+One can specify a minimum threshold difference to retain those resulting
+segments. This procedure is repeated until no further segments can be bisected without violating the
 minimum performance difference threshold. That is, the algorithm approximates
 an interpolation of the overall performance history while focusing on sketching
-the steepest changes.
+the steepest changes. In addition to selecting an initial sample randomly, we
+also propose to use version lifetime segmentation sampling to obtain
+segmentation of the version history that divides it with respect to development
+activity.
 
 \subsection{Changed-Files Sampling}
 The last version sampling strategy that we are going to present is a binary
 classifier that predicts whether a commit is likely to introduce performance
 changes. The idea behind this classifier is that performance changes might
 depend on changes in specific code sections or combinations thereof. For each
-commit we can retrieve which code sections, or files have been touched. If
+commit we can retrieve which code sections, or files have been modifief. If
 there exists a relation between a commit’s file change set and performance
-changes, one could learn it and predict performance change likelihood for
-arbitrary commits.
+changes, we could learn it via machine learning and consequently predict
+the performance change likelihood for arbitrary commits.
 
-We propose a sampling strategy that based on a random initial sample learns a
-possible relation between a commit’s set of changed files and performance
-changes. For each commit in the initial learning sample, the performance
-difference to the previous commit is calculated. Since we are interested in any
-change in performance, not only performance degradation, we consider the
-absolute performance difference as the performance change introduced by that
-commit. Consequently, using classification and regression trees (CARTs), we
-approximate a function that maps a commit’s set of changed files to it’s
+We propose a sampling strategy that is based on a initial training selection of
+commits to learn a possible relation between a commit’s set of changed files
+and performance changes. For each commit in the initial learning set, the
+performance difference to its precdecessor is calculated. Since we are
+interested in any change in performance, not just performance degradation, we
+consider the absolute performance difference as the performance change introduced by that
+commit. Next, we are using classification and regression trees (CARTs) to
+approximate a function that maps a commit’s set of changed files to its
 absolute performance change. If the classificator is accurate enough, it can be
-used to select the commits that are most likely to introduce performance
-changes.
+used to rank the commits that are most likely to introduce performance
+changes. The sampling strategy can be configured with two parameters, $a$, the
+size of the set to learn performance change likelihood from, and $b$, the
+actual sample size to return. While the first $a$ parameter determines the
+number of performance measurements required by this strategy, the second one,
+$b$, determines how many top-ranked revisions are returned by the sampling
+strategy, and therefore the actual sample size.
 
+Moreover, for this strategy, we can modify the way to select a learning sample.
+The simplest solution is to randomly select $a$ commits and assess performance
+for them and their predecessors, one could also select an initial learning
+sample based on heuristics to increase its informative value. For instance,
+since we intend to learn possible relations between a commits file change
+footprint and performance changes, we could apply the segmentations strategies
+from sections XX and YY. For XX, we would possibly increase the informative
+value of our training sample by covering a large portion of the version
+history's overall change. 
 
 \section{Strategy Evaluation}\label{sec:revsampling_eval}
+In this subsection, we evaluate and compare the revision sampling strategies
+described above with respect to their accuracy to approximate the overall
+performance history of a software system. First, we  describe how we measure
+accuracy for a given revision sample; second, we present our corpus of systems
+we assess performance evolution for, and finally, we present and discuss the
+different sampling strategies’ results.
 
-\begin{itemize}
-  \item Quality criteria / performance history similarity
-\end{itemize}
+\paragraph{Accuracy.} An accurate approximation of an overall performance
+history in our context is a selection of revisions along with its performance measures, which accurately
+sketches the performance history obtained from assessing all versions. From an
+accurate approximation one should be able to identify the same trends as from
+the overall performance history. We measure the accuracy of a given revision
+sample as follows. First, for the revision sample, we interpolate missing
+performance measurements based on the measurements for our sample. Second, we
+smooth the overall performance history, i.e., the performance measurements of
+all revisions, using a moving mean in order to sketch overall performance
+trends. Third, we compare our smoothed performance history and our interpolated
+approximation using the Pearson correlation coefficient []. The more similar
+our approximated curve is to the overall performance history, the greater the
+correlation coefficient is. 
 
-\section{Methodological Remarks}\label{sec:revsampling_method}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.95\textwidth]{images/approximations.eps}
+	\caption{Performance history approximations with different accuracy results.}
+	\label{fig:approximation_accuracy}
+\end{figure}
 
-%\begin{figure}
-%\def\tabularxcolumn#1{m{#1}}
-%\begin{tabularx}{\linewidth}{@{}cXX@{}}
-%\begin{tabular}{c}
-%\subfloat[Activity Graph for \texttt{GNU XZ}, generated from 399 versions
-%between March 24, 2017, and August 14, 2017. The earliest release version is
-%\texttt{5.1.1alpha}, the latest is \texttt{5.3.0alpha}.]
-%{\includegraphics[width=0.99\textwidth]{images/activity_xz.eps}}
-%\\
-%\subfloat[Activity Graph for \texttt{x264}, generated from 2851 versions
-%between June 3, 2004, and June 26, 2017. The earliest release version is
-%\texttt{BUILD 1} from, the latest is \texttt{BUILD 149} from
-%X.]{\includegraphics[width=0.99\textwidth]{images/activity_x264.eps}}\\
-%\end{tabular}
-%\end{tabularx}
-%\caption{Commit activity for two sample systems, the compression
-%utility \texttt{GNU XZ} and the video encoder \texttt{x264}. For each version,
-%the activity is measured as the number of commits that were pushed within a
-%certain timeframe after or before the actual commit. The timeframes range from
-%one week to 32 weeks, as shown in the legendary.}
-%\label{fig:ActivityGraphs}
-%\end{figure}
+In Figure~\ref{fig:approximation_accuracy}, we illustrate performance history
+approximations with different accuracy. The grey scatter plot depicts the
+average performance measurements per revision, and the black curve represents
+the moving median thereof. The green, blue, and orange curves are respective
+approximations. One can see that the green and orange approximation are a more
+accurate approximation than the blue one since they more closely follow the
+overall performance history.
+
+\paragraph{Evaluation Setup.} We evaluated all four revision sampling strategies
+for two different configurable software systems. The first system, GNU XZ, is
+an open-source file compression tool that is widely used among the open-source
+community. It exhibits a number of configurations options via run-time
+parameters from which we derived 36 variants using pair-wise sampling. The
+second system, x264 is a free implementation of, and encoder for the H.264
+video compression standard, commonly known as MP4. Similarly to GNU XZ, it can
+be configured using a wide range of run-time parameters from which we derived
+eight variants using pair-wise sampling.  A detailed description of the systems’
+configuration options and how we derived the feature model is presented in chapter 6.
+
+For both systems, we obtained a clone of
+their respective git repositories and, as far as possible, compiled each
+version: 1,135 for GNU XZ and 2,851 for x264. For GNU XZ, we selected a
+standard file compression benchmark, the Canterbury corpus (2.8~MB), for GNU XZ
+since it contains different kinds of data (binary as well as plain text). For
+x264, we selected an uncompressed movie clip of 79.9~MB as a benchmark. All
+performance measurements (execution time) were conducted on a Linux machine
+(Debian 8) with a Intel Xeon E5-2680 v2 with 2.8~GHz and 16 GB RAM. For each
+version and variant, we repeated the experiment five times and selected the
+median of the measurements to exclude extreme measurements.
+
+\subsection{Result Description}
+For both assessed systems, we first present the overall performance history to
+give an impression of its overall shape. In
+Figure~\ref{fig:overall_performance_history}, for both systems, we show the
+average performance measurements per revision, calculated as the arithmetic
+mean over all 36 and eight variants, respectively.
+
+\begin{figure}[!htb]
+\def\tabularxcolumn#1{m{#1}}
+\begin{tabularx}{\linewidth}{@{}cXX@{}}
+\centering
+\begin{tabular}{c}
+\subfloat[Distribution of changed lines per commit for \texttt{GNU XZ}]
+{\includegraphics[width=1.0\textwidth]{images/performance_xz.eps}}
+\\
+\subfloat[Distribution of changed lines per commit for \texttt{x264}]
+{\includegraphics[width=1.0\textwidth]{images/performance_xz.eps}}
+\end{tabular}
+\end{tabularx}
+\caption{Average performance per version for both GNU XZ and x264.}
+\label{fig:overall_performance_history}
+\end{figure}
+
+For GNU XZ, in the beginning,  the performance measurements fluctuate
+significantly with an amplitude of up to 0.4 seconds, yet the amplitude
+decreases over time. Moreover, the overall trend of the performance
+measurements indicates an increase in execution time. This overall trend along
+with the decreasing amplitude of fluctuations might indicate a software
+architecture that is getting more stable over time, yet becomes slower over
+time as well, which is in line with the theory of technical debt mentioned
+earlier \citep{guo_tracking_2011}.
+
+\paragraph{Accuracy Evaluation.} We were able to accurately approximate the
+performance history curve for GNU XZ with different revision sampling strategies. Our first comparison comprises
+keyword pattern matching, version lifetime segmentation, and change size
+coverage sampling. In addition, we compared those three sampling strategies to
+a baseline random sampling approach, whereby $n$ arbitrary revisions have been
+selected. While the other three sampling strategies are deterministic, we
+repeated the random sampling a hundred times per revision to minimize variance.
+For the comparison, we sweeped the desired sample size for each software system
+from one to the total number of commits, respectively. In
+Figure~\ref{fig:accuracy_per_strategy}, we illustrate the accuracy of the four
+different sampling strategies as a function of the sample size. Compared to our
+baseline, keyword and version lifetime sampling performed relatively poorly as
+they required a sample size of up to 300 revisions to achieve an accuracy of
+over 0.9. Commit change size sampling, however, performed slightly worse than
+the baseline approach.
+
+\begin{figure}[!htb]
+\def\tabularxcolumn#1{m{#1}}
+\begin{tabularx}{\linewidth}{@{}cXX@{}}
+\centering
+\begin{tabular}{c}
+\subfloat[\texttt{GNU XZ}]
+{\includegraphics[width=0.95\textwidth]{images/random_xz.eps}}\\
+\subfloat[\texttt{x264}]
+{\includegraphics[width=0.95\textwidth]{images/random_xz.eps}}
+\end{tabular}
+\end{tabularx}
+\caption{Accuracy of four different sampling strategies:
+version lifetime sampling, random sampling, commit change size sampling, and keyword sampling.}
+\label{fig:accuracy_per_strategy}
+\end{figure}
+
+\paragraph{Changed-files Sampling.} For the remaining sampling strategy,
+changed-files sampling, we chose a different type of visualization since the sampling
+strategy works with two parameters, the initial learning sample size and the
+desired sample size. We visualize the accuracy as a heat map, whereby
+combinations of initial learning sample size and desired sample size are
+coordinates, and the color at those coordinates represents the corresponding
+accuracy measure. Moreover, we let the sampling strategy operate in two
+different modes. First, we selected the initial learning sample randomly, and
+second, we selected the change size coverage sampling. We illustrate the
+accuracy measurements for both modes in Figure~\ref{fig:accuracy_file_sampling1}
+and \ref{fig:accuracy_file_sampling2}, respectively.
+
+For the experiments with randomly selected initial learning samples in
+Figure~\ref{fig:accuracy_file_sampling1}, generally, the accuracy increases for
+greater sample sizes. Moreover, the spread of accuracy decreases for greater
+training sample sizes. That is, when learning the relation of changed files
+and performance changes from a larger selection of revisions, fewer revisions
+are required for the actual sample to achieve a certain accuracy.
+
+\begin{figure}[!htb]
+\def\tabularxcolumn#1{m{#1}}
+\begin{tabularx}{\linewidth}{@{}cXX@{}}
+\centering
+\begin{tabular}{c}
+\subfloat[\texttt{GNU XZ}]
+{\includegraphics[width=0.95\textwidth]{images/xz_mode0.eps}}\\
+\subfloat[\texttt{x264}]
+{\includegraphics[width=0.95\textwidth]{images/xz_mode0.eps}}
+\end{tabular}
+\end{tabularx}
+\caption{Accuracy of changed-files sampling with randomly selected initial
+learning sample for GNU XZ and x264}
+\label{fig:accuracy_file_sampling1}
+\end{figure}
+
+For the experiments where the initial learning samples were selected using the
+commit change size sampling, as illustrated in
+Figure~\ref{fig:accuracy_file_sampling2}, we see that the general level of
+accuracy is significantly higher. For instance, for GNU XZ, the accuracy
+ranges from $0.6$ up to almost $1.0$. In contrast to the previous mode, even a
+small training sample of $100$ to $200$ revisions can be sufficient to achieve
+reasonable accuracy. Moreover, for a small sample size, but a great training sample size,
+the accuracy degrades. That is, with respect to learning the relation between
+chaned files and performance changes, the training sample obtained via commit
+change size sampling has a higher informative value than a randomly selected
+training sample. Like for all machine learning problems, a training sample that
+is too great in size might dilute the informative value.
+
+\begin{figure}[!htb]
+\def\tabularxcolumn#1{m{#1}}
+\begin{tabularx}{\linewidth}{@{}cXX@{}}
+\centering
+\begin{tabular}{c}
+\subfloat[\texttt{GNU XZ}]
+{\includegraphics[width=0.95\textwidth]{images/xz_mode1.eps}}\\
+\subfloat[\texttt{x264}]
+{\includegraphics[width=0.95\textwidth]{images/xz_mode1.eps}}
+\end{tabular}
+\end{tabularx}
+\caption{Accuracy of changed-files sampling with the initial
+learning sample selected using commit change size sampling; for GNU XZ and
+x264}
+\label{fig:accuracy_file_sampling2}
+\end{figure}
+
+\paragraph{Bisection Sampling.} For the last sampling strategy, we continue
+using the same visualization technique as for changed-files sampling. Again,
+this sampling strategy requires two parameters, an initial sample size $a$, and
+a number of extension steps $b$ to perform. The initial sample of size $a$ can
+be selected randomly, or using version lifetime sampling. In
+Figures~\ref{fig:accuracy_bisect1} and \ref{fig:accuracy_bisect2} we illustrate
+the accuracy measurements for both modes, respectively. 
+
+\begin{figure}[]
+\def\tabularxcolumn#1{m{#1}}
+\begin{tabularx}{\linewidth}{@{}cXX@{}}
+\centering
+\begin{tabular}{c}
+\subfloat[\texttt{GNU XZ}]
+{\includegraphics[width=0.95\textwidth]{images/xz_bisect_mode0.eps}}\\
+\subfloat[\texttt{x264}]
+{\includegraphics[width=0.95\textwidth]{images/xz_bisect_mode0.eps}}
+\end{tabular}
+\end{tabularx}
+\caption{Accuracy of bisection sampling with randomly selected initial samples
+for GNU XZ and x264}
+\label{fig:accuracy_bisect1}
+\end{figure}
+% bener
+
+\begin{figure}[]
+\def\tabularxcolumn#1{m{#1}}
+\begin{tabularx}{\linewidth}{@{}cXX@{}}
+\centering
+\begin{tabular}{c}
+\subfloat[\texttt{GNU XZ}]
+{\includegraphics[width=0.85\textwidth]{images/xz_bisect_mode2.eps}}\\
+\subfloat[\texttt{x264}]
+{\includegraphics[width=0.85\textwidth]{images/xz_bisect_mode2.eps}}
+\end{tabular}
+\end{tabularx}
+\caption{Accuracy of bisection sampling with initial samples selected via
+version lifetime segmentation for GNU XZ and x264}
+\label{fig:accuracy_bisect2}
+\end{figure}
+
+We see that for the first operation mode in Figure~\ref{fig:accuracy_bisect1}
+with random sampling, the overall accuracy is increases with a greater size of the initial sample
+size, which is in line with our observations for pure random sampling. The
+number of extension steps, however, does not exhibit a significant influence on
+the accuracy, yet only for a small initial sample size, where accuracy spread
+is high. Contrary to the first operation mode, in
+Figure\ref{fig:accuracy_bisect2} we illustrate the accuracy measurements for
+the second operation mode, where the initial sample is obtained via version
+lifetime sampling. While most of the description of the previous operation mode
+also applies to this one, the operation mode in general performs better, as the
+minimum accuracy measurement is about $0.9$.
+
+
+
+%\section{Methodological Remarks}\label{sec:revsampling_method}
