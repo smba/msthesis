@@ -526,21 +526,30 @@ mean over all 36 and eight variants, respectively.
 {\includegraphics[width=1.0\textwidth]{images/performance_xz.eps}}
 \\
 \subfloat[Distribution of changed lines per commit for \texttt{x264}]
-{\includegraphics[width=1.0\textwidth]{images/performance_xz.eps}}
+{\includegraphics[width=1.0\textwidth]{images/performance_x264.eps}}
 \end{tabular}
 \end{tabularx}
 \caption{Average performance per version for both GNU XZ and x264.}
 \label{fig:overall_performance_history}
 \end{figure}
 
-For GNU XZ, in the beginning,  the performance measurements fluctuate
+For GNU XZ, in the beginning, the performance measurements fluctuate
 significantly with an amplitude of up to 0.4 seconds, yet the amplitude
 decreases over time. Moreover, the overall trend of the performance
 measurements indicates an increase in execution time. This overall trend along
 with the decreasing amplitude of fluctuations might indicate a software
 architecture that is getting more stable over time, yet becomes slower over
 time as well, which is in line with the theory of technical debt mentioned
-earlier \citep{guo_tracking_2011}.
+earlier \citep{guo_tracking_2011}. However, for x264, we cannot identify such an
+overall trend as the performance measures remain stable for most of the version
+history. Only for the timespan between commit 1,400 and 2,100, performance
+measures fluctuate around a smaller level of execution time. In conclusion,
+both systems’ performance histories exhibit local fluctuations, yet the
+fluctuation range for x264 remains stable throughout the entire version history
+while for GNU XZ, the fluctuation range decreases as the software evolves.
+Moreover, for GNU XZ, the frequency of fluctuations, i.e., the number of
+fluctuations in a time frame, decreases over time, while it almost remains
+stable for x264.
 
 \paragraph{Accuracy Evaluation.} We were able to accurately approximate the
 performance history curve for GNU XZ with different revision sampling strategies. Our first comparison comprises
@@ -647,7 +656,9 @@ be selected randomly, or using version lifetime sampling. In
 Figures~\ref{fig:accuracy_bisect1} and \ref{fig:accuracy_bisect2} we illustrate
 the accuracy measurements for both modes, respectively. 
 
-\begin{figure}[]
+%\blindtext
+
+\begin{figure}[t!]
 \def\tabularxcolumn#1{m{#1}}
 \begin{tabularx}{\linewidth}{@{}cXX@{}}
 \centering
@@ -664,7 +675,9 @@ for GNU XZ and x264}
 \end{figure}
 % bener
 
-\begin{figure}[]
+%\blindtext
+
+\begin{figure}[t!]
 \def\tabularxcolumn#1{m{#1}}
 \begin{tabularx}{\linewidth}{@{}cXX@{}}
 \centering
@@ -692,6 +705,78 @@ lifetime sampling. While most of the description of the previous operation mode
 also applies to this one, the operation mode in general performs better, as the
 minimum accuracy measurement is about $0.9$.
 
+\section{Methodological Remarks}\label{sec:revsampling_method}
+In the last subsection we have presented the evaluation results for our
+revision sampling strategies proposed earlier. Despite different accuracy
+measures, we now put the strategies and their cost-efficiency in the context of
+our methodology. While a high accuracy is desirable, the revision sampling
+strategies proposed differ in the required number of performance measurements
+For instance, keyword sampling as well as version lifetime segmentation and
+commit change size sampling require no revision to be assessed at all, while
+for changed-files sampling and bisection sampling the number of revisions that
+are necessary to assess exceeds the resulting sample size. In
+Table~\ref{tab:revsampling_overview} we present an overview of the five proposed sampling strategies along with their
+parameter description, number of required performance measurements, i.e.,
+revisions to assess, and the resulting sample size depending on the strategies
+parameters.
 
+With respect to accuracy, from the evaluation we have learned that commit
+change size sampling, changed-files sampling with commit change size sampling,
+and bisection sampling with version lifetime segmentation performed best.
+Commit change size sampling does not require any performance measurements. We
+consider the cost of collecting information about all commits as well as
+ordering them with respect to commit change coverage as constant since the time
+required only depends on the host machine used for sampling, and it only
+required a few seconds for our evaluation setup. 
 
-%\section{Methodological Remarks}\label{sec:revsampling_method}
+\begin{table}[t!]
+\centering
+\begin{tabular}{C{3cm}L{5cm}L{3cm}L{3cm}}
+\toprule\\
+ \textbf{Sampling Strategy} & \textbf{Parameters} & \textbf{Required
+ measurements} & \textbf{Resulting sample size} \\
+ \midrule\\
+ Keyword Sampling & Sample Size $N$ & $0$ & $N$\\
+ \midrule \\
+ Version Lifetime Segmentation & Sample Size $N$ & $0$ & $N$\\
+ \midrule \\
+  Commit Change Size Sampling & Sample Size $N$ & $0$ & $N$\\
+ \midrule \\
+  Changed-files Sampling & {Sample Size $N$\linebreak Learning Sample Size $M$}
+  & $2\times M$ & $M + N$
+  \\
+ \midrule \\
+  Bisection Sampling & {Sample Size $N$\linebreak Initial Sample Size $M$} &
+  $2\times M$ & $M + N$
+  \\
+ \bottomrule
+\end{tabular}
+\caption{Overview of different sampling strategies, required parameters,
+performance measurements, and resulting sample sizes}
+\label{tab:revsampling_overview}
+\end{table}
+
+Next, changed-files sampling with commit change size sampling has shown
+acceptable accuracy, yet only for relatively great sample sizes compared to
+pure commit change size sampling. Moreover, the selection of a suitable
+learning sample size does not seem trivial, as accuracy increased up to a
+certain learning sample size, yet decreased for greater sample sizes. That is,
+it is hard to estimate a sweet spot size for a learning sample that on the one
+hand contains enough knowledge to learn a possible relation between files
+changed an performance changes on the one hand, and on the other hand does not
+contain too many revisions diluting the learning sample's informative value. 
+
+Finally, bisection sampling with version lifetime segmentation has shown high
+accuracy for almost all parameter combinations, yet compared to the previous
+sampling strategies, the required number of revisions to assess is
+significantly higher. Contrary to changed-files sampling that also utilizes an
+initial sample for which twice the number of measurements is required, this
+sampling strategy additionally requires two performance requirements for each
+segmentation step.
+
+In conclusion, based on our case study we advocate the use of commit change
+size sampling as the ratio of required performance measurements and resulting
+accuracy is optimal. However, note that the case study corpus only contains two
+software systems and that our results are far from being representative. Based
+on our observations, we were not able to disprove the assumption of a relation
+between a commit’s change size and its potential influence on performance.
