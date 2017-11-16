@@ -13,7 +13,7 @@ revision sampling.
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.75\textwidth]{images/process_revassesment.eps}
+	\includegraphics[width=0.85\textwidth]{images/process_revassesment.eps}
 	\caption{Methodological road-map: questions to address with revision
 	assessment.}
 	\label{fig:roadmap_2}
@@ -174,7 +174,7 @@ level 3/.style={sibling distance=6cm},
     	child { 
     		node [align=left] {
     			\begin{tabular}{c} 
-    				{\sffamily \parbox{3.2cm}{\centering Keyword pattern Matching}}
+    				{\sffamily \parbox{3.2cm}{\centering Keyword Sampling}}
     			\end{tabular}
     		}
     	}
@@ -189,7 +189,7 @@ level 3/.style={sibling distance=6cm},
     child { 
     	node [align=left] {
     		\begin{tabular}{c} 
-    			{\sffamily \parbox{3.2cm}{\centering Performance History Approximation}}
+    			{\sffamily \parbox{3.2cm}{\centering Bisection Sampling}}
     		\end{tabular}
     	} 
     };
@@ -459,7 +459,8 @@ accuracy for a given revision sample; second, we present our corpus of systems
 we assess performance evolution for, and finally, we present and discuss the
 different sampling strategies’ results.
 
-\paragraph{Accuracy.} An accurate approximation of an overall performance
+\subsection{Evaluation Setup}
+An accurate approximation of an overall performance
 history in our context is a selection of revisions along with its performance measures, which accurately
 sketches the performance history obtained from assessing all versions. From an
 accurate approximation one should be able to identify the same trends as from
@@ -488,7 +489,7 @@ approximations. One can see that the green and orange approximation are a more
 accurate approximation than the blue one since they more closely follow the
 overall performance history.
 
-\paragraph{Evaluation Setup.} We evaluated all four revision sampling strategies
+We evaluated all four revision sampling strategies
 for two different configurable software systems. The first system, GNU XZ, is
 an open-source file compression tool that is widely used among the open-source
 community. It exhibits a number of configurations options via run-time
@@ -552,20 +553,23 @@ fluctuations in a time frame, decreases over time, while it almost remains
 stable for x264.
 
 \paragraph{Accuracy Evaluation.} We were able to accurately approximate the
-performance history curve for GNU XZ with different revision sampling strategies. Our first comparison comprises
-keyword pattern matching, version lifetime segmentation, and change size
-coverage sampling. In addition, we compared those three sampling strategies to
-a baseline random sampling approach, whereby $n$ arbitrary revisions have been
-selected. While the other three sampling strategies are deterministic, we
-repeated the random sampling a hundred times per revision to minimize variance.
-For the comparison, we sweeped the desired sample size for each software system
-from one to the total number of commits, respectively. In
-Figure~\ref{fig:accuracy_per_strategy}, we illustrate the accuracy of the four
-different sampling strategies as a function of the sample size. Compared to our
-baseline, keyword and version lifetime sampling performed relatively poorly as
-they required a sample size of up to 300 revisions to achieve an accuracy of
-over 0.9. Commit change size sampling, however, performed slightly worse than
-the baseline approach.
+performance history curve for GNU XZ with different revision sampling
+strategies. Our first comparison comprises keyword pattern matching, version
+lifetime segmentation, and change size coverage sampling. In addition, we
+compared those three sampling strategies to a baseline random sampling
+approach, whereby $n$ arbitrary revisions have been selected. While the other
+three sampling strategies are deterministic, we repeated the random sampling a
+hundred times per revision to minimize variance. For the comparison, we sweeped
+the desired sample size for each software system from one to the total number
+of commits, respectively. In Figure~\ref{fig:accuracy_per_strategy}, we
+illustrate the accuracy of the four different sampling strategies as a function
+of the sample size. For GNU XZ, keyword sampling and random sampling performed
+relatively poorly. Compared to version lifetime sampling and commit change size
+sampling, they did not achieve an acceptable level of accuracy. For x264,
+however, version lifetime sampling and commit change size sampling did not
+perform significantly worse than the respective others. In general, for x264,
+we achieved far better accuracy measurements throughout all applied sampling
+strategies as accuracy did not fall below 0.9.
 
 \begin{figure}[!htb]
 \def\tabularxcolumn#1{m{#1}}
@@ -573,9 +577,9 @@ the baseline approach.
 \centering
 \begin{tabular}{c}
 \subfloat[\texttt{GNU XZ}]
-{\includegraphics[width=0.95\textwidth]{images/random_xz.eps}}\\
+{\includegraphics[width=0.99\textwidth]{images/accuracy_xz.eps}}\\
 \subfloat[\texttt{x264}]
-{\includegraphics[width=0.95\textwidth]{images/random_xz.eps}}
+{\includegraphics[width=0.99\textwidth]{images/accuracy_x264.eps}}
 \end{tabular}
 \end{tabularx}
 \caption{Accuracy of four different sampling strategies:
@@ -732,20 +736,20 @@ required a few seconds for our evaluation setup.
 \begin{table}[t!]
 \centering
 \begin{tabular}{C{3cm}L{5cm}L{3cm}L{3cm}}
-\toprule\\
+\toprule
  \textbf{Sampling Strategy} & \textbf{Parameters} & \textbf{Required
  measurements} & \textbf{Resulting sample size} \\
- \midrule\\
+ \midrule
  Keyword Sampling & Sample Size $N$ & $0$ & $N$\\
- \midrule \\
+ \midrule 
  Version Lifetime Segmentation & Sample Size $N$ & $0$ & $N$\\
- \midrule \\
+ \midrule 
   Commit Change Size Sampling & Sample Size $N$ & $0$ & $N$\\
- \midrule \\
+ \midrule 
   Changed-files Sampling & {Sample Size $N$\linebreak Learning Sample Size $M$}
   & $2\times M$ & $M + N$
   \\
- \midrule \\
+ \midrule 
   Bisection Sampling & {Sample Size $N$\linebreak Initial Sample Size $M$} &
   $2\times M$ & $M + N$
   \\

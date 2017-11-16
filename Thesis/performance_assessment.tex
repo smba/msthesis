@@ -1,11 +1,92 @@
-{
-\color{blue}
+The last two chapters covered methodological guidelines for variability as well
+as version assessment. While those two terms, variability and versions
+represent two orthogonal versions of a configurable software systems’ evolution
+history. To provide a closed description of guidelines for performance
+evolution assessment, this chapter finally presents a guideline to assessing
+performance for a given variant and version. In Figure~\ref{fig:roadmap_3}, we
+present the methodological roadmap and questions to be answered in this chapter.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.85\textwidth]{images/process_perfassessment.eps}
+	\caption{Methodological road-map: performance assessment}
+	\label{fig:roadmap_3}
+\end{figure}
+
+First, in section we categorize software systems with respect to the availability of suitable performance
+benchmarks; second, we outline the general properties of  profiling used
+throughout dynamic program analysis; finally, we discuss different statistical
+with respect to their applicability in the context of performance assessment
+and robustness.
+
 \section{Performance Benchmarks}
-How performance benchmarks should be chosen\ldots
+The essential part of assessing performance for a software system is the choice
+of a benchmark that one wants to evaluate the software with. For the choice of
+a suitable benchmark, two consecutive questions need to be answered. First of
+all, we need to specify, what aspect of performance we intend to evaluate for
+our software system. As presented earlier in chapter 2, the term performance is
+generic as it is commonly outlined by key performance indicators. For instance,
+for a web shop application, good performance is characterized by low response
+time and high availability, while for file compression, one might rather
+conceive high throughput as good performance. That is, given a specific
+dimension of performance, i.e., one or more KPIs, for a software system, from
+testing against a suitable performance benchmark one needs to be able to judge
+whether the specified performance goals are met, or not.
+Next, once we have specified performance indicators, we need to select a
+benchmark, i.e., a repeatable task for the software system from which we can
+evaluate performance. To keep performance measurements comparable throughout
+versions and for all variants, it is required to use only one benchmark per
+assessment. Following this principle, and to even compare different software
+systems, practitioners are advised to refer to reusable, or more general
+performance benchmarks whenever possible. To illustrate this, we can divide
+software systems into three general categories for which we are presenting
+separate strategies.
+
+First, in the the easiest case a software system provides software tests, or
+performance benchmarks, to use for performance assessment. The idea of using an
+existing test suite to assess performance is straightforward and has already
+been applied to detect performance regression (Heger, Foo, ...).
+
+Second, a software system can offer functionality for a domain, where
+standardized benchmarks have been established, or are commonly used to compare
+performance measurements. For instance, for the domain of file compression
+there exists a long tradition of using standardized file sets as performance
+benchmarks, such as the Canterbury or Calgary corpus; for video encoding, the
+xiph.org foundation provides a large set of video benchmark files; and, more
+general, for processors the Standard Performance Evaluation Corporation
+provides standardized benchmarks for floating point operations. Whenever a
+software system falls under a domain for which standardized benchmarks exist,
+we advocate to use those.
+
+Finally, if neither a performance benchmark or test suite is available for a
+software system, nor domain-specific benchmarks exist, the task of designing a
+benchmark is left to the practitioner evaluating the software. As the
+conception of performance is generic and highly context-dependent, there is no
+standardized recipe for designing a performance benchmark. However, the main
+criteria to be satisfied include expressiveness, cost-efficiency and
+reproducibility. First, suitable performance benchmark should clearly express
+what a desirable and unfavorable performance measurement is, given a specified
+key performance indicator. For instance, if we evaluate performance in terms of
+response, or execution time, minimal measurements are desirable. Second, effort
+that is required to evaluate a software with a benchmark must be reasonable.
+Since performance measurements are usually repeated to decrease measurement
+bias, or used for different variants and revisions, performance benchmarks
+should be limited in terms of size. However, a performance benchmark needs to
+be large enough to sketch performance changes or deviations. Finally, the
+construction of a benchmark must be reproducible, i.e., transparent and
+plausibly designed as the overall value of a performance benchmark depends on
+whether we can draw any conclusion from performance measurements obtained from
+it.
+
+In conclusion, for the context of our methodology,the advocated guideline for
+selecting and designing a performance benchmark for a (configurable) software
+system is to select a benchmark as generic as possible. If there is no reusable
+benchmark available, the design of any performance benchmark should follow the
+criteria of expressiveness, cost-efficiency, and reproducibility.
 
 \section{Profiling}
 Which tools exist to profile programs, such as \texttt{GNU time}, \ldots
-}
+
 
 \section{Statistical Considerations}\label{sec:statistical_considerations}
 In this section, we now discuss the appropriate statistical means to summarize,
@@ -195,18 +276,13 @@ The median is a less precise estimator than the both means, yet more robust
 with regard to extreme observations. In addition, the MAD or IQR provide a more
 robust means of spread than the standard deviation.
 
-{
-\color{blue}
 \subsection{Systematic Error}
 How different machines can be used to minimize systematic error
-}
 
-{
-\color{blue}
 \section{Summarization Strategies}
 \begin{itemize}
   \item How to summarize performance for a single version? 
   \item Minimal/Maximal configuration, best/worst performance measurement, \ldots
 \end{itemize}
-}
+
 
