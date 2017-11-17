@@ -13,7 +13,7 @@ revision sampling.
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.85\textwidth]{images/process_revassesment.eps}
+	\includegraphics[width=0.9\textwidth]{images/process_revassesment.eps}
 	\caption{Methodological road-map: questions to address with revision
 	assessment.}
 	\label{fig:roadmap_2}
@@ -588,23 +588,34 @@ version lifetime sampling, random sampling, commit change size sampling, and key
 \end{figure}
 
 \paragraph{Changed-files Sampling.} For the remaining sampling strategy,
-changed-files sampling, we chose a different type of visualization since the sampling
-strategy works with two parameters, the initial learning sample size and the
-desired sample size. We visualize the accuracy as a heat map, whereby
+changed-files sampling, we chose a different type of visualization since the
+sampling strategy works with two parameters, the initial learning sample size
+and the desired sample size. We visualize the accuracy as a heat map, whereby
 combinations of initial learning sample size and desired sample size are
 coordinates, and the color at those coordinates represents the corresponding
 accuracy measure. Moreover, we let the sampling strategy operate in two
 different modes. First, we selected the initial learning sample randomly, and
 second, we selected the change size coverage sampling. We illustrate the
-accuracy measurements for both modes in Figure~\ref{fig:accuracy_file_sampling1}
-and \ref{fig:accuracy_file_sampling2}, respectively.
+accuracy measurements for both modes in Figure 4.11 and 4.12, respectively.
 
-For the experiments with randomly selected initial learning samples in
-Figure~\ref{fig:accuracy_file_sampling1}, generally, the accuracy increases for
-greater sample sizes. Moreover, the spread of accuracy decreases for greater
-training sample sizes. That is, when learning the relation of changed files
-and performance changes from a larger selection of revisions, fewer revisions
-are required for the actual sample to achieve a certain accuracy.
+For the experiments with randomly selected initial learning samples in Figure
+4.11, for GNU XZ, the accuracy increases for greater sample sizes. Moreover,
+the spread of accuracy decreases for greater training sample sizes. That is,
+when learning the relation of changed files and performance changes from a
+larger selection of revisions, fewer revisions are required for the actual
+sample to achieve a certain accuracy. For the experiments where the initial
+learning samples were selected using the commit change size sampling, as
+illustrated in Figure 4.12, we see that the general level of accuracy is
+significantly higher. For instance, for GNU XZ, the accuracy ranges from 0.6 up
+to almost 1.0. In contrast to the previous mode, even a small training sample
+of 100 to 200 revisions can be sufficient to achieve reasonable accuracy.
+Moreover, for a small sample size, but a great training sample size, the
+accuracy degrades.
+
+Following the results for the previous sampling strategies, for x264, indeed we
+also achieved high accuracy measurements for both changed-files sampling with
+random sampling and commit change size sampling. However, we did not measure
+any significant influence of either segmentation technique.
 
 \begin{figure}[!htb]
 \def\tabularxcolumn#1{m{#1}}
@@ -614,26 +625,13 @@ are required for the actual sample to achieve a certain accuracy.
 \subfloat[\texttt{GNU XZ}]
 {\includegraphics[width=0.95\textwidth]{images/xz_mode0.eps}}\\
 \subfloat[\texttt{x264}]
-{\includegraphics[width=0.95\textwidth]{images/xz_mode0.eps}}
+{\includegraphics[width=0.95\textwidth]{images/x264_filesampling_0.eps}}
 \end{tabular}
 \end{tabularx}
 \caption{Accuracy of changed-files sampling with randomly selected initial
 learning sample for GNU XZ and x264}
 \label{fig:accuracy_file_sampling1}
 \end{figure}
-
-For the experiments where the initial learning samples were selected using the
-commit change size sampling, as illustrated in
-Figure~\ref{fig:accuracy_file_sampling2}, we see that the general level of
-accuracy is significantly higher. For instance, for GNU XZ, the accuracy
-ranges from $0.6$ up to almost $1.0$. In contrast to the previous mode, even a
-small training sample of $100$ to $200$ revisions can be sufficient to achieve
-reasonable accuracy. Moreover, for a small sample size, but a great training sample size,
-the accuracy degrades. That is, with respect to learning the relation between
-chaned files and performance changes, the training sample obtained via commit
-change size sampling has a higher informative value than a randomly selected
-training sample. Like for all machine learning problems, a training sample that
-is too great in size might dilute the informative value.
 
 \begin{figure}[!htb]
 \def\tabularxcolumn#1{m{#1}}
@@ -643,7 +641,7 @@ is too great in size might dilute the informative value.
 \subfloat[\texttt{GNU XZ}]
 {\includegraphics[width=0.95\textwidth]{images/xz_mode1.eps}}\\
 \subfloat[\texttt{x264}]
-{\includegraphics[width=0.95\textwidth]{images/xz_mode1.eps}}
+{\includegraphics[width=0.95\textwidth]{images/x264_filesampling_1.eps}}
 \end{tabular}
 \end{tabularx}
 \caption{Accuracy of changed-files sampling with the initial
@@ -652,14 +650,27 @@ x264}
 \label{fig:accuracy_file_sampling2}
 \end{figure}
 
-\paragraph{Bisection Sampling.} For the last sampling strategy, we continue
-using the same visualization technique as for changed-files sampling. Again,
-this sampling strategy requires two parameters, an initial sample size $a$, and
-a number of extension steps $b$ to perform. The initial sample of size $a$ can
-be selected randomly, or using version lifetime sampling. In
-Figures~\ref{fig:accuracy_bisect1} and \ref{fig:accuracy_bisect2} we illustrate
-the accuracy measurements for both modes, respectively. 
+\paragraph{Bisection Sampling.} 
+For the last sampling strategy, we continue using the same visualization
+technique as for changed-files sampling. Again, this sampling strategy requires
+two parameters, an initial sample size a, and a number of extension steps b to
+perform. The initial sample of size a can be selected randomly, or using
+version lifetime sampling. In Figures 4.13 and 4.14 we illustrate the accuracy
+measurements for both modes, respectively. We see that for the first operation
+mode in Figure 4.13 with random sampling, the overall accuracy is increases
+with a greater size of the initial sample size, which is in line with our
+observations for pure random sampling. The number of extension steps, however,
+does not exhibit a significant influence on the accuracy, yet only for a small
+initial sample size, where accuracy spread is high. Contrary to the first
+operation mode, in Figure 4.14 we illustrate the accuracy measurements for the
+second operation mode, where the initial sample is obtained via version
+lifetime sampling. While most of the description of the previous operation mode
+also applies to this one, the operation mode in general performs better, as the
+minimum accuracy measurement is about 0.9.
 
+Similar to the accuracy measurements for changed-files sampling for x264, we
+achieve high accuracy for bisection sampling. However, we only see slightly
+better accuracy results for bisection sampling with version lifetime sampling.
 %\blindtext
 
 \begin{figure}[t!]
@@ -670,7 +681,7 @@ the accuracy measurements for both modes, respectively.
 \subfloat[\texttt{GNU XZ}]
 {\includegraphics[width=0.95\textwidth]{images/xz_bisect_mode0.eps}}\\
 \subfloat[\texttt{x264}]
-{\includegraphics[width=0.95\textwidth]{images/xz_bisect_mode0.eps}}
+{\includegraphics[width=0.95\textwidth]{images/x264_bisection_0.eps}}
 \end{tabular}
 \end{tabularx}
 \caption{Accuracy of bisection sampling with randomly selected initial samples
@@ -689,7 +700,7 @@ for GNU XZ and x264}
 \subfloat[\texttt{GNU XZ}]
 {\includegraphics[width=0.85\textwidth]{images/xz_bisect_mode2.eps}}\\
 \subfloat[\texttt{x264}]
-{\includegraphics[width=0.85\textwidth]{images/xz_bisect_mode2.eps}}
+{\includegraphics[width=0.85\textwidth]{images/x264_bisection_2.eps}}
 \end{tabular}
 \end{tabularx}
 \caption{Accuracy of bisection sampling with initial samples selected via
@@ -697,17 +708,6 @@ version lifetime segmentation for GNU XZ and x264}
 \label{fig:accuracy_bisect2}
 \end{figure}
 
-We see that for the first operation mode in Figure~\ref{fig:accuracy_bisect1}
-with random sampling, the overall accuracy is increases with a greater size of the initial sample
-size, which is in line with our observations for pure random sampling. The
-number of extension steps, however, does not exhibit a significant influence on
-the accuracy, yet only for a small initial sample size, where accuracy spread
-is high. Contrary to the first operation mode, in
-Figure\ref{fig:accuracy_bisect2} we illustrate the accuracy measurements for
-the second operation mode, where the initial sample is obtained via version
-lifetime sampling. While most of the description of the previous operation mode
-also applies to this one, the operation mode in general performs better, as the
-minimum accuracy measurement is about $0.9$.
 
 \section{Methodological Remarks}\label{sec:revsampling_method}
 In the last subsection we have presented the evaluation results for our
