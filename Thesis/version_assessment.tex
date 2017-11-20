@@ -2,14 +2,14 @@ In the last chapter, we have covered means to understand variability,
 synthesize variability models for a given software system, and to select sample
 sets of configurations. To enable the assessment of performance evolution for
 configurable software systems, the next step in our methodology takes into
-account the dimension of diachrony. As software evolves, multiple versions, or
+account the dimension of time. As software evolves, multiple versions, or
 called revisions, of a software system exist. In this chapter, we address the
 question of how we can assess performance for multiple revisions. Moreover, we
 ask whether we can describe a configurable software systems’ performance
-evolution without exhaustively assessing all versions by selecting only a
-sample set of versions. As illustrated in the methodological road-map in
+evolution history without exhaustively assessing all versions by selecting only
+a sample set of versions. As illustrated in the methodological road-map in
 Figure~\ref{fig:roadmap_2}, we summarize these two questions with the task of
-revision sampling.
+\emph{revision sampling}.
 
 \begin{figure}[h!]
 	\centering
@@ -21,8 +21,8 @@ revision sampling.
 
 The chapter is organized as follows. In section~\ref{sec:towards_revsampling} we
 present the methodological requirements for a designing and selecting a revision sampling
-strategy. In section ~\ref{sec:revsampling_strat} we propose four approaches to
-revision sampling based on observations of configurable software systems. In
+strategy. In section ~\ref{sec:revsampling_strat} we propose five approaches to
+revision sampling. In
 section~\ref{sec:revsampling_eval} we evaluate the different approaches against
 exhaustive measurements of a selection of configurable software systems.
 Finally, in section~\ref{sec:revsampling_method} we conclude the chapter and
@@ -38,9 +38,9 @@ of selecting resources and a sample set of versions to analyze can be conceived
 as a sampling strategy, where the objective is to cover interesting entities
 (performance changes, in our case) while trying to limit the sample size to
 keep the required effort reasonable. Before we present different approaches to
-select a sample set of revisions, we need to define general cornerstones for
+select a sample set of revisions, we define general cornerstones for
 evaluating a sample set of revisions as well as respective revision sampling
-strategies with respect to performance change history.
+strategies.
 
 \paragraph{Revision Sample Set.} The first question is, what criteria we take as
 a basis for rating a sample set of revisions as \emph{meaningful}. First, our intention
@@ -48,7 +48,7 @@ is to obtain a representative description of a software system’s performance
 change history while only assessing a fraction of revisions. That is, assessing
 a representative sample of revisions should yield a performance change history
 similar to the assessment of all revisions. Since we are interested in
-revisions for which performance measurements change, these revisions should be
+revisions for which performance measurements change, those revisions should be
 contained in a representative sample. Second, especially in the context of
 variability, a performance change might only affect a subset of the assessed
 configurations. A representative sample set, therefore, should describe a
@@ -61,21 +61,21 @@ magnitude}).
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.95\textwidth]{images/xz_sample_evolution.eps}
-	\caption{Performance History for XZ}
+	\caption{Performance history for GNU XZ: five different variants}
 	\label{fig:xz_evosample}
 \end{figure}
 
 To illustrate the two facets of performance changes, in
-Figure~\ref{fig:xz_evosample} we see a history of performance measurements (execution time in this case) for a
-small-scale configurable software system, file compression tool called \emph{GNU
-XZ Utils}. The graphic depicts execution time measures for executing a standard
-compression benchmark for $1,135$ different versions and covers a version
-history of about nine years. 
+Figure~\ref{fig:xz_evosample} we present a history of performance measurements
+(execution time in this case) for a small-scale configurable software system,
+file compression tool called \emph{GNU XZ Utils}. The graphic illustrates
+execution time measures for executing a standard compression benchmark for $1,135$
+different versions and covers a version history of about nine years. 
 
 In this excerpt, we only show the execution time measures of five different
 variants, i.e., each version was assessed with five different configurations.
 Each performance measurement is depicted by a single marker. In addition, we
-provide a plot of a moving median, to identify trends. We see that each variant
+provide a plot of a moving mean, to identify trends. We see that each variant
 has a certain performance level, and overall, the performance measurements
 remain stable. While the blue and purple variant are generally more volatile,
 for all variants, we see performance measurements oscillating during the first
@@ -91,7 +91,7 @@ value.
 
 \paragraph{Revision Sampling Strategies.} The second question addresses the
 rationale behind a revision sampling strategy. To obtain representative sample sets, sampling
-strategies are intended to utilize knowledge about the total volume to select
+strategies are intended to utilize knowledge about the volume to select
 sample sets from. For instance, pair-wise sampling aims to cover most feature
 interactions. Similarly, we demand for a meaningful revision sampling strategy
 to exhibit a certain rationale or coverage criterion. If we conceive a sampling
@@ -106,18 +106,17 @@ In conclusion, when designing a revision sampling strategy, we ask for a
 plausible rationale or coverage criterion with respect to performance changes.
 A resulting sample set of revisions, in addition, is representative, if the
 contained revisions sketch performance changes. For the context of this
-methodology, we remain with a clear definition of what performance
-changes are significant. Based on these assumptions, in the next section we
-propose a selection of four revision sampling approaches based on different
-observations.
+methodology, we remain with a clear definition of when performance changes are
+significant. Based on these assumptions, in the next section we propose a
+selection of five revision sampling approaches based on different observations.
  
 \section{Revision Sampling Strategies}\label{sec:revsampling_strat}
 As there are no established approaches to select sample sets of versions for
 configurable software systems, especially with respect to performance
 assessment, in the following five subsections, we propose five different
 strategies to address this problem. Our proposals utilize different sources of
-information regrading the software system studied, and are inspired by
-approaches that have proven to be applicable in different contexts. An overview
+information regarding the software system studied, or are inspired by
+approaches that have shown to be applicable in different contexts. An overview
 and classification of the five proposals is presented in
 Figure~\ref{fig:revsampling_overview}. 
 Our approaches can be grouped into two categories. The first category incorporates
@@ -125,8 +124,8 @@ meta-data about a commit, including its lifetime (how long it has been the
 latest commit), and the number of lines of code modified by it. For the first
 category, sampling strategies intend to achieve high coverage of the overall
 version lifetime, or modifications, respectively. The proposals listed in the
-second category may as well use take into account meta-data, yet for a
-different purpose. The classification-based proposals use meta-data along with
+second category may as well take into account meta-data, yet for a
+different purpose. The classification-based proposals' use meta-data along with
 performance measurements to learn and predict the likelihood of a commit
 introducing performance changes. The remaining approach, in the overview
 referred to as performance history approximation, adapts the bisection approach
@@ -207,7 +206,7 @@ level 3/.style={sibling distance=6cm},
 sampling strategies.}\label{fig:revsampling_overview}
 \end{figure}
 
-\subsection{Keyword Pattern Matching}
+\subsection{Keyword Sampling}
 The first version sampling strategy we present is driven by the conception that
 a commit message usually summarizes the changes of a commit in terms of what
 has been implemented, modified, removed, or what problems have been fixed.
@@ -220,7 +219,7 @@ message contains a keyword that might indicate a performance context, or a new
 version, respectively. The sampling algorithm works as follows. Given a set of
 keywords, such as ``\textsf{performance, bug, fix, slower, faster, \ldots}'', we
 first derive the word stems for each keyword. Second, for each commit message, we split the
-message into separate words and derive their corresponding word stems. Third,
+message into separate tokens and derive their corresponding word stems. Third,
 we match all sets of resulting word stems (one set per commit message) against
 the set of keyword sets and retain those commit messages, for which
 sufficiently word stems are contained. As these commit messages contain our
@@ -228,8 +227,8 @@ previously defined keywords, we select the corresponding commits as our version
 sample set.
 
 This approach is simplistic and its accuracy clearly
-depends on the quality of the initial selection of the keyword set. Moreover, more sophisticated ways to
-compute similarity between texts, such as the tf-idf-measure and various
+depends on the quality of the initial selection of the keyword set as well as
+the developer's discipline of documentation. Moreover, more sophisticated ways to compute similarity between texts, such as the tf-idf-measure and various
 similarity metrics \citep{huang_similarity_2008}. However, we only propose this
 strategy to evaluate the overall applicability of approaches driven by text
 similarity to the problem of version sampling.
@@ -244,8 +243,8 @@ can also assume that if a software system has not been revised for a long
 period of time, changes in terms of performance-relevant fixes were not
 necessary, or have been deferred. Although postponing performance-relevant
 fixes has become sort of a virtue \citep{molyneaux_art_2014}, for the latter
-case the can exist other reasons, including organizational constraints or performance
-issues being undetected at that time. That is, we assume that those versions
+case there can exist other reasons, including organizational constraints, or
+performance issues being undetected at that time. That is, we assume that those versions
 that have been the latest version for a long time due to the absence of changes
 as well as the necessity thereof can sketch a software systems performance
 history. We do not assume that long-lasting versions introduce performance
@@ -279,11 +278,11 @@ of versions of different software systems. In the following, lifetime of a
 version or commit refers to the period of time between a commit and its
 successor. We have investigated the distribution of version lifetime for two
 open-source software systems, a free file compression tool, \emph{GNU XZ}, and a
-free video encoder, \emph{x264}. – This selection is by far not representative, yet
-the observations obtained from systems document our assumptions. Since we will
+free video encoder, \emph{x264}. – This selection is, by far, not
+representative, yet the observations obtained from systems document our assumptions. Since we will
 refer to those two and other systems for the evaluation, we answer how and why
-these systems were selected in the evaluation in chapter 5.  – The first
-observation regarding the lifetime of single versions is illustrated in
+these systems were selected in the evaluation in chapter\,\ref{chapter:6}.  –
+The first observation regarding the lifetime of single versions is illustrated in
 Figure~\ref{fig:ActivityGraphs} for the two software systems, respectively. The
 figure, for each version, shows the activity during development of both systems.
 For each commit, we have counted the number of commits preceding and succeeding
@@ -321,13 +320,13 @@ segmentation or clustering of the overall version history. We assume that each
 segment represents a (sort of) steady state of the software systems performance
 history.
 
-\subsection{Change Size Coverage}
+\subsection{Change Size Coverage}\label{sec:changesizesampling}
 The third approach we propose adapts the idea of the previously mentioned
 version lifetime segmentation. The following sampling strategy design is driven
 by the assumption that a version or commit is more likely to introduce
 performance changes to a software system if it modifies a large portion of
-code. We assume that the effect of modifying a single line of code is not as
-significant as modifying multiple lines of code. Of course, modifications can
+the codebase. We assume that the effect of modifying a single line of code is
+not as significant as modifying multiple lines of code. Of course, modifications can
 accumulate, or trigger already existing interactions, yet from a black-box
 perspective, commits affecting more lines of code are more likely to introduce
 performance changes or to trigger interactions. That is, for designing a
@@ -372,7 +371,7 @@ sampling approach used by \cite{heger_automated_2013}. For a software system’s
  version history along with test cases and corresponding performance
  measurements, the
 authors aim to identify those commits which may have introduced performance
-regression. The authors have used a binary-search-like approach to iteratively
+regression. The authors have used a binary-search-like approach to continuously
 bisect the version history to find commits for which performance measurements
 deviate significantly from previously measured ones. Once a relevant commit is
 identified, it can be subject of further root-cause analysis.
@@ -392,26 +391,25 @@ bisected. \label{fig:example_bisection}}
 We adapt this approach to extract performance-relevant commits given an initial
 sample of versions along with performance measurements. A performance-relevant
 commit in this context is a commit for which performance measurements
-significantly deviate from measurements of previous commits. The sampling
+significantly deviate from measurements of preceeding commits. The sampling
 strategy is applied as follows. Given an initial sample of $n$ versions and
 corresponding performance measurements, the version history is segmented into
 $n-1$ segments. Each segment is clearly specified by two commits. For each
-segment $s_i$, the algorithm now computed the difference in performance
- measures $\delta_i$ for the start and the end commit. For the largest differences, the
-segment is bisected. For the resulting two segments $\delta_{i_1}$ and
-$\delta_{i_2}$, the performance measurement differences are calculated. If the
+segment $s_i$, the algorithm computes the difference in performance
+ measures $\delta_i$ for the start and the end commit. The segment with the
+ largest deviation then is bisected. For the resulting two segments $\delta_{i_1}$ and $\delta_{i_2}$, the performance measurement differences are calculated. If the
 absolute difference between $\delta_{i_1}$ and  $\delta_{i_2}$ is greater than
 zero, one of the two children segments is ``steeper'', i.e. has a greater
 performance measurement difference than the parent segment as exemplified in
 Figure~\ref{fig:example_bisection}.
 
-One can specify a minimum threshold difference to retain those resulting
+One can specify a minimum difference threshold to retain those resulting
 segments. This procedure is repeated until no further segments can be bisected without violating the
 minimum performance difference threshold. That is, the algorithm approximates
 an interpolation of the overall performance history while focusing on sketching
 the steepest changes. In addition to selecting an initial sample randomly, we
 also propose to use version lifetime segmentation sampling to obtain
-segmentation of the version history that divides it with respect to development
+segmentation of the version history that segments it with respect to development
 activity.
 
 \subsection{Changed-Files Sampling}
@@ -441,15 +439,15 @@ number of performance measurements required by this strategy, the second one,
 $b$, determines how many top-ranked revisions are returned by the sampling
 strategy, and therefore the actual sample size.
 
-Moreover, for this strategy, we can modify the way to select a learning sample.
+Moreover, for this strategy, we can modify the way to select a training sample.
 The simplest solution is to randomly select $a$ commits and assess performance
-for them and their predecessors, one could also select an initial learning
+for them and their predecessors. One could also select an initial learning
 sample based on heuristics to increase its informative value. For instance,
 since we intend to learn possible relations between a commits file change
-footprint and performance changes, we could apply the segmentations strategies
-from sections XX and YY. For XX, we would possibly increase the informative
-value of our training sample by covering a large portion of the version
-history's overall change. 
+footprint and performance changes, we could apply the commit change size
+sampling strategy presented in section\,\ref{sec:changesizesampling} to possibly
+increase the informative value of our training sample by covering a large
+portion of the version history's overall change.
 
 \section{Strategy Evaluation}\label{sec:revsampling_eval}
 In this subsection, we evaluate and compare the revision sampling strategies
@@ -470,7 +468,7 @@ performance measurements based on the measurements for our sample. Second, we
 smooth the overall performance history, i.e., the performance measurements of
 all revisions, using a moving mean in order to sketch overall performance
 trends. Third, we compare our smoothed performance history and our interpolated
-approximation using the Pearson correlation coefficient []. The more similar
+approximation using the Pearson correlation coefficient. The more similar
 our approximated curve is to the overall performance history, the greater the
 correlation coefficient is. 
 
@@ -489,7 +487,7 @@ approximations. One can see that the green and orange approximation are a more
 accurate approximation than the blue one since they more closely follow the
 overall performance history.
 
-We evaluated all four revision sampling strategies
+We evaluated all five revision sampling strategies
 for two different configurable software systems. The first system, GNU XZ, is
 an open-source file compression tool that is widely used among the open-source
 community. It exhibits a number of configurations options via run-time
@@ -498,7 +496,8 @@ second system, x264 is a free implementation of, and encoder for the H.264
 video compression standard, commonly known as MP4. Similarly to GNU XZ, it can
 be configured using a wide range of run-time parameters from which we derived
 eight variants using pair-wise sampling.  A detailed description of the systems’
-configuration options and how we derived the feature model is presented in chapter 6.
+configuration options and how we derived the feature model is presented in
+chapter\,\ref{chapter:6}.
 
 For both systems, we obtained a clone of
 their respective git repositories and, as far as possible, compiled each
@@ -541,8 +540,8 @@ measurements indicates an increase in execution time. This overall trend along
 with the decreasing amplitude of fluctuations might indicate a software
 architecture that is getting more stable over time, yet becomes slower over
 time as well, which is in line with the theory of technical debt mentioned
-earlier \citep{guo_tracking_2011}. However, for x264, we cannot identify such an
-overall trend as the performance measures remain stable for most of the version
+earlier \citep{guo_tracking_2011}. However, for x264, we could not identify
+such an overall trend as the performance measures remain stable for most of the version
 history. Only for the timespan between commit 1,400 and 2,100, performance
 measures fluctuate around a smaller level of execution time. In conclusion,
 both systems’ performance histories exhibit local fluctuations, yet the
@@ -554,7 +553,7 @@ stable for x264.
 
 \paragraph{Accuracy Evaluation.} We were able to accurately approximate the
 performance history curve for GNU XZ with different revision sampling
-strategies. Our first comparison comprises keyword pattern matching, version
+strategies. Our first comparison comprises keyword sampling, version
 lifetime segmentation, and change size coverage sampling. In addition, we
 compared those three sampling strategies to a baseline random sampling
 approach, whereby $n$ arbitrary revisions have been selected. While the other
@@ -589,9 +588,8 @@ others. In general, for x264, we achieved far better accuracy measurements for
 all applied sampling strategies as accuracy measurements did not fall below
 0.9.
 
-\paragraph{Changed-files Sampling.} For the remaining sampling strategy,
-changed-files sampling, we chose a different type of visualization since the
-sampling strategy works with two parameters, the initial learning sample size
+\paragraph{Changed-files Sampling.} For changed-files sampling, we chose a different type of visualization since the
+sampling strategy works with two parameters, the initial learning sample size,
 and the desired sample size. We visualize the accuracy as a heat map, whereby
 combinations of initial learning sample size and desired sample size are
 coordinates, and the color at those coordinates represents the corresponding
@@ -608,7 +606,7 @@ for greater sample sizes.
 Moreover, the spread of accuracy decreases for greater training sample sizes. That is,
 when learning the relation of changed files and performance changes from a
 larger selection of revisions, fewer revisions are required for the actual
-sample to achieve a certain accuracy. For the experiments where the initial
+sample to achieve a certain accuracy. For the experiments, where the initial
 learning samples were selected using the commit change size sampling, as
 illustrated in Figure\,\ref{fig:accuracy_file_sampling2}, we see that the
 general level of accuracy is significantly higher. For instance, for GNU XZ, the accuracy ranges from 0.6 up
@@ -660,8 +658,8 @@ x264}
 \paragraph{Bisection Sampling.} 
 For the last sampling strategy, we continue using the same visualization
 technique as for changed-files sampling. Again, this sampling strategy requires
-two parameters, an initial sample size a, and a number of extension steps b to
-perform. The initial sample of size a can be selected randomly, or using
+two parameters, an initial sample size $a$, and a number of extension steps $b$
+to perform. The initial sample of size $a$ can be selected randomly, or using
 version lifetime sampling. In Figures\,\ref{fig:accuracy_bisect1}
 and\,\ref{fig:accuracy_bisect2} we illustrate the accuracy measurements for both modes, respectively. We see that for the first operation
 mode in Figure\,\ref{fig:accuracy_bisect1} with random sampling, the overall
@@ -742,19 +740,19 @@ best-performing variant (bottom)}
 
 We identified two possible causes for those results. First, the smoothing
 factor, i.e., the frame size for the moving mean, influences how similar the
-smoothed curve looks to a straight line. If a greats smoothing factor is
+smoothed curve looks to a straight line. If a greater smoothing factor is
 selected, the performance history curve can easily be approximated with an
 interpolation of only two points. Second, the performance history itself can be
 shaped quasi-linear. For the latter case, either the performance remains stable
 while the software system evolves, or the average performance history does not
 exhibit existing performance changes, for instance, when performance changes
 only affect few variants, or performance only fluctuates within a small range.
-From comparing the average performance history (cf. Figure~\ref{}) and the
-best- and worst-performing variant (see Figure~\ref{fig:x264_worstbest}) of
-x264, we learn that at around commit 650 performance significantly increases for the
+From comparing the average performance history (cf.
+Figure~\ref{fig:overall_performance_history}) and the best- and
+worst-performing variant (see Figure~\ref{fig:x264_worstbest}) for x264, we
+learn that at around commit 650 performance significantly increases for the
 best-performing variant, while almost no effect is visible for the
-best-performing one as well as for the average performance history. Moreover,
-the spread range for performance measurements was not more than 0.1 seconds for
+best-performing one as well as for the average performance history. Moreover, the spread range for performance measurements was not more than 0.1 seconds for
 the best-performing variant, and 0.15 seconds for the average performance
 history. Considering the range of 0.4 to 0.5 seconds for the worst-performing
 variant, the differently shaped performance curves suggest that the used
@@ -777,12 +775,12 @@ revisions to assess, and the resulting sample size depending on the strategies
 parameters.
 
 With respect to accuracy, from the evaluation we have learned that commit
-change size sampling, changed-files sampling with commit change size sampling,
-and bisection sampling with version lifetime segmentation performed best.
+change size sampling, version lifetime segmentation, changed-files sampling with
+commit change size sampling, and bisection sampling with version lifetime segmentation performed best.
 Commit change size sampling does not require any performance measurements. We
 consider the cost of collecting information about all commits as well as
-ordering them with respect to commit change coverage as constant since the time
-required only depends on the host machine used for sampling, and it only
+ordering them with respect to commit change or lifetime coverage as constant
+since the time required only depends on the host machine used for sampling, and it only
 required a few seconds for our evaluation setup. 
 
 \begin{table}[t!]
@@ -831,8 +829,8 @@ sampling strategy additionally requires two performance requirements for each
 segmentation step.
 
 In conclusion, based on our case study we advocate the use of commit change
-size sampling as the ratio of required performance measurements and resulting
-accuracy is optimal. However, note that the case study corpus only contains two
-software systems and that our results are far from being representative. Based
-on our observations, we were not able to disprove the assumption of a relation
-between a commit’s change size and its potential influence on performance.
+size version lifetime segmentation sampling as the ratio of required performance
+measurements and resulting accuracy is optimal. However, note that the case study corpus only contains two
+software systems and that our results are far from being representative.
+However, based on our observations, we were not able to disprove the assumption
+of a relation between a commit’s change size and its potential influence on performance.
