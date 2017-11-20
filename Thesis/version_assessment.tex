@@ -267,7 +267,7 @@ between June 3, 2004, and June 26, 2017.]{\includegraphics[width=0.45\textwidth]
 \caption{Commit activity for two sample systems, the compression
 utility \texttt{GNU XZ} and the video encoder \texttt{x264}. For each version,
 the activity is measured as the number of commits that were pushed within a
-certain timeframe of eight weeks.}
+certain time-frame of eight weeks.}
 \label{fig:ActivityGraphs}
 \end{figure}
 
@@ -325,7 +325,7 @@ The third approach we propose adapts the idea of the previously mentioned
 version lifetime segmentation. The following sampling strategy design is driven
 by the assumption that a version or commit is more likely to introduce
 performance changes to a software system if it modifies a large portion of
-the codebase. We assume that the effect of modifying a single line of code is
+the code base. We assume that the effect of modifying a single line of code is
 not as significant as modifying multiple lines of code. Of course, modifications can
 accumulate, or trigger already existing interactions, yet from a black-box
 perspective, commits affecting more lines of code are more likely to introduce
@@ -391,7 +391,7 @@ bisected. \label{fig:example_bisection}}
 We adapt this approach to extract performance-relevant commits given an initial
 sample of versions along with performance measurements. A performance-relevant
 commit in this context is a commit for which performance measurements
-significantly deviate from measurements of preceeding commits. The sampling
+significantly deviate from measurements of preceding commits. The sampling
 strategy is applied as follows. Given an initial sample of $n$ versions and
 corresponding performance measurements, the version history is segmented into
 $n-1$ segments. Each segment is clearly specified by two commits. For each
@@ -417,7 +417,7 @@ The last version sampling strategy that we are going to present is a binary
 classifier that predicts whether a commit is likely to introduce performance
 changes. The idea behind this classifier is that performance changes might
 depend on changes in specific code sections or combinations thereof. For each
-commit we can retrieve which code sections, or files have been modifief. If
+commit we can retrieve which code sections, or files have been modified. If
 there exists a relation between a commit’s file change set and performance
 changes, we could learn it via machine learning and consequently predict
 the performance change likelihood for arbitrary commits.
@@ -425,7 +425,7 @@ the performance change likelihood for arbitrary commits.
 We propose a sampling strategy that is based on a initial training selection of
 commits to learn a possible relation between a commit’s set of changed files
 and performance changes. For each commit in the initial learning set, the
-performance difference to its precdecessor is calculated. Since we are
+performance difference to its predecessor is calculated. Since we are
 interested in any change in performance, not just performance degradation, we
 consider the absolute performance difference as the performance change introduced by that
 commit. Next, we are using classification and regression trees (CARTs) to
