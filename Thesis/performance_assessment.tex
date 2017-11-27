@@ -1,7 +1,7 @@
 The last two chapters covered methodological guidelines for variability as well
-as version assessment. While those two terms, variability and versions
-represent two orthogonal versions of a configurable software systems’ evolution
-history. To provide a closed description of guidelines for performance
+as version assessment. While those two terms, \emph{variability} and
+\emph{versions} represent two orthogonal dimensions of a configurable software
+systems’ evolution history. To provide a closed description of guidelines for performance
 evolution assessment, this chapter finally presents a guideline to assessing
 performance for a given variant and version. In Figure~\ref{fig:roadmap_3}, we
 present the methodological roadmap and questions to be answered in this chapter.
@@ -14,35 +14,36 @@ present the methodological roadmap and questions to be answered in this chapter.
 \end{figure}
 
 First, in section we categorize software systems with respect to the availability of suitable performance
-benchmarks; second, we outline the general properties of  profiling used
-throughout dynamic program analysis; finally, we discuss different statistical
+benchmarks; second, we outline the general properties of profiling tool support
+used throughout dynamic program analysis; finally, we discuss different statistical
 with respect to their applicability in the context of performance assessment
 and robustness.
 
 \section{Performance Benchmarks}
 The essential part of assessing performance for a software system is the choice
-of a benchmark that one wants to evaluate the software with. For the choice of
-a suitable benchmark, two consecutive questions need to be answered. First of
-all, we need to specify, what aspect of performance we intend to evaluate for
+of a benchmark that one wants to evaluate the software against. For the choice
+of a suitable benchmark, two consecutive questions need to be answered. First of
+all, we need to specify, what aspects of performance we intend to evaluate for
 our software system. As presented earlier in chapter 2, the term performance is
-generic as it is commonly outlined by key performance indicators. For instance,
-for a web shop application, good performance is characterized by low response
+generic as it is commonly outlined by different key performance indicators. For
+instance, for a web shop application, good performance is characterized by low response
 time and high availability, while for file compression, one might rather
 conceive high throughput as good performance. That is, given a specific
-dimension of performance, i.e., one or more KPIs, for a software system, from
+aspect of performance, i.e., one or more KPIs, for a software system, from
 testing against a suitable performance benchmark one needs to be able to judge
 whether the specified performance goals are met, or not.
-Next, once we have specified performance indicators, we need to select a
-benchmark, i.e., a repeatable task for the software system from which we can
-evaluate performance. To keep performance measurements comparable throughout
-versions and for all variants, it is required to use only one benchmark per
-assessment. Following this principle, and to even compare different software
+
+Next, once we have specified performance indicators fitting our software system,
+we need to select a benchmark, i.e., a repeatable task for the software system
+for which we can evaluate performance. To keep performance measurements
+comparable throughout all versions and variants, it is required to use
+only one benchmark per assessment. Following this principle, and to even compare different software
 systems, practitioners are advised to refer to reusable, or more general
 performance benchmarks whenever possible. To illustrate this, we can divide
 software systems into three general categories for which we are presenting
 separate strategies.
 
-First, in the the easiest case a software system provides software tests, or
+First, in the the easiest case, a software system provides software tests, or
 performance benchmarks, to use for performance assessment. The idea of using an
 existing test suite to assess performance is straightforward and has already
 been applied to detect performance regression
@@ -52,21 +53,23 @@ Second, a software system can offer functionality for a domain, where
 standardized benchmarks have been established, or are commonly used to compare
 performance measurements. For instance, for the domain of file compression
 there exists a long tradition of using standardized file sets as performance
-benchmarks, such as the Canterbury or Calgary corpus; for video encoding, the
-xiph.org foundation provides a large set of video benchmark files; and, more
-general, for processors the Standard Performance Evaluation Corporation
-provides standardized benchmarks for floating point operations. Whenever a
-software system falls under a domain for which standardized benchmarks exist,
-we advocate to use those.
+benchmarks, such as the Canterbury
+or Calgary corpus\footnote{See
+\url{http://corpus.canterbury.ac.nz/descriptions/} for a detailed 
+description.}; for video encoding, the
+xiph.org\footnote{\url{https://media.xiph.org/}} foundation provides a large set of video benchmark files; and, more general, for processors the Standard
+Performance Evaluation Corporation provides (SPEC) standardized benchmarks for
+floating point operations. Whenever a software system falls under a domain for
+which standardized benchmarks exist, we advocate to use those.
 
 Finally, if neither a performance benchmark or test suite is available for a
 software system, nor domain-specific benchmarks exist, the task of designing a
 benchmark is left to the practitioner evaluating the software. As the
 conception of performance is generic and highly context-dependent, there is no
 standardized recipe for designing a performance benchmark. However, the main
-criteria to be satisfied include expressiveness, cost-efficiency and
-reproducibility. First, suitable performance benchmark should clearly express
-what a desirable and unfavorable performance measurement is, given a specified
+criteria to be satisfied include \emph{expressiveness}, \emph{cost-efficiency}
+and \emph{reproducibility}. First, a suitable performance benchmark should
+clearly express what a desirable and unfavorable performance measurement is, given a specified
 key performance indicator. For instance, if we evaluate performance in terms of
 response, or execution time, minimal measurements are desirable. Second, effort
 that is required to evaluate a software with a benchmark must be reasonable.
@@ -79,15 +82,56 @@ plausibly designed as the overall value of a performance benchmark depends on
 whether we can draw any conclusion from performance measurements obtained from
 it.
 
-In conclusion, for the context of our methodology,the advocated guideline for
-selecting and designing a performance benchmark for a (configurable) software
+In conclusion, for the context of our methodology, the advocated guideline for
+selecting and designing a performance benchmark for a configurable software
 system is to select a benchmark as generic as possible. If there is no reusable
 benchmark available, the design of any performance benchmark should follow the
 criteria of expressiveness, cost-efficiency, and reproducibility.
 
 \section{Profiling}
-Which tools exist to profile programs, such as \texttt{GNU time}, \ldots
+With a software system along with a benchmark set up, the only choice left
+before assessing performance is to select a means to obtain and collect
+performance measurements. For this type of tool support for dynamic analysis,
+commonly referred to as profilers, exists a variety of solutions, varying in
+functionality and scope of application.
 
+\cite{satapathy_survey_2015} have surveyed a selection of profilers for dynamic
+analysis. The authors categorize their selection into three categories,
+including VM-profiling-based, instumentation-based, and profilers based on
+aspect-oriented programming (AOP). While for VM-based profilers, make use of
+profiling functionality offered by the respective platform, such as the Common
+Language Interface (CLI) for the family of .NET languages,  or the Java Virtual
+Machine (JVM), instrumentation-based profilers add instructions to the software
+to the software’s codebase at compilation using instrumentation preprocessors,
+or to the software’s executables. AOP-based profilers accommodate profiling
+functionality in separate modules called aspects. An aspect’s code, called
+advise is executed whenever a corresponding event, called join point,  occurs,
+for instance a call of a function that one would like to measure performance
+for. Several join points can be summarized by a set of join points, called
+point cut. While VM-based profilers are limited to a family of programming
+languages, and, as well as instrumentation-based, usually introduce a run-time
+overhead that might dilute performance measurements. In contrast to that,
+AOP-based profilers  usually perform better, yet are limited to the code base as aspects
+are woven into the codebase during re-compilation. Moreover, they require a
+higher level of expertise to design and deploy a performance test setup
+compared to the former two categories \citep{satapathy_survey_2015}. In addition
+to the aforementioned profiler categories, statistical profilers such as
+\emph{Performance Counters for
+Linux}\footnote{See
+\url{http://man7.org/linux/man-pages/man1/perf-stat.1.html} for further
+information on \texttt{perf}.}, or \emph{perf}, monitor a software system
+performance, for instance hardware counters for regular intervals, and therefore provide an approximation of the software system’s performance with less overhead than instrumentation-based profilers.
+
+In the context of our methodology, we are advocating the use of the unix
+command \texttt{time}\footnote{See
+\url{http://man7.org/linux/man-pages/man1/time.1.html} for the man page of
+\texttt{time} and provided performance metrics to record.} to measure execution
+time along with a number of further performance metrics for a software system.
+The command is contained in most Linux distributions and, from a black-box
+perspective, provides sufficient functionality to sketch performance in terms of
+metrics for execution time, memory consumption, or I/O statistics. While tools falling under the aforementioned categories are powerful tools for dynamic analysis and program
+optimization, time provides a basic, yet exhaustive support for assessing
+performance for software system run on a single host machine. 
 
 \section{Statistical Considerations}\label{sec:statistical_considerations}
 In this section, we now discuss the appropriate statistical means to summarize,
@@ -277,13 +321,49 @@ The median is a less precise estimator than the both means, yet more robust
 with regard to extreme observations. In addition, the MAD or IQR provide a more
 robust means of spread than the standard deviation.
 
-\subsection{Systematic Error}
-How different machines can be used to minimize systematic error
-
 \section{Summarization Strategies}
-\begin{itemize}
-  \item How to summarize performance for a single version? 
-  \item Minimal/Maximal configuration, best/worst performance measurement, \ldots
-\end{itemize}
+Besides the statistical considerations regarding the summarization of
+performance measurements, we are also challenged by the dimensionality of our
+performance evolution history. Given a record of performance measurements for a
+number of versions across different variants, we require statistical and
+numerical means to summarize performance evolution with single values. For this
+purpose, we propose two metrics addressing the following two aspects. First,
+different variants usually exhibit different levels of performance
+measurements, aside from evolution and fluctuations. To effectively compare the
+performance change of different variants, we propose to use the relative
+performance change as a suitable metric. Second, performance changes do not
+necessarily affect all variants in a similar way. To measure the homogeneity of
+perfornance changes across different variants, we propose to use the variance
+of changes per version. A mathematical definition for both relative performance
+change and performance change variance is given below.
 
+\subsection{Relative Performance Change}\label{sec:relativechange}
+Let $P$ be a $M \times N$ matrix with performance measurements $p_{i, j}$ with
+$i, j \in \mathbb{N}, i \leq M, j \leq N$ for $M$ versions and $N$ variants. Now
+we compute the relative performance change as a $M \times N$ matrix $P'$ as
+follows:
 
+\begin{equation}
+   p'_{i, j} =
+   \begin{cases}
+     0 & \text{if~} i = 1 \\
+     \frac{p_{i, j}}{p_{i-1,j}} - 1 & \text{else} 
+   \end{cases}
+\end{equation}
+
+The relative performance change provides a normalized means to compare
+performance changes for different variants of a configurabel software systems.
+
+\subsection{Performance Change Variance}\label{sec:changevar}
+Let $P'$ be a $M \times N$ matrix with relative performance change measurements.
+To measure the homogeneity of performance changes across different variants, we
+compute $v_i$ the variance all variants' relative performance changes for a
+version $i$ with $i \leq M$ as follows:
+
+\begin{equation}
+   v_i = \text{Var}\lbrace p'_{i,1},\,p'_{i,2},\,ldots,\,p'_{i,N-1},\,p'_{i,N}
+   \rbrace
+\end{equation}
+
+The variance increases the more the relative performance changes spread, i.e.
+the more heterogeneously different variants evolve.

@@ -4,9 +4,10 @@
 	12pt,
 	a4paper,
 	oneside,
-	openright
+	openright,
+	listof=totoc% lists in TOC
 ]{scrbook}
-
+\setuptoc{toc}{totoc}% TOC in TOC
 %\usepackage{sectsty}
 %\chaptertitlefont{\huge}
 
@@ -53,7 +54,7 @@
 \usepackage{setspace}
 
 \usepackage{geometry}
-\geometry{a4paper,left=35mm,right=25mm,bottom=2cm}
+\geometry{a4paper,left=35mm,right=20mm,bottom=2cm}
 
 \usepackage{tikz}
 
@@ -114,7 +115,7 @@
 \begin{titlepage}
     \centering
     {
-    	\textbf{Technische Universität Braunschweig}\\ 
+    	\textbf{Technische Universität Carolo-Wilhelmina zu Braunschweig}\\ 
     		\vspace{2mm}
     	Department of Computer Science
     }
@@ -124,14 +125,14 @@
     \vfill
     Master's Thesis
     \vfill
-    {\bfseries\Huge\linespread{2.0}
+    {\bfseries\LARGE\linespread{2.0}
         Assessing Performance Evolution Of\\
         	\vspace{3mm}
          Configurable Software Systems
     }  
     \vfill
-    {Untersuchungen zur Performanz-Evolution von konfigurierbaren
-    Software-Systemen}
+    {Untersuchungen zur Performanz-Evolution von \\
+    konfigurierbaren Software-Systemen}
     \vfill
     {
     	Author:\\
@@ -185,10 +186,14 @@ by another person except where due reference is made in the text.
 
 \noindent{Braunschweig, \today ~~~~~~~\rule{0.6\textwidth}{0.4pt}}
 
+\clearpage
+\setcounter{page}{1}
+\pagenumbering{Roman}
+\addchap{Abstract}
 \tableofcontents
-%\listoffigures
-%\listoftables
-
+\listoffigures
+\listoftables
+\pagenumbering{arabic}
 %\mainmatter
 \chapter{Introduction}\label{chapter:1}
 \setcounter{page}{1}
@@ -207,7 +212,14 @@ by another person except where due reference is made in the text.
 \input{performance_assessment.tex}
 
 \chapter{Evaluation} \label{chapter:6}
+\input{evaluation.tex}
 
+\chapter{Related Work}
+\begin{itemize}
+  \item \cite{hindle_green_2015}
+  \item \cite{german_visualizing_2006}
+  \item \cite{shang_exploratory_2011}
+\end{itemize}
 \chapter{Conclusion}
 
 \clearpage
