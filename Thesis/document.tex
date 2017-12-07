@@ -11,6 +11,9 @@
 %\usepackage{sectsty}
 %\chaptertitlefont{\huge}
 
+\usepackage{xcolor}
+%\rowcolors{2}{gray!10}{white}
+
 % only for tables
 \usepackage{blindtext}
 \usepackage{rotating}
@@ -58,12 +61,21 @@
 
 \usepackage{tikz}
 
-\usepackage{fancyhdr}
-\pagestyle{fancy} %eigener Seitenstil
+
 
 \makeatletter
 \let\ps@plain\ps@empty
 \makeatother
+
+
+
+
+
+\usepackage{natbib} 
+
+
+\usepackage{fancyhdr}
+\pagestyle{fancy} %eigener Seitenstil
 
 \fancyhf{}
 \fancyhead[OR,EL]{\thepage} % "O" steht für "odd", also ungerade Seiten
@@ -77,8 +89,6 @@
 \usepackage[english]{babel}
 \usepackage{amsmath}
 
-\usepackage{natbib} 
-
 \usepackage[pagebackref]{hyperref}
 %\usepackage[english,ref]{backref}
 \renewcommand*{\backref}[1]{}
@@ -90,24 +100,28 @@
 	\else \textit{Cited on pages #2.}%
 	\fi
 }}
-
-
-\usepackage{cleveref}
-
-\usepackage{xcolor}
 \hypersetup{
     colorlinks,
     linkcolor={brown!50!black},
     citecolor={violet!90!black},
     urlcolor={gray!80!black}
 }
+\usepackage{cleveref}
+
+
 
 \bibliographystyle{apalike} % 'humannat' oder 'apalike' war auch ganz nett
 
 \title{Assessing Performance Evolution Of Configurable Software Systems}
 \author{Stefan Mühlbauer}
 
+
+
+
 \begin{document}
+
+
+
 \newcommand{\xz}{\textsf{GNU XZ}}
 \newcommand{\xzwo}{\textsf{x264}}
 \newtheorem{definition}{Def.~}[section]
@@ -140,6 +154,8 @@
     	\vspace{3mm}
     	{\Large Stefan Mühlbauer}
     }
+    \vfill
+    Matriculation Number: 4161884\\
     \vfill
     \today
     \vfill
@@ -206,7 +222,7 @@ by another person except where due reference is made in the text.
 \chapter{Methodology: Variability Assessment}
 \input{variability_assessment.tex}
 
-\chapter{Methodology: Version Assessment}
+\chapter{Methodology: Version Assessment}\label{chapter:4}
 \input{version_assessment.tex}
 
 \chapter{Methodology: Performance Assessment}
