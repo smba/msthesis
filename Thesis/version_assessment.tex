@@ -13,7 +13,7 @@ Figure~\ref{fig:roadmap_2}, we summarize these two questions with the task of
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.9\textwidth]{images/process_revassesment.eps}
+	\includegraphics[width=0.99\textwidth]{images/process_revassesment.eps}
 	\caption{Methodological road-map: questions to address with revision
 	assessment.}
 	\label{fig:roadmap_2}
@@ -340,7 +340,7 @@ sizes in terms of lines of code for the two software systems \emph{GNU XZ} and
 commits modify less than 2,000 lines of code, whereas very few commits modify
 or add larger code sections.
 
-\begin{figure}[!htb]
+\begin{figure}[th!]
 \def\tabularxcolumn#1{m{#1}}
 \begin{tabularx}{\linewidth}{@{}cXX@{}}
 \centering
@@ -366,7 +366,6 @@ that a sample set of versions obtained using this approach is likely to cover
 significant performance changes since a larger portion of the overall change
 history is covered.
 
-
 \subsection{Bisection Sampling}
 The next sampling strategy that we propose is an adaption of the revision
 sampling approach used by \cite{heger_automated_2013}. For a software system’s
@@ -378,11 +377,17 @@ bisect the version history to find commits for which performance measurements
 deviate significantly from previously measured ones. Once a relevant commit is
 identified, it can be subject of further root-cause analysis.
 
+We adapt this approach to extract performance-relevant commits given an initial
+sample of versions along with performance measurements. A performance-relevant
+commit in this context is a commit for which performance measurements
+significantly deviate from measurements of preceding commits. The sampling
+strategy is applied as follows. 
+
 \begin{wrapfigure}{r}{0.5\textwidth}
  \begin{center}
-   \vspace{-1cm}
-   \includegraphics[width=0.48\textwidth]{images/inverse_douglas_peucker}
+   \includegraphics[width=0.5\textwidth]{images/inverse_douglas_peucker}
  \end{center}
+\vspace{-5pt}
  \caption{Given a initial sample of five versions and four segments (blue
  line), the steepest segment is bisected and replaced by two segments
  (orange).
@@ -390,11 +395,7 @@ The first of the orange segments is steeper than the segment that was
 bisected. \label{fig:example_bisection}}
 \end{wrapfigure}
 
-We adapt this approach to extract performance-relevant commits given an initial
-sample of versions along with performance measurements. A performance-relevant
-commit in this context is a commit for which performance measurements
-significantly deviate from measurements of preceding commits. The sampling
-strategy is applied as follows. Given an initial sample of $n$ versions and
+Given an initial sample of $n$ versions and
 corresponding performance measurements, the version history is segmented into
 $n-1$ segments. Each segment is clearly specified by two commits. For each
 segment $s_i$, the algorithm computes the difference in performance

@@ -8,6 +8,8 @@
 	listof=totoc% lists in TOC
 ]{scrbook}
 
+%\usepackage{parskip}
+\setlength{\parindent}{0pt}
 
 \setuptoc{toc}{totoc}% TOC in TOC
 %\usepackage{sectsty}
@@ -200,6 +202,61 @@ angegeben habe und die Arbeit nicht bereits als Prüfungsarbeit vorgelegen hat.
 \setcounter{page}{1}
 \pagenumbering{Roman}
 \addchap{Abstract}
+Most modern software systems are, to varying extents, configurable.
+Configurations influence the performance behavior of configurable software
+systems, and, therefore, impact the software system’s quality. Even small
+numbers of configuration options (features) provided can result in an
+infeasible number of configurations, as some effects only arise when multiple
+configurations are selected (feature interaction).  To tame this complexity due
+to the software system’s variability, approaches emerged to learn and estimate
+a configuration’s effect on performance measurements (performance prediction
+models). While performance of a configurable software system can be relatively
+well understood with only a few sample measurements for a single version, as
+software evolves, performance evolves as well for each variant. Postponed
+quality assurance and maintenance tasks in general, yet the exhibited
+complexity of configurable software systems in particular, pose a risk to a
+software systems quality as those evolve; this technical debt can eventually
+result in performance degradation. So far, there exists no means to assess the
+performance evolution of configurable software systems
+
+With this thesis provide a methodology about how to unveil the performance
+evolution history of configurable systems: We provide a  guideline to untangle
+a software systems variability, a catalog of strategies to select versions for
+which performance evolves significantly, and a guideline about how to measure
+and summarize performance in the presence of variability. In a case study, we
+evaluate our methodology for two configurable software systems. We document our
+findings, and, using the case study results, we obtain valuable insights
+about the quality of the software systems for which performance evolution was
+assessed.
+
+
+\newpage
+\chapter*{Zusammenfassung}
+Moderne Softwaresysteme bieten oftmals eine Vielzahl an Möglichkeiten zur
+Konfiguration. Jede einzelne Konfiguration kann sich wiederum auf die
+Performanz der Software auswirken, zum Guten wie zum Schlechten. Jedoch treten
+einige Effekte nicht für einzelne Optionen, sondern für mehrfache Kombinationen
+jener auf, was den Grund der Komplexität von konfigurierbaren Systemen
+darstellt. Zwar lässt sich die Performanz einer Variante eines konfigierbaren
+Softwaresystems mittlerweile gut abschätzen, jedoch kann sich die Performanz
+einer Variante unabhängig von anderen entwickeln. Unzureichende oder verzögerte
+Wartung oder Qualitätssicherung bieten hier ein Einfallstor für eine sich über
+die Zeit verschlechternde Architektur und somit letztendlich Einbußen in der
+Performanz. Bisher existiert kein Verfahren, um die Evolution von
+konfigurierbaren Softwaresystemen unter Gesichtspunkten der Performanz zu
+untersuchen.
+
+Mit dieser Arbeit schließen wir diese Lücke und entwerfen eine Methodologie um
+die Evolution konfigurierbarer Systeme unter Performanzaspekten
+nachzuvollziehen und besser zu verstehen. Unsere Methodologie umfasst Leitfäden
+zur Analyse der einem System zugrundeliegenden Variabilität, Strategien um
+solche Versionen auszuwählen, für welche sich die Performanz signifikant ändert
+sowie eine Zusammenstellung von Werkzeugen um Performanzmessunge durchzuführen,
+zusammenzufassen und zu \hyphenation{analy-sieren}. 
+Wir evaluieren unsere Methodologie mit einer Fallstudie zu zwei konfigurierbaren Systemen. Aus den Ergebnissen
+gewinnen wir wertvolle Rückschlüsse über die Qualität der betrachteten
+Softwaresysteme.
+
 \tableofcontents
 \listoffigures
 \listoftables

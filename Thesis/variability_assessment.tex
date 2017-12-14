@@ -14,7 +14,7 @@ is usually constrained by limited resources.
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.90\textwidth]{images/process_varassesment.eps}
+	\includegraphics[width=0.99\textwidth]{images/process_varassesment.eps}
 	\caption{Methodological roadmap: questions to address during variability
 	assessment.}
 	\label{fig:roadmap_1}
@@ -37,7 +37,6 @@ software composed from variable and invariant code. In the context of our
 methodology, these techniques are useful means to make variable code segments
 visible, and to understand how variability influences the overall resulting
 variants of a software systems.
-
 The idea of designing and developing configurable software systems is driven by
 the separation of different concerns, expressed as features of a software
 system. A configurable software system is either assembled at compile-time with
@@ -103,7 +102,6 @@ the parse tree provides a machine-readable decomposition of variable and
 invariant code segments along with presence conditions, for instance, it has
 been used to derive constraints among features
 \citep{nadi_mining_2014,nadi_where_2015} as we will see in the next subsection.
-
 
 \paragraph{Staged Variability.} Besides variability-aware parsing,
 \cite{nguyen_building_2014} have applied symbolic execution
@@ -188,6 +186,7 @@ such as build constraints or compiler constraints
 The following paragraphs review different \emph{strategies to synthesize
 variability models} from different types of artifacts. A classification of
 strategies, along with corresponding literature is illustrated in Figure~\ref{fig:varsynth_overview}
+
 The first category comprises extraction based on Natural Language Processing (NLP) utilize
 similarities between textual representations of different variants to derive
 common features \citep{alves_exploratory_2008,bakar_feature_2015}. The
@@ -198,6 +197,27 @@ techniques which conceive variability model as an optimization problem. For a se
 valid configurations, genetic algorithms are used to approximate an optimal
 feature model representing constraints among features 
 \citep{lopez-herrejon_reverse_2012,lopez-herrejon_assessment_2015,linsbauer_feature_2014}.
+
+\paragraph{NLP-based Extraction.} As feature diagrams group and organize
+features (representing functionality), synthesizing a variability model has shown to be applicable to extract features
+and constraints from natural language artifacts. For instance, by comparing
+product specifications for an existing market domain, variability models can
+provide a detailed feature summary \citep{alves_exploratory_2008}.
+
+The basic idea is to identify commonalities and differences in natural language
+documents, such as product descriptions, requirements, or documentations, by
+using natural language processing (NLP) techniques \citep{bakar_feature_2015}. A
+widely employed technique is to conceive a text as a vector in a vector space model, where each word or
+token represents a dimension. From the tokenized text, irrelevant stop words
+are removed, and all remaining words are reduced to their original word stems.
+The importance of all remaining tokens is (usually) weighed by its tf-idf
+value, an established technique in information retrieval. That is, each text
+(corresponding to a variant or configuration) is represented as a vector of
+tf-idf values in the aforementioned vector space model. 
+Based on these representations, text instances are clustered to identify
+commonalities and differences, for instance in terms of shared words.
+Subsequently, the clustering information can be used to extract features or entire feature
+models \citep{alves_exploratory_2008,bakar_feature_2015}.
 
 \begin{figure}[h!]
 \centering
@@ -229,27 +249,6 @@ feature model representing constraints among features
 \caption{Overview of our literature survey on
 variability model synthesis.}\label{fig:varsynth_overview}
 \end{figure}
-
-\paragraph{NLP-based Extraction.} As feature diagrams group and organize
-features (representing functionality), synthesizing a variability model has shown to be applicable to extract features
-and constraints from natural language artifacts. For instance, by comparing
-product specifications for an existing market domain, variability models can
-provide a detailed feature summary \citep{alves_exploratory_2008}.
-
-The basic idea is to identify commonalities and differences in natural language
-documents, such as product descriptions, requirements, or documentations, by
-using natural language processing (NLP) techniques \citep{bakar_feature_2015}. A
-widely employed technique is to conceive a text as a vector in a vector space model, where each word or
-token represents a dimension. From the tokenized text, irrelevant stop words
-are removed, and all remaining words are reduced to their original word stems.
-The importance of all remaining tokens is (usually) weighed by its tf-idf
-value, an established technique in information retrieval. That is, each text
-(corresponding to a variant or configuration) is represented as a vector of
-tf-idf values in the aforementioned vector space model. 
-Based on these representations, text instances are clustered to identify
-commonalities and differences, for instance in terms of shared words.
-Subsequently, the clustering information can be used to extract features or entire feature
-models \citep{alves_exploratory_2008,bakar_feature_2015}.
 
 \paragraph{Feature Extraction.} \cite{rabkin_static_2011} proposed a static, yet
 heuristic approach to extract configuration options along with respective types and domains. Their approach
