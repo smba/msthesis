@@ -1,10 +1,11 @@
 This chapter presents necessary background to the individual topics used in this
-thesis. In section~\ref{sec:variability_modeling}, we recapitulate
-basic concepts, notations, and terminology regarding variability modeling. In section~\ref{sec:evolving_solftware}, we
-outline different aspects of software evolution.
+thesis. In section\,\ref{sec:variability_modeling}, we recapitulate
+basic concepts, notations, and terminology regarding variability modeling. In
+section\,\ref{sec:evolving_solftware}, we outline different aspects of software evolution.
 section~\ref{sec:assessing_performance} discusses the assessment and testing of
-performance and finally, section~\ref{sec:performance_prediction_models} recalls methodology to predict
-performance behavior for configurable systems.
+performance and finally, section\,\ref{sec:performance_prediction_models}
+recalls methodology to predict performance behavior for configurable systems. In Section\,\ref{sec:relatedwork} we
+review a body of related work that has either touched on topics similar to ours, or pursues a similar methodology, yet with different basic premises.
 
 \section{Variability Modeling} \label{sec:variability_modeling}
 The design and development of configurable software systems is conceptually
@@ -117,7 +118,10 @@ inter-dependencies between code elements, such as \emph{scattering} and
 \emph{tangling}. Code scattering describes the phenomenon of code belonging to
 a certain feature being scattered across multiple units of implementation,
 such as modules, whereas code tangling means that code from different and
-potentially unrelated features in entangled within a single module.
+potentially unrelated features in entangled within a single module. A figurative
+and recapitulative term to refer to the trade-off between postponed maintenance
+or QA tasks and the corresponding cost is \emph{technical debt}
+\cite{guo_tracking_2011}; the metaphor summarizes the growing risk of quality degradation for eroding software.
 
 \cite{passos_feature_2015} have studied the extent of usage of scattering for device-drivers
 in the Linux kernel. Despite scattering being quite prevalent, their
@@ -127,7 +131,8 @@ likely to be scattered than non-platform drivers. They conclude that this is a
 trade-off between maintainability and performance: a more generalized and
 abstract implementation for platform-drivers in this case could possibly avoid
 scattering, yet refactorings in this manner did not seem to be necessary or
-worth the effort yet.
+worth the effort yet. 
+
 
 \subsection{Variability Evolution}
 Apart from architecture evolution, the variability offered by software systems
@@ -397,7 +402,7 @@ progressive sampling. This sampling heuristic is based on feature frequencies
 and outperforms t-wise sampling, such as pair-wise sampling
 \citep{sarkar_cost-efficient_2015}.
 
-\section{Related Work}
+\section{Related Work}\label{sec:relatedwork}
 While to the best of our knowledge, there exists no previous work on
 exhaustively presenting a methodology to understand and comprehend performance
 evolution of configurable software system, there is a body of work that has

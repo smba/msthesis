@@ -77,7 +77,6 @@ available to the user. Response time describes the amount of time it takes to
 process a task. Throughput describes the program load or number of items passed
 to a process. Resource utilization describes the used quota of resources
 required for processing a task.
-
 The performance behavior of a software system depends on the functionality
 offered, the respective implementation, program load, the underlying hardware system,
 environment variables, and the resulting execution. Since configuration options
@@ -183,8 +182,8 @@ necessary and preliminary tasks. However, these tasks become even more
 complicated once a series of versions needs to be assessed:
 \begin{itemize}
 
-  \item \emph{Feature Model Synthesis:} Not all configurable software systems do
-  explicitly exhibit a variability model which is, however, required to derive
+  \item \emph{Variability Model Synthesis:} Not all configurable software
+  systems do explicitly exhibit a variability model which is, however, required to derive
   all valid variants \citep{rabkin_static_2011,nadi_where_2015}.
 	While substantial work exists on reverse engineering variability models from
 	code
@@ -197,24 +196,24 @@ complicated once a series of versions needs to be assessed:
 	\citep{peng_analyzing_2011}, vary from version to version, and therefore,
 	require repeated reverse engineering steps.
 	
-	\item \emph{Configuration Translation:} The translation of a valid
-	configuration to a configuration artifact such as a configuration file or a
-	list of command-line arguments usually differs from system to system. This step
-	may be automated, but one still needs to detect how configurations are read by the software system one wants to study.
+	%\item \emph{Configuration Translation:} The translation of a valid
+	%%configuration to a configuration artifact such as a configuration file or a
+	%list of command-line arguments usually differs from system to system. This
+	% step may be automated, but one still needs to detect how configurations are read by the software system one wants to study.
 
-\item \emph{Automated Integration:} The sampe challenge applies to the
-infrastructure when we need to compile or build a software system for a specific
-configuration since there exist many possible build tools such as makefiles.
-Again, the build process can be automated, but one needs to detect and
-specify the build mechanism used and relate it to a specific configuration.
+%\item \emph{Automated Integration:} The sampe challenge applies to the
+%%infrastructure when we need to compile or build a software system for a
+% specific configuration since there exist many possible build tools such as makefiles.
+%Again, the build process can be automated, but one needs to detect and
+%specify the build mechanism used and relate it to a specific configuration.
 
-\item \emph{Version-History Sampling:} To study performance evolution,e need to
+\item \emph{Version Sampling:} To study performance evolution, we need to
 specify which snapshots or versions of a software system are relevant to
 describe its performance behavior over time. While detecting releases and release candidates should be straightforward, one might, for instance, be interested in the performance evolution including snapshots
 between two releases, for example after bug fixes. Since it is  often the case
 that not all snapshots do compile, classifying defect snapshots can still be tedious work.
 
-\item \emph{Performance Assessment Setup:} The accurate assessment of
+\item \emph{Performance Assessment:} The accurate assessment of
 performance evolution requires a suitable testing setup. The methodology required for assessing performance
 among others requires the selection of suitable performance metrics and
 corresponding benchmarks, means to record measurements, and repeat experiments
@@ -241,32 +240,12 @@ We also propose an approach of automatically detecting promising versions of the
 configurable software systems for performance measurements and evaluate whether
 our assumptions hold. \\
 
-The thesis is organized as follows. chapter\,\ref{chapter:2} provides the background
-to the relevant topics discussed in this thesis, including variability modeling,
-software evolution, variability model synthesis, performance assessment,
-statistical basics to summarize data records, and performance prediction
-models. In addition, we review existing work related to the thesis topic.
-In chapter\,\ref{sec:chapter:3}, we review existing approaches to understanding and
-comprehending variability in configurable software systems. We categorize and
-summarize methodological strategies to synthesize variability models and
-discuss different configuration sampling strategies.
-In chapter\,\ref{chapter:4}, we construct and evaluate methodological strategies to
-select revisions likely to have an impact on performance from the overall
-version history to sketch performance evolution efficiently.
-In chapter\,\ref{chapter:5}, we propose our performance measurement methodology along
-with statistical considerations regarding the summarization and presentation of
-measurements results.
-In Chapter\,\ref{chapter:6}, we evaluate several aspects of our tool with respect to
-practicality and discuss the results thereof. 
-Finally, chapter\,\ref{chapter:7} concludes the thesis and gives an outlook on
-possible future work.
 
 \section{A Methodology for Assessing Performance Evolution}
-
 The methodology described in this thesis is organized with respect to three
-dimensions of configurable software systems: variability, version history, and
-performance. The schematic overview of the performance evolution assessment
-process shown in Figure~\ref{fig:overview} outlines the major aspects of each
+dimensions of configurable software systems: \emph{variability}, \emph{version
+history}, and \emph{performance}. The schematic overview of the performance
+evolution assessment process shown in Figure~\ref{fig:overview} outlines the major aspects of each
 dimension.
 
 \begin{figure}[h!]
@@ -296,4 +275,24 @@ Second, for a software system, a sample set of revisions needs to be selected.
 Since covering all variants and versions is not feasible, a sampling strategy needs to be chosen
 which is likely to uncover performance changes. Finally, the
 performance assessment goals are specified and corresponding
-measurements are conducted and evaluated as mentioned above.
+measurements are conducted and evaluated as mentioned above. \\
+
+The thesis is organized as follows. Chapter\,\ref{chapter:2} provides the
+background to the relevant topics discussed in this thesis, including variability modeling,
+software evolution, variability model synthesis, performance assessment,
+statistical basics to summarize data records, and performance prediction
+models. In addition, we review existing work related to the thesis topic.
+In chapter\,\ref{sec:chapter:3}, we review existing approaches to understanding and
+comprehending variability in configurable software systems. We categorize and
+summarize methodological strategies to synthesize variability models and
+discuss different configuration sampling strategies.
+In chapter\,\ref{chapter:4}, we construct and evaluate methodological strategies to
+select revisions likely to have an impact on performance from the overall
+version history to sketch performance evolution efficiently.
+In chapter\,\ref{chapter:5}, we propose our performance measurement methodology along
+with statistical considerations regarding the summarization and presentation of
+measurements results.
+In Chapter\,\ref{chapter:6}, we evaluate several aspects of our tool with respect to
+practicality and discuss the results thereof. 
+Finally, chapter\,\ref{chapter:7} concludes the thesis and gives an outlook on
+possible future work.
