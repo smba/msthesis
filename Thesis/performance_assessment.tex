@@ -4,7 +4,7 @@ as version assessment. While those two terms, \emph{variability} and
 systems’ evolution history. To provide a closed description of guidelines for performance
 evolution assessment, this chapter finally presents a guideline to assessing
 performance for a given variant and version. In Figure~\ref{fig:roadmap_3}, we
-present the methodological roadmap and questions to be answered in this chapter.
+present the methodological road map and questions to be answered in this chapter.
 
 \begin{figure}[h!]
 	\centering
@@ -102,7 +102,7 @@ aspect-oriented programming (AOP). While for VM-based profilers, make use of
 profiling functionality offered by the respective platform, such as the Common
 Language Interface (CLI) for the family of .NET languages,  or the Java Virtual
 Machine (JVM), instrumentation-based profilers add instructions to the software
-to the software’s codebase at compilation using instrumentation preprocessors,
+to the software’s code base at compilation using instrumentation preprocessors,
 or to the software’s executables. AOP-based profilers accommodate profiling
 functionality in separate modules called aspects. An aspect’s code, called
 advise is executed whenever a corresponding event, called join point,  occurs,
@@ -112,7 +112,7 @@ point cut. While VM-based profilers are limited to a family of programming
 languages, and, as well as instrumentation-based, usually introduce a run-time
 overhead that might dilute performance measurements. In contrast to that,
 AOP-based profilers  usually perform better, yet are limited to the code base as aspects
-are woven into the codebase during re-compilation. Moreover, they require a
+are woven into the code base during re-compilation. Moreover, they require a
 higher level of expertise to design and deploy a performance test setup
 compared to the former two categories \citep{satapathy_survey_2015}. In addition
 to the aforementioned profiler categories, statistical profilers such as
@@ -122,7 +122,7 @@ Linux}\footnote{See
 information on \texttt{perf}.}, or \emph{perf}, monitor a software system
 performance, for instance hardware counters for regular intervals, and therefore provide an approximation of the software system’s performance with less overhead than instrumentation-based profilers.
 
-In the context of our methodology, we are advocating the use of the unix
+In the context of our methodology, we are advocating the use of the Unix
 command \texttt{time}\footnote{See
 \url{http://man7.org/linux/man-pages/man1/time.1.html} for the man page of
 \texttt{time} and provided performance metrics to record.} to measure execution
@@ -333,7 +333,7 @@ measurements, aside from evolution and fluctuations. To effectively compare the
 performance change of different variants, we propose to use the relative
 performance change as a suitable metric. Second, performance changes do not
 necessarily affect all variants in a similar way. To measure the homogeneity of
-perfornance changes across different variants, we propose to use the variance
+performance changes across different variants, we propose to use the variance
 of changes per version. A mathematical definition for both relative performance
 change and performance change variance is given below.
 
