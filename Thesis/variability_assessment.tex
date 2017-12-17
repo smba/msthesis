@@ -41,8 +41,9 @@ The idea of designing and developing configurable software systems is driven by
 the separation of different concerns, expressed as features of a software
 system. A configurable software system is either assembled at compile-time with
 respect to its configuration, or tailored to a configuration at
-load-time. Both ways of implementing the variability exist in practice. Research
-has also proposed a variety of variant-generating implementation techniques for
+load-time \citep{apel_feature-oriented_2013}. Both ways of implementing the
+variability exist in practice.
+Research has also proposed a variety of variant-generating implementation techniques for
 compile-time variability, ranging from simple preprocessor directives to
 features as separate modules \citep{kastner_model_2009}.  A complete survey of means to implement
 configurable software systems would likely exceed the scope of this section, yet we intend to discuss in this
@@ -185,7 +186,8 @@ such as build constraints or compiler constraints
 \citep{nadi_mining_2014,nadi_where_2015}.
 The following paragraphs review different \emph{strategies to synthesize
 variability models} from different types of artifacts. A classification of
-strategies, along with corresponding literature is illustrated in Figure~\ref{fig:varsynth_overview}
+strategies, along with corresponding literature is illustrated in
+Figure~\ref{fig:varsynth_overview}.
 
 The first category comprises extraction based on Natural Language Processing (NLP) utilize
 similarities between textual representations of different variants to derive
@@ -434,9 +436,9 @@ both the family of NLP-based techniques and the approximative techniques
 \cite{lopez-herrejon_reverse_2012,lopez-herrejon_assessment_2015,linsbauer_feature_2014}
 explicitly require a set of variants or configurations, respectively.
 \emph{Third}, the techniques differ in the type of variability they are able to
-extract variability models for. While Nadi’s approach only works for build-time
-variability, the work of \cite{rabkin_static_2011} will only work for configurations read at
-load-time. Moreover, the remaining techniques do not consider the different types of
+extract variability models for. While the approach of
+\cite{nadi_mining_2014,nadi_where_2015} only works for build-time variability, the work of
+\cite{rabkin_static_2011} will only work for configurations read at load-time. Moreover, the remaining techniques do not consider the different types of
 variability at all.
 
 In conclusion, it becomes clear that there is no single textbook solution to
@@ -510,7 +512,7 @@ model is already available.
     \midrule
     
     {How is variability implemented?\linebreak
-	{\footnotesize\it Variability can be accommodated at build- or 	load-time.}} & 
+	{\footnotesize\it }} & 
 	
 	{\smaller\begin{compactitem}
 	  \item Manual review of the documentation with respect to what configuration
@@ -616,7 +618,7 @@ conceived as a guideline. Whenever applicable, additional synthesis or analysis
 techniques can be taken into account.
 
 \section{Configuration Generation}\label{sec:configuration_gen}
-The next intermediate step in our methodology is the generation of
+The next intermediate step in our methodology is the derivation of
 configurations from the variability model. Once obtained, we use the
 variability model to derive valid feature selections. For the assessment of
 quality attributes for configurable software systems, such as test case
@@ -932,7 +934,9 @@ both binary and numeric configuration options. Second, the final sample of
 mixed configurations is computed as the cross-product of binary and numeric
 partial configurations. As stated by \cite{siegmund_performance-influence_2015}, the
 treating binary and numeric options separately is justified since usually binary options enable
-or disable functionality while numeric options merely tune functionality. In
+or disable functionality while numeric options merely tune functionality. 
+
+In
 the context of out methodology, a suitable sampling strategy might include
 combining different strategies, either due to different types of configuration
 options, or due to multiple coverage criteria to meet. As a guideline for

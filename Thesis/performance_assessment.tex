@@ -31,7 +31,7 @@ time and high availability, while for file compression, one might rather
 conceive high throughput as good performance. That is, given a specific
 aspect of performance, i.e., one or more KPIs, for a software system, from
 testing against a suitable performance benchmark one needs to be able to judge
-whether the specified performance goals are met, or not.
+whether the specified performance goals are met or not.
 
 Next, once we have specified performance indicators fitting our software system,
 we need to select a benchmark, i.e., a repeatable task for the software system
@@ -130,8 +130,8 @@ time along with a number of further performance metrics for a software system.
 The command is contained in most Linux distributions and, from a black-box
 perspective, provides sufficient functionality to sketch performance in terms of
 metrics for execution time, memory consumption, or I/O statistics. While tools falling under the aforementioned categories are powerful tools for dynamic analysis and program
-optimization, time provides a basic, yet exhaustive support for assessing
-performance for software system run on a single host machine. 
+optimization, \texttt{time} provides a basic, yet exhaustive support for
+assessing performance for software system run on a single host machine. 
 
 \section{Statistical Considerations}\label{sec:statistical_considerations}
 In this section, we now discuss the appropriate statistical means to summarize,
@@ -352,7 +352,7 @@ follows:
 \end{equation}
 
 The relative performance change provides a normalized means to compare
-performance changes for different variants of a configurabel software systems.
+performance changes for different variants of a configurable software systems.
 
 \subsection{Performance Change Variance}\label{sec:changevar}
 Let $P'$ be a $M \times N$ matrix with relative performance change measurements.
@@ -365,5 +365,5 @@ version $i$ with $i \leq M$ as follows:
    \rbrace
 \end{equation}
 
-The variance increases the more the relative performance changes spread, i.e.
+The variance increases the more the relative performance changes spread, i.e.,
 the more heterogeneously different variants evolve.

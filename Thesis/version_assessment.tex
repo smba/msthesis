@@ -4,7 +4,7 @@ sets of configurations. To enable the assessment of performance evolution for
 configurable software systems, the next step in our methodology takes into
 account the dimension of time. As software evolves, multiple versions, or
 called revisions, of a software system exist. In this chapter, we address the
-question of how we can assess performance for multiple revisions. Moreover, we
+question of how we can assess performance for multiple versions. Moreover, we
 ask whether we can describe a configurable software systems’ performance
 evolution history without exhaustively assessing all versions by selecting only
 a sample set of versions. As illustrated in the methodological road-map in
@@ -228,9 +228,9 @@ sample set.
 
 This approach is simplistic and its accuracy clearly
 depends on the quality of the initial selection of the keyword set as well as
-the developer's discipline of documentation. Moreover, more sophisticated ways to compute similarity between texts, such as the tf-idf-measure and various
-similarity metrics \citep{huang_similarity_2008}. However, we only propose this
-strategy to evaluate the overall applicability of approaches driven by text
+the developer's discipline of documentation. Moreover, more sophisticated ways
+to compute similarity between texts, such as the tf-idf-value and various
+similarity metrics \citep{huang_similarity_2008}. However, we only propose this strategy to evaluate the overall applicability of approaches driven by text
 similarity to the problem of version sampling.
 
 \subsection{Version Lifetime Segmentation}
@@ -316,7 +316,7 @@ lifetimes, when translating this in the context of a version sampling strategy,
 we can achieve high ``lifetime coverage''  by selecting very few versions from a
 list of versions sorted by lifetime in descending order. This sampling strategy
 picks the longest-lasting commits until a desired coverage threshold, or
-version threshold number is reached. This sample selection of commits is a
+version count threshold number is reached. This sample selection of commits is a
 segmentation or clustering of the overall version history. We assume that each
 segment represents a (sort of) steady state of the software systems performance
 history.
@@ -383,7 +383,7 @@ commit in this context is a commit for which performance measurements
 significantly deviate from measurements of preceding commits. The sampling
 strategy is applied as follows. 
 
-\begin{wrapfigure}{r}{0.5\textwidth}
+\begin{wrapfigure}{R}{0.5\textwidth}
  \begin{center}
    \includegraphics[width=0.5\textwidth]{images/inverse_douglas_peucker}
  \end{center}
@@ -402,7 +402,7 @@ segment $s_i$, the algorithm computes the difference in performance
  measures $\delta_i$ for the start and the end commit. The segment with the
  largest deviation then is bisected. For the resulting two segments $\delta_{i_1}$ and $\delta_{i_2}$, the performance measurement differences are calculated. If the
 absolute difference between $\delta_{i_1}$ and  $\delta_{i_2}$ is greater than
-zero, one of the two children segments is ``steeper'', i.e. has a greater
+zero, one of the two children segments is ``steeper'', i.e., has a greater
 performance measurement difference than the parent segment as exemplified in
 Figure~\ref{fig:example_bisection}.
 
@@ -596,7 +596,7 @@ sampling strategy works with two parameters, the initial learning sample size,
 and the desired sample size. We visualize the accuracy as a heat map, whereby
 combinations of initial learning sample size and desired sample size are
 coordinates, and the color at those coordinates represents the corresponding
-accuracy measure. Moreover, we let the sampling strategy operate in two
+accuracy measurementh. Moreover, we let the sampling strategy operate in two
 different modes. First, we selected the initial learning sample randomly, and
 second, we selected the change size coverage sampling. We illustrate the
 accuracy measurements for both modes in
@@ -670,10 +670,10 @@ accuracy is increases with a greater size of the initial sample size, which is i
 observations for pure random sampling. The number of extension steps, however,
 does not exhibit a significant influence on the accuracy, yet only for a small
 initial sample size, where accuracy spread is high. Contrary to the first
-operation mode, in Figure\,\ref{fig:accuracy_bisect2} we illustrate the accuracy
-measurements for the second operation mode, where the initial sample is obtained via version
-lifetime sampling. While most of the description of the previous operation mode
-also applies to this one, the operation mode in general performs better, as the
+operation mode, in Figure\,\ref{fig:accuracy_bisect2}, we illustrate the
+accuracy measurements for the second operation mode, where the initial sample is obtained via version
+lifetime segmentation. While most of the description of the previous operation
+mode also applies to this one, the operation mode in general performs better, as the
 minimum accuracy measurement is about 0.9.
 
 Similar to the accuracy measurements for changed-files sampling for x264, we
@@ -729,9 +729,9 @@ calculated as the correlation coefficient between the average performance of
 all variants assessed and the interpolation obtained from a subset of the
 average performance history. Moreover, for the overall average performance, we
 consider a moving mean in order to smooth the performance history curve and
-sketch mid- to long-term performance trends. While we obtained accuracy results
-of plausible shape for GNU XZ, for x264, the previously described accuracy
-measures appear unlikely.
+sketch mid- to long-term performance evolution trends. While we obtained
+accuracy results of plausible shape for GNU XZ, for x264, the previously described accuracy
+measurements appear unlikely.
 
 \begin{figure}[t!]
 \centering
@@ -765,8 +765,8 @@ if effects are of too small magnitude or effect range.
 \section{Methodological Remarks}\label{sec:revsampling_method}
 In the last subsection we have presented the evaluation results for our
 revision sampling strategies proposed earlier. Despite different accuracy
-measures, we now put the strategies and their cost-efficiency in the context of
-our methodology. While a high accuracy is desirable, the revision sampling
+measurements, we now put the strategies and their cost-efficiency in the context
+of our methodology. While a high accuracy is desirable, the revision sampling
 strategies proposed differ in the required number of performance measurements
 For instance, keyword sampling as well as version lifetime segmentation and
 commit change size sampling require no revision to be assessed at all, while
@@ -829,7 +829,7 @@ sampling strategies, the required number of revisions to assess is
 significantly higher. Contrary to changed-files sampling that also utilizes an
 initial sample for which twice the number of measurements is required, this
 sampling strategy additionally requires two performance requirements for each
-segmentation step.
+segmentation step.\\
 
 In conclusion, based on our case study we advocate the use of commit change
 size version lifetime segmentation sampling as the ratio of required performance

@@ -3,9 +3,11 @@ thesis. In section\,\ref{sec:variability_modeling}, we recapitulate
 basic concepts, notations, and terminology regarding variability modeling. In
 section\,\ref{sec:evolving_solftware}, we outline different aspects of software evolution.
 section~\ref{sec:assessing_performance} discusses the assessment and testing of
-performance and finally, section\,\ref{sec:performance_prediction_models}
-recalls methodology to predict performance behavior for configurable systems. In Section\,\ref{sec:relatedwork} we
-review a body of related work that has either touched on topics similar to ours, or pursues a similar methodology, yet with different basic premises.
+performance. Section\,\ref{sec:performance_prediction_models}
+recalls methodology to predict performance behavior for configurable systems.
+Finally, in Section\,\ref{sec:relatedwork} we review a body of related work that
+has either touched on topics similar to ours, or pursues a similar methodology, yet
+with different basic premises.
 
 \section{Variability Modeling} \label{sec:variability_modeling}
 The design and development of configurable software systems is conceptually
@@ -79,8 +81,8 @@ developer-centered and merely focuses on software being designed, implemented,
 tested, and eventually being released and deployed.
 Maintainability is a generally recognized software quality
 property to look after, and maintenance is, of course, essential to every
-successful software system \cite{liggesmeyer_software-qualitat:_2009}. Nonetheless, less attention is given to
-the ability to adapt a software system to changing requirements (evolvability) rather than maintaining it to keep functionality
+successful software system \citep{liggesmeyer_software-qualitat:_2009}.
+Nonetheless, less attention is given to the ability to adapt a software system to changing requirements (evolvability) rather than maintaining it to keep functionality
 working \citep{parnas_software_1994}. Software evolution and evolvability, such
 as software itself are manifold. Software evolves in many ways ranging from
 maintenance (refactoring, bug-fixes, and patches) to adapting to changed
@@ -121,7 +123,8 @@ such as modules, whereas code tangling means that code from different and
 potentially unrelated features in entangled within a single module. A figurative
 and recapitulative term to refer to the trade-off between postponed maintenance
 or QA tasks and the corresponding cost is \emph{technical debt}
-\cite{guo_tracking_2011}; the metaphor summarizes the growing risk of quality degradation for eroding software.
+\citep{guo_tracking_2011}; the metaphor summarizes the growing risk of quality
+degradation for eroding software.
 
 \cite{passos_feature_2015} have studied the extent of usage of scattering for device-drivers
 in the Linux kernel. Despite scattering being quite prevalent, their
@@ -180,8 +183,6 @@ modeling, we now step forward to the topic of software performance. This
 section will outline the term performance with respect to software systems as
 well as to possible measurements. We provide a brief look at the general performance
 testing setup and the required prerequisites, including suitable benchmarks.
-Finally, we provide the statistical background to summarize, interpret and
-compare performance measurements accurately.
 
 \subsection{What is Performance?}
 The performance of software systems is, like software quality, primarily a
@@ -190,7 +191,7 @@ more important, from a developer’s perspective, performance relates to and is
 best described by non-functional properties
 \citep{liggesmeyer_software-qualitat:_2009,molyneaux_art_2014}.
 While functional properties subsume what exactly a software system does, non-functional
-properties describe how (good or bad) a software system is at providing the
+properties describe how a software system is at providing the
 functionality offered \citep{liggesmeyer_software-qualitat:_2009}. The notion
 of good and bad in this sense corresponds to non-functional requirements (NFR),
 that is, software with ``good'' performance behavior does not violate its NFRs.
@@ -330,7 +331,6 @@ performance-describing function $f$, which maps each configuration to a
 corresponding performance measurement. The principal idea is to approximate a
 Fourier series approximating the function  $f$, and
 learning all coefficients of the Forier series terms.
-
 The number of terms is exponential in the number of configuration options. The main
 characteristic of this approach is that, prior to learning a performance
 prediction model, a desired level of prediction accuracy can be specified. That
@@ -408,7 +408,7 @@ exhaustively presenting a methodology to understand and comprehend performance
 evolution of configurable software system, there is a body of work that has
 either touched on similar topics, or pursues a similar methodology, yet with
 different basic premises. In the following, we present and summarize related
-work to emphasize thelimited scope of our work, and to give an outline of
+work to emphasize the limited scope of our work, and to give an outline of
 possible future research directions. Further note that we describe here only
 additional approaches to the ones we have already discussed in the previous
 sections.
@@ -418,7 +418,7 @@ Throughout our methodology, we have frequently used diverse visualizations of
 data obtained from repository mining, for instance, for commit activity, and as
 a basis for revision sampling strategies. In addition, we have taken into
 account similar data in the interpretation of our performance evolution history
-data in section. Therefore, as software evolves it is inevitable to not
+data in section. Therefore, as software evolves it is inevitable to
 consider those data to obtain more complete and integrated insights.
 Aggregation and visualization of aforementioned data records can help to sketch
 and understand possible coherences.
@@ -453,7 +453,6 @@ evaluate the different tools with respect to different aspects, including
 intent of the tools, the information sources utilized by the tools, the form of
 presentation offered by the tools, and the effectiveness in terms of
 feasibility and validity.
-
 We see these lines of work orthogonal to our methodology such that we can
 incorporate different visualization techniques when it comes to evaluating and
 understanding the performance evolution of configurable software systems.
