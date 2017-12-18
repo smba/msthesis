@@ -113,9 +113,9 @@
 }}
 \hypersetup{
     colorlinks,
-    linkcolor={brown!50!black},
-    citecolor={violet!90!black},
-    urlcolor={gray!80!black}
+    linkcolor={brown!0!black},
+    citecolor={violet!0!black},
+    urlcolor={gray!0!black}
 }
 \usepackage{cleveref}
 
@@ -208,6 +208,7 @@ angegeben habe und die Arbeit nicht bereits als Prüfungsarbeit vorgelegen hat.
 
 \clearpage
 \setcounter{page}{1}
+
 \pagenumbering{Roman}
 \addchap{Abstract}
 Most modern software systems are, to varying extents, configurable.
@@ -221,13 +222,13 @@ a configuration’s effect on performance measurements (performance prediction
 models). While performance of a configurable software system can be relatively
 well understood with few sample measurements for a single version, as
 software evolves, performance evolves for each variant as well. Postponed
-quality assurance and maintenance tasks in general, yet the exhibited
-complexity of configurable software systems in particular, pose a risk to a
+quality assurance and maintenance tasks in general, but in particular the
+exhibited complexity of configurable software systems, pose a risk to a
 software systems quality as those evolve; this technical debt can eventually
 result in performance degradation. So far, there exists no means to assess the
-performance evolution history of configurable software systems
+performance evolution history of configurable software systems.
 
-With this thesis provide a methodology about how to unveil the performance
+With this we thesis provide a methodology about how to unveil the performance
 evolution history of configurable systems: We provide a  guideline to untangle
 a software systems variability, a catalog of strategies to select versions for
 which performance evolves significantly, and a guideline about how to measure
@@ -244,33 +245,38 @@ Moderne Softwaresysteme bieten oftmals eine Vielzahl an Möglichkeiten zur
 Konfiguration. Jede einzelne Konfiguration kann sich wiederum auf die
 Performanz der Software auswirken, also die Leistungsfähigkeit verbessern oder
 verschlechtern.
-Jedoch treten einige Effekte nicht für einzelne Optionen, sondern für mehrfache Kombinationen
-jener auf, was einen wesentlichen Grund der Komplexität von konfigurierbaren
-Softwaresystemen darstellt. Zwar lässt sich die Performanz einer Variante eines
-konfigierbaren Softwaresystems mittlerweile gut abschätzen, jedoch kann sich die Performanz
-einer Variante unabhängig von anderen entwickeln. Unzureichende oder verzögerte
+Jedoch treten einige Effekte nicht für einzelne Optionen, sondern auch für
+mehrfache Kombinationen jener auf. Diese Interaktionen zwischen Optionen stellen einen wesentlichen
+Grund für die Komplexität von konfigurierbaren Softwaresystemen dar.
+Zwar lässt sich die Performanz einer Variante eines konfigierbaren
+Softwaresystems mittlerweile gut abschätzen, jedoch kann sich die  Performanz
+einer Variante unabhängig von anderen entwickeln. Unzureichende  oder verzögerte
 Wartung sowie Qualitätssicherung bieten hier ein Einfallstor für eine sich über
-die Zeit verschlechternde Architektur und somit letztendlich
-möglicherweise Einbußen in der Performanz. Bisher existiert kein Verfahren, um
-die Evolution von konfigurierbaren Softwaresystemen unter Gesichtspunkten der Performanz zu
-untersuchen.
+die Zeit verschlechternde Architektur und somit letztendlich  möglicherweise
+Einbußen in der Performanz. Bisher existiert kein Verfahren, um die Evolution
+von konfigurierbaren Softwaresystemen unter Gesichtspunkten der Performanz zu untersuchen.
 
 Mit dieser Arbeit schließen wir diese Lücke und entwerfen eine Methodologie um
 die Evolution konfigurierbarer Systeme unter Performanzaspekten
 nachzuvollziehen und besser zu verstehen. Unsere Methodologie umfasst Leitfäden
 zur Analyse der einem System zugrundeliegenden Variabilität, Strategien um
-solche Versionen auszuwählen, für welche sich die Performanz signifikant ändert
-sowie eine Zusammenstellung von Werkzeugen um Performanzmessungen durchzuführen,
-zusammenzufassen und zu analysieren. 
-Wir evaluieren unsere Methodologie mit einer Fallstudie zu zwei konfigurierbaren Systemen. Aus den Ergebnissen
-gewinnen wir wertvolle Rückschlüsse über die Qualität der betrachteten
-Softwaresysteme.
+solche Versionen auszuwählen, für welche sich die Performanz signifikant ändert.
+Darüber hinaus umfasst sie eine Zusammenstellung von Werkzeugen um
+Performanzmessungen durchzuführen, zusammenzufassen und zu analy-sieren. 
+Wir evaluieren unsere Methodologie mit einer Fallstudie zu zwei
+konfigurierbaren Systemen. Aus den Ergebnissen gewinnen wir wertvolle
+Rückschlüsse über die Qualität der betrachteten Softwaresysteme.
 
 \tableofcontents
+
 \listoffigures
 \listoftables
+
+
+
+\mainmatter
 \pagenumbering{arabic}
-%\mainmatter
+
 \chapter{Introduction}\label{chapter:1}
 \setcounter{page}{1}
 \input{introduction.tex}
